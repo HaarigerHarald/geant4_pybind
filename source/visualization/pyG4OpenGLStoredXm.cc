@@ -1,0 +1,19 @@
+#ifdef G4_HAS_OPENGLXM
+
+#include <pybind11/pybind11.h>
+
+#include <G4OpenGLStoredXm.hh>
+
+#include "holder.hh"
+#include "typecast.hh"
+
+namespace py = pybind11;
+
+void export_G4OpenGLStoredXm(py::module &m)
+{
+   py::class_<G4OpenGLStoredXm, G4VGraphicsSystem, owntrans_ptr<G4OpenGLStoredXm>>(
+      m, "G4OpenGLStoredXm", "OpenGL(Stored XM) visualization module")
+      .def(py::init<>());
+}
+
+#endif // G4_HAS_OPENGLXM

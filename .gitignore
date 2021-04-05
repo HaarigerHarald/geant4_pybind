@@ -1,0 +1,15 @@
+build/
+dist/
+_build/
+_generate/
+*.so
+*.py[cod]
+*.egg-info
+/*env*
+.vscode/
+
+# Generated files
+examples/**/*.macro
+examples/**/*.root
+examples/**/*.csv
+examples/**/*.xml
