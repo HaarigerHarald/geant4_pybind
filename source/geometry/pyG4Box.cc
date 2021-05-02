@@ -21,9 +21,12 @@ void export_G4Box(py::module &m)
       .def("SetYHalfLength", &G4Box::SetYHalfLength)
       .def("SetZHalfLength", &G4Box::SetZHalfLength)
 
-      .def("__str__", [](const G4Box &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Box &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

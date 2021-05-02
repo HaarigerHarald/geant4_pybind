@@ -12,6 +12,9 @@ void export_G4Colour(py::module &);
 void export_G4VMarker(py::module &);
 void export_G4Circle(py::module &);
 void export_G4VVisManager(py::module &);
+void export_G4AttDefStore(py::module &);
+void export_G4Square(py::module &);
+void export_G4Text(py::module &);
 
 void export_modG4graphics_reps(py::module &m)
 {
@@ -23,4 +26,7 @@ void export_modG4graphics_reps(py::module &m)
    export_G4VMarker(m);
    export_G4Circle(m);
    export_G4VVisManager(m);
+   export_G4AttDefStore(m);
+   export_G4Square(m);
+   export_G4Text(m);
 }

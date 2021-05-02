@@ -15,6 +15,7 @@
 #include <G4VUserActionInitialization.hh>
 #include <G4VModularPhysicsList.hh>
 #include <G4UImanager.hh>
+#include <G4DCtable.hh>
 
 #include "holder.hh"
 #include "typecast.hh"
@@ -146,64 +147,28 @@ void export_G4RunManager(py::module &m)
       .def("SetRandomNumberStoreDir", &G4RunManager::SetRandomNumberStoreDir)
       .def("GeometryHasBeenModified", &G4RunManager::GeometryHasBeenModified, py::arg("prop") = true)
       .def("PhysicsHasBeenModified", &G4RunManager::PhysicsHasBeenModified)
+      .def("SetGeometryToBeOptimized", &G4RunManager::SetGeometryToBeOptimized)
       .def("GetGeometryToBeOptimized", &G4RunManager::GetGeometryToBeOptimized)
+      .def("SetNumberOfEventsToBeStored", &G4RunManager::SetNumberOfEventsToBeStored)
       .def("GetCurrentRun", &G4RunManager::GetCurrentRun, py::return_value_policy::reference)
+      .def("GetNonConstCurrentRun", &G4RunManager::GetNonConstCurrentRun, py::return_value_policy::reference)
       .def("GetCurrentEvent", &G4RunManager::GetCurrentEvent, py::return_value_policy::reference)
+      .def("GetPreviousEvent", &G4RunManager::GetPreviousEvent, py::return_value_policy::reference)
+      .def("GetNumberOfParallelWorld", &G4RunManager::GetNumberOfParallelWorld)
+      .def("SetNumberOfEventsToBeProcessed", &G4RunManager::SetNumberOfEventsToBeProcessed)
+      .def("GetNumberOfEventsToBeProcessed", &G4RunManager::GetNumberOfEventsToBeProcessed)
+      .def("GetNumberOfSelectEvents", &G4RunManager::GetNumberOfSelectEvents)
+      .def("GetSelectMacro", &G4RunManager::GetSelectMacro)
+      .def("SetDCtable", &G4RunManager::SetDCtable)
+      .def("GetRunManagerType", &G4RunManager::GetRunManagerType)
       .def("SetRunIDCounter", &G4RunManager::SetRunIDCounter)
       .def("GetVersionString", &G4RunManager::GetVersionString, py::return_value_policy::reference)
       .def("GetRandomNumberStoreDir", &G4RunManager::GetRandomNumberStoreDir,
            py::return_value_policy::reference_internal);
-
-   //   inline void SetGeometryToBeOptimized(G4bool vl)
-   //   {
-   //     if(geometryToBeOptimized != vl)
-   //     {
-   //       geometryToBeOptimized = vl;
-   //       kernel->GeometryHasBeenModified();
-   //       kernel->SetGeometryToBeOptimized(vl);
-   //     }
-   //   }
-   //   inline G4bool GetGeometryToBeOptimized() { return geometryToBeOptimized; }
-
-   //  public:  // with description
-   //   inline void SetNumberOfEventsToBeStored(G4int val)
-   //   {
-   //     n_perviousEventsToBeStored = val;
-   //   }
-   //   inline const G4Run* GetCurrentRun() const { return currentRun; }
-   //   inline G4Run* GetNonConstCurrentRun() const { return currentRun; }
-   //   //  Returns the pointer to the current run. This method is available for
-   //   //  Geant4
-   //   // states of GeomClosed and EventProc.
-   //   inline const G4Event* GetCurrentEvent() const { return currentEvent; }
-   //   //  Returns the pointer to the current event. This method is available for
-   //   //  EventProc
-   //   // state.
-   //   inline const G4Event* GetPreviousEvent(G4int i) const
-
-   //   inline void SetRunIDCounter(G4int i) { runIDCounter = i; }
-
-   //  public:
-   //   inline G4int GetNumberOfParallelWorld() const { return nParallelWorlds; }
-   //   inline void SetNumberOfEventsToBeProcessed(G4int val)
-   //   {
-   //     numberOfEventToBeProcessed = val;
-   //   }
-   //   inline G4int GetNumberOfEventsToBeProcessed() const
-   //   {
-   //     return numberOfEventToBeProcessed;
-   //   }
-   //   inline G4int GetNumberOfSelectEvents() const { return n_select_msg; }
-   //   inline G4String GetSelectMacro() const { return selectMacro; }
-   //   inline void SetDCtable(G4DCtable* DCtbl) { DCtable = DCtbl; }
-
-   //  public:
-   //   inline RMType GetRunManagerType() const { return runManagerType; }
 
    m.add_object("_cleanup", py::capsule([]() {
                    G4UImanager *UImgr = G4UImanager::GetUIpointer();
                    UImgr->SetCoutDestination(0);
                    delete G4RunManager::GetRunManager();
                 }));
-
 }

@@ -78,7 +78,7 @@ setup(
     version="0.1.0",
     author="Benjamin H.",
     author_email="haarigerharald@gmx.at",
-    description="Geant4 python bindings via pybind11",
+    description="Alternative python bindings for Geant4 via pybind11",
     long_description=long_desc,
     long_description_content_type="text/markdown",
     url="https://github.com/HaarigerHarald/geant4_pybind",

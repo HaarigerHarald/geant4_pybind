@@ -159,10 +159,10 @@ class B1RunAction(G4UserRunAction):
         runCondition = ""
         if generatorAction != None and isinstance(generatorAction, B1PrimaryGeneratorAction):
             particleGun = generatorAction.fParticleGun
-            runCondition += str(particleGun.GetParticleDefinition().GetParticleName())
+            runCondition += particleGun.GetParticleDefinition().GetParticleName() + "(s)"
             runCondition += " of "
             particleEnergy = particleGun.GetParticleEnergy()
-            runCondition += str(G4BestUnit(particleEnergy, "Energy"))
+            runCondition += "{:.5g}".format(G4BestUnit(particleEnergy, "Energy"))
 
         if self.IsMaster():
             print("--------------------End of Global Run-----------------------")
@@ -170,8 +170,8 @@ class B1RunAction(G4UserRunAction):
             print("--------------------End of Local Run------------------------")
 
         print(" The run consists of", nofEvents, runCondition)
-        print(" Cumulated dose per run, in scoring volume : ", end="")
-        print(G4BestUnit(dose, "Dose"), "rms =", G4BestUnit(rmsDose, "Dose"))
+        print(" Cumulated dose per run, in scoring volume: ", end="")
+        print("{:.5f} rms = {:.5f}".format(G4BestUnit(dose, "Dose"), G4BestUnit(rmsDose, "Dose")))
         print("------------------------------------------------------------")
         print("")
 
@@ -288,6 +288,8 @@ class B1ActionInitialization(G4VUserActionInitialization):
 runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
 
 runManager.SetUserInitialization(B1DetectorConstruction())
+
+G4Random.setTheEngine(MTwistEngine())
 
 # Physics list
 physicsList = QBBC()

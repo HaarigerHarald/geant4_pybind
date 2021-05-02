@@ -39,6 +39,7 @@ void export_G4SystemOfUnits(py::module &m)
    m.attr("gray")             = gray;
    m.attr("henry")            = henry;
    m.attr("hep_pascal")       = hep_pascal;
+   m.attr("pascal")           = hep_pascal;
    m.attr("hertz")            = hertz;
    m.attr("joule")            = joule;
    m.attr("kelvin")           = kelvin;
@@ -59,7 +60,7 @@ void export_G4SystemOfUnits(py::module &m)
    m.attr("liter")            = liter;
    m.attr("lumen")            = lumen;
    m.attr("lux")              = lux;
-   m.attr("m")                = m;
+   m.attr("m")                = CLHEP::m;
    m.attr("m2")               = m2;
    m.attr("m3")               = m3;
    m.attr("megaelectronvolt") = megaelectronvolt;

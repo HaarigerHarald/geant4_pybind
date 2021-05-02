@@ -29,9 +29,12 @@ void export_G4Cons(py::module &m)
       .def("SetStartPhiAngle", &G4Cons::SetStartPhiAngle, py::arg("newSPhi"), py::arg("compute") = true)
       .def("SetDeltaPhiAngle", &G4Cons::SetDeltaPhiAngle)
 
-      .def("__str__", [](const G4Cons &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Cons &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

@@ -12,6 +12,15 @@ void export_G4UIdirectory(py::module &);
 void export_G4UImessenger(py::module &);
 void export_G4UIcmdWithAString(py::module &);
 void export_G4UIcmdWithADoubleAndUnit(py::module &);
+void export_G4UIcmdWithADouble(py::module &);
+void export_G4UIcmdWith3Vector(py::module &);
+void export_G4UIcmdWith3VectorAndUnit(py::module &);
+void export_G4UIcmdWithABool(py::module &);
+void export_G4UIcmdWithALongInt(py::module &);
+void export_G4UIcmdWithAnInteger(py::module &);
+void export_G4UIcmdWithoutParameter(py::module &);
+void export_G4UIcommandStatus(py::module &);
+void export_G4GenericMessenger(py::module &);
 
 void export_modG4intercoms(py::module &m)
 {
@@ -23,4 +32,13 @@ void export_modG4intercoms(py::module &m)
    export_G4UImessenger(m);
    export_G4UIcmdWithAString(m);
    export_G4UIcmdWithADoubleAndUnit(m);
+   export_G4UIcmdWithADouble(m);
+   export_G4UIcmdWith3Vector(m);
+   export_G4UIcmdWith3VectorAndUnit(m);
+   export_G4UIcmdWithABool(m);
+   export_G4UIcmdWithALongInt(m);
+   export_G4UIcmdWithAnInteger(m);
+   export_G4UIcmdWithoutParameter(m);
+   export_G4UIcommandStatus(m);
+   export_G4GenericMessenger(m);
 }

@@ -52,12 +52,12 @@
 	         /process/(in)activate processName
      allows the user to activate/inactivate the processes one by one.
 
- 3- ACTION INITALIZATION
+ 3- ACTION INITIALIZATION
 
    A newly introduced class, B2ActionInitialization,
    instantiates and registers to Geant4 kernel all user action classes.
    
-   While in sequential mode the action classes are instatiated just once,
+   While in sequential mode the action classes are instantiated just once,
    via invoking the method:
       B2ActionInitialization::Build() 
    in multi-threading mode the same method is invoked for each thread worker
@@ -139,11 +139,11 @@
 
  The following paragraphs are common to all basic examples
 
- A- VISUALISATION
+ A- VISUALIZATION
 
    The visualization manager is set via the G4VisExecutive class
    in the main() function in exampleB2a.cc (or exampleB2b.cc).    
-   The initialisation of the drawing is done via a set of /vis/ commands
+   The initialization of the drawing is done via a set of /vis/ commands
    in the macro vis.mac. This macro is automatically read from
    the main function when the example is used in interactive running mode.
 

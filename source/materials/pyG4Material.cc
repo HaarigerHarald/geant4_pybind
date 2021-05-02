@@ -11,9 +11,26 @@ namespace py = pybind11;
 
 void export_G4Material(py::module &m)
 {
-   py::class_<G4Material, std::unique_ptr<G4Material>>(m, "G4Material", "material class")
-      .def(py::init<const G4String &, G4double, G4double, G4double>())
-      .def(py::init<const G4String &, G4double, G4int>())
+   py::enum_<G4State>(m, "G4State")
+      .value("kStateUndefined", kStateUndefined)
+      .value("kStateSolid", kStateSolid)
+      .value("kStateLiquid", kStateLiquid)
+      .value("kStateGas", kStateGas)
+      .export_values();
+
+   py::class_<G4Material, std::unique_ptr<G4Material, py::nodelete>>(m, "G4Material", "material class")
+
+      .def(py::init<const G4String &, G4double, G4double, G4double, G4State, G4double, G4double>(), py::arg("name"),
+           py::arg("z"), py::arg("a"), py::arg("density"), py::arg("state") = kStateUndefined,
+           py::arg("temp") = NTP_Temperature, py::arg("pressure") = CLHEP::STP_Pressure)
+
+      .def(py::init<const G4String &, G4double, G4int, G4State, G4double, G4double>(), py::arg("name"),
+           py::arg("density"), py::arg("nComponents"), py::arg("state") = kStateUndefined,
+           py::arg("temp") = NTP_Temperature, py::arg("pressure") = CLHEP::STP_Pressure)
+
+      .def(py::init<const G4String &, G4double, const G4Material *, G4State, G4double, G4double>(), py::arg("name"),
+           py::arg("density"), py::arg("baseMaterial"), py::arg("state") = kStateUndefined,
+           py::arg("temp") = NTP_Temperature, py::arg("pressure") = CLHEP::STP_Pressure)
 
       .def("AddElement", py::overload_cast<G4Element *, G4int>(&G4Material::AddElement))
       .def("AddElement", py::overload_cast<G4Element *, G4double>(&G4Material::AddElement))
@@ -99,19 +116,14 @@ void export_G4Material(py::module &m)
       .def_static("GetMaterial", py::overload_cast<size_t, G4double>(&G4Material::GetMaterial),
                   py::return_value_policy::reference)
 
-      .def("__str__",
-           [](const G4Material &self) {
-              std::stringstream ss;
-              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-              return ss.str();
-           })
+      .def(
+         "__str__",
+         [](const G4Material &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator())
 
       .def("Print", [](const G4Material &self) { G4cout << self; });
-
-   py::enum_<G4State>(m, "G4State")
-      .value("kStateUndefined", kStateUndefined)
-      .value("kStateSolid", kStateSolid)
-      .value("kStateLiquid", kStateLiquid)
-      .value("kStateGas", kStateGas)
-      .export_values();
 }

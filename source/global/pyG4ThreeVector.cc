@@ -140,7 +140,7 @@ void export_G4ThreeVector(py::module &m)
               std::stringstream ss;
               ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
               return ss.str();
-           })
+           }, py::is_operator())
 
       .def(py::self == py::self)
       .def(py::self != py::self)

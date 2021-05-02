@@ -8,6 +8,7 @@
 #include <G4UserLimits.hh>
 #include <G4VUserRegionInformation.hh>
 
+#include "holder.hh"
 #include "typecast.hh"
 
 namespace py = pybind11;
@@ -31,9 +32,14 @@ void export_G4Region(py::module &m)
       .def("UpdateMaterialList", &G4Region::UpdateMaterialList)
       .def("ClearMaterialList", &G4Region::ClearMaterialList)
       .def("ScanVolumeTree", &G4Region::ScanVolumeTree)
-      .def("SetUserInformation", &G4Region::SetUserInformation)
+      .def("SetUserInformation",
+           [](G4Region &self, G4VUserRegionInformation *userInfo) {
+              owntrans_ptr<G4VUserRegionInformation>::remove(userInfo);
+              // TODO increase ref
+              self.SetUserInformation(userInfo);
+           })
       .def("GetUserInformation", &G4Region::GetUserInformation, py::return_value_policy::reference_internal)
-      .def("SetUserLimits", &G4Region::SetUserLimits)
+      .def("SetUserLimits", &G4Region::SetUserLimits, py::keep_alive<1, 2>())
       .def("GetUserLimits", &G4Region::GetUserLimits, py::return_value_policy::reference_internal)
       .def("ClearMap", &G4Region::ClearMap)
       .def("RegisterMaterialCouplePair", &G4Region::RegisterMaterialCouplePair)

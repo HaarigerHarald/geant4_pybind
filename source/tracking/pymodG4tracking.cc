@@ -11,6 +11,8 @@ void export_G4VTrajectoryPoint(py::module &);
 void export_G4TrajectoryPoint(py::module &);
 void export_G4VTrajectory(py::module &);
 void export_G4Trajectory(py::module &);
+void export_G4VSteppingVerbose(py::module &);
+void export_G4SteppingVerbose(py::module &);
 
 void export_modG4tracking(py::module &m)
 {
@@ -21,4 +23,6 @@ void export_modG4tracking(py::module &m)
    export_G4TrajectoryPoint(m);
    export_G4VTrajectory(m);
    export_G4Trajectory(m);
+   export_G4VSteppingVerbose(m);
+   export_G4SteppingVerbose(m);
 }

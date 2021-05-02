@@ -35,6 +35,7 @@ public:
       PYBIND11_OVERRIDE_PURE(void, G4VPVParameterisation, ComputeTransformation, i, vol);
    }
 
+   // TODO
    G4VSolid *ComputeSolid(const G4int i, G4VPhysicalVolume *vol) override
    {
       PYBIND11_OVERRIDE(G4VSolid *, G4VPVParameterisation, ComputeSolid, i, vol);
@@ -48,11 +49,13 @@ public:
 
    G4bool IsNested() const override { PYBIND11_OVERRIDE(G4bool, G4VPVParameterisation, IsNested, ); }
 
+   // TODO
    G4VVolumeMaterialScanner *GetMaterialScanner() override
    {
       PYBIND11_OVERRIDE(G4VVolumeMaterialScanner *, G4VPVParameterisation, GetMaterialScanner, );
    }
 
+   // TODO
    void ComputeDimensions(G4Box &solid, const G4int copyNo, const G4VPhysicalVolume *vol) const override
    {
       PYBIND11_OVERRIDE(void, G4VPVParameterisation, ComputeDimensions, solid, copyNo, vol);

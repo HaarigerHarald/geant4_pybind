@@ -17,9 +17,12 @@ void export_G4TwistedTrap(py::module &m)
       .def(py::init<const G4String &, G4double, G4double, G4double, G4double, G4double, G4double, G4double, G4double,
                     G4double, G4double, G4double>())
 
-      .def("__str__", [](const G4TwistedTrap &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4TwistedTrap &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

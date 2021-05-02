@@ -33,9 +33,12 @@ void export_G4Trap(py::module &m)
       .def("GetSymAxis", &G4Trap::GetSymAxis)
       .def("SetAllParameters", &G4Trap::SetAllParameters)
 
-      .def("__str__", [](const G4Trap &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Trap &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

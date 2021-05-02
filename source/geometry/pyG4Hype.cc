@@ -25,9 +25,12 @@ void export_G4Hype(py::module &m)
       .def("SetInnerStereo", &G4Hype::SetInnerStereo)
       .def("SetOuterStereo", &G4Hype::SetOuterStereo)
 
-      .def("__str__", [](const G4Hype &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Hype &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

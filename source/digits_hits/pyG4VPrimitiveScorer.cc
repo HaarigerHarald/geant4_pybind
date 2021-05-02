@@ -74,16 +74,16 @@ void export_G4VPrimitiveScorer(py::module &m)
 
       .def("SetMultiFunctionalDetector", &G4VPrimitiveScorer::SetMultiFunctionalDetector)
       .def("GetMultiFunctionalDetector", &G4VPrimitiveScorer::GetMultiFunctionalDetector,
-           py::return_value_policy::reference_internal)
+           py::return_value_policy::reference)
 
       .def("GetName", &G4VPrimitiveScorer::GetName)
       .def("SetFilter", &G4VPrimitiveScorer::SetFilter)
-      .def("GetFilter", &G4VPrimitiveScorer::GetFilter, py::return_value_policy::reference_internal)
+      .def("GetFilter", &G4VPrimitiveScorer::GetFilter, py::return_value_policy::reference)
 
       .def("SetVerboseLevel", &G4VPrimitiveScorer::SetVerboseLevel)
       .def("GetVerboseLevel", &G4VPrimitiveScorer::GetVerboseLevel)
 
       .def("ComputeSolid", &PublicG4VPrimitiveScorer::ComputeSolid)
       .def("ComputeCurrentSolid", &PublicG4VPrimitiveScorer::ComputeCurrentSolid)
-      .def("SetNijk", &G4VPrimitiveScorer::SetNijk);
+      .def("SetNijk", &G4VPrimitiveScorer::SetNijk, py::arg("i"), py::arg("j"), py::arg("k"));
 }

@@ -40,7 +40,8 @@ void export_G4StatAnalysis(py::module &m)
       .def("GetR2Int", &G4StatAnalysis::GetR2Int)
       .def("GetR2Eff", &G4StatAnalysis::GetR2Eff)
 
-      .def("__call__", [](const G4StatAnalysis &self) { return self.operator G4double(); })
+      .def(
+         "__call__", [](const G4StatAnalysis &self) { return self.operator G4double(); }, py::is_operator())
 
       .def("Reset", &G4StatAnalysis::Reset)
       .def("Add", &G4StatAnalysis::Add, py::arg("_val"), py::arg("_weight") = 1.0)

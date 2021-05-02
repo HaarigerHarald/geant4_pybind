@@ -42,12 +42,12 @@
                /process/(in)activate processName
    allows to activate/inactivate the processes one by one.
    
- 3- ACTION INITALIZATION
+ 3- ACTION INITIALIZATION
 
    A newly introduced class, B1ActionInitialization, instantiates and registers 
    to Geant4 kernel all user action classes.
 
-   While in sequential mode the action classes are instatiated just once,
+   While in sequential mode the action classes are instantiated just once,
    via invoking the method:
       B1ActionInitialization::Build() 
    in multi-threading mode the same method is invoked for each thread worker
@@ -75,7 +75,7 @@
    The energy deposited is collected step by step for a selected volume
    in B1SteppingAction and accumulated event by event in B1EventAction.
 
-   At end of event, the value acummulated in B1EventAction is added in B1RunAction
+   At end of event, the value accumulated in B1EventAction is added in B1RunAction
    and summed over the whole run (see B1EventAction::EndOfevent()).
 
    Total dose deposited is computed at B1RunAction::EndOfRunAction(), 
@@ -96,11 +96,11 @@
 
  The following paragraphs are common to all basic examples
 
- A- VISUALISATION
+ A- VISUALIZATION
 
    The visualization manager is set via the G4VisExecutive class
    in the main() function in exampleB1.cc.    
-   The initialisation of the drawing is done via a set of /vis/ commands
+   The initialization of the drawing is done via a set of /vis/ commands
    in the macro vis.mac. This macro is automatically read from
    the main function when the example is used in interactive running mode.
 

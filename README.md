@@ -60,7 +60,7 @@ ui.SessionStart()
 
 **Full examples**
 
-Check out the [examples](examples) directory, which contains the Geant4 basic examples B1, B2 and B3 ported to Python. However, writing simulations in Python should be pretty straight forward as the API is almost identical to the C++ one. One notable exception are template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4RootAnalysisManager>` becomes `G4RootScoreNtupleWriter`).
+Check out the [examples](examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straight forward as the API is almost identical to the C++ one. One notable exception are template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4RootAnalysisManager>` becomes `G4RootScoreNtupleWriter`).
 
 ## Bugs?
 

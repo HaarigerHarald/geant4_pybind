@@ -47,6 +47,11 @@ void export_G4ChordFinder(py::module &);
 void export_G4GlobalMagFieldMessenger(py::module &);
 void export_G4VPVParameterisation(py::module &);
 void export_G4PVParameterised(py::module &);
+void export_G4NavigationHistory(py::module &);
+void export_G4AffineTransform(py::module &);
+void export_G4ElectroMagneticField(py::module &);
+void export_G4ElectricField(py::module &);
+void export_G4UniformFields(py::module &);
 
 void export_modG4geometry(py::module &m)
 {
@@ -93,4 +98,9 @@ void export_modG4geometry(py::module &m)
    export_G4GlobalMagFieldMessenger(m);
    export_G4VPVParameterisation(m);
    export_G4PVParameterised(m);
+   export_G4NavigationHistory(m);
+   export_G4AffineTransform(m);
+   export_G4ElectroMagneticField(m);
+   export_G4ElectricField(m);
+   export_G4UniformFields(m);
 }

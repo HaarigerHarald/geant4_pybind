@@ -14,14 +14,30 @@ public:
    void GetFieldValue(const G4double Point[4], G4double *Bfield) const override
    {
       py::gil_scoped_acquire gil;
-      py::function           pyGetFieldValue = py::get_override(this, "GetFieldValue");
+      py::function pyGetFieldValue = py::get_override(static_cast<const G4MagneticField *>(this), "GetFieldValue");
 
       if (pyGetFieldValue) {
-         G4ThreeVector bfield =
-            pyGetFieldValue(G4ThreeVector(Point[0], Point[1], Point[2]), Point[3]).cast<G4ThreeVector>();
-         Bfield[0] = bfield.x();
-         Bfield[1] = bfield.y();
-         Bfield[2] = bfield.z();
+         py::list pyBfield(3);
+         py::list pointList(4);
+         for (size_t i = 0; i < pyBfield.size(); i++) {
+            pyBfield[i] = 0;
+         }
+         pointList[0]          = Point[0];
+         pointList[1]          = Point[1];
+         pointList[2]          = Point[2];
+         pointList[3]          = Point[3];
+         py::object pyretField = pyGetFieldValue(pointList, pyBfield);
+         if (py::isinstance<py::list>(pyretField) && ((py::list)pyretField).size() == 3) {
+            Bfield[0] = ((py::list)pyretField)[0].cast<G4double>();
+            Bfield[1] = ((py::list)pyretField)[1].cast<G4double>();
+            Bfield[2] = ((py::list)pyretField)[2].cast<G4double>();
+         } else if (pyBfield.size() == 3) {
+            Bfield[0] = pyBfield[0].cast<G4double>();
+            Bfield[1] = pyBfield[1].cast<G4double>();
+            Bfield[2] = pyBfield[2].cast<G4double>();
+         } else {
+            py::pybind11_fail("\"G4MagneticField::GetFieldValue\" Bfield must have 3 components");
+         }
       } else {
          py::pybind11_fail("Tried to call pure virtual function \"G4MagneticField::GetFieldValue\"");
       }

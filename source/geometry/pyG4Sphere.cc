@@ -27,9 +27,12 @@ void export_G4Sphere(py::module &m)
       .def("SetStartThetaAngle", &G4Sphere::SetStartThetaAngle)
       .def("SetDeltaThetaAngle", &G4Sphere::SetDeltaThetaAngle)
 
-      .def("__str__", [](const G4Sphere &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Sphere &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

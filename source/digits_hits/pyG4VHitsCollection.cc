@@ -30,7 +30,7 @@ public:
 
    size_t GetSize() const override { PYBIND11_OVERRIDE(size_t, G4VHitsCollection, GetSize, ); }
 
-   TRAMPOLINE_DESTRUCTOR(G4VHitsCollection);
+   //TRAMPOLINE_DESTRUCTOR(G4VHitsCollection);
 };
 
 void export_G4VHitsCollection(py::module &m)

@@ -72,13 +72,26 @@ void export_G4VUserDetectorConstruction(py::module &m)
       .def("RegisterParallelWorld", &G4VUserDetectorConstruction::RegisterParallelWorld)
       .def("GetParallelWorld", &G4VUserDetectorConstruction::GetParallelWorld)
 
-      .def("SetSensitiveDetector",
-           static_cast<void (G4VUserDetectorConstruction::*)(const G4String &, G4VSensitiveDetector *, G4bool)>(
-              &PublicG4VUserDetectorConstruction::SetSensitiveDetector),
-           py::arg("logVolName"), py::arg("aSD"), py::arg("multi") = false, py::keep_alive<1, 3>())
+      .def(
+         "SetSensitiveDetector",
+         [](G4VUserDetectorConstruction &self, const G4String &logVolName, G4VSensitiveDetector *aSD, G4bool multi) {
+            auto fp =
+               static_cast<void (G4VUserDetectorConstruction::*)(const G4String &, G4VSensitiveDetector *, G4bool)>(
+                  &PublicG4VUserDetectorConstruction::SetSensitiveDetector);
+
+            owntrans_ptr<G4VSensitiveDetector>::remove(aSD);
+            TRAMPOLINE_REF_INCREASE(G4VSensitiveDetector, aSD);
+            (self.*fp)(logVolName, aSD, multi);
+         },
+         py::arg("logVolName"), py::arg("aSD"), py::arg("multi") = false)
 
       .def("SetSensitiveDetector",
-           static_cast<void (G4VUserDetectorConstruction::*)(G4LogicalVolume *, G4VSensitiveDetector *)>(
-              &PublicG4VUserDetectorConstruction::SetSensitiveDetector),
-           py::keep_alive<1, 3>());
+           [](G4VUserDetectorConstruction &self, G4LogicalVolume *logVol, G4VSensitiveDetector *aSD) {
+              auto fp = static_cast<void (G4VUserDetectorConstruction::*)(G4LogicalVolume *, G4VSensitiveDetector *)>(
+                 &PublicG4VUserDetectorConstruction::SetSensitiveDetector);
+
+              owntrans_ptr<G4VSensitiveDetector>::remove(aSD);
+              TRAMPOLINE_REF_INCREASE(G4VSensitiveDetector, aSD);
+              (self.*fp)(logVol, aSD);
+           });
 }

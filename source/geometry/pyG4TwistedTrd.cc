@@ -22,9 +22,12 @@ void export_G4TwistedTrd(py::module &m)
       .def("GetZHalfLength", &G4TwistedTrd::GetZHalfLength)
       .def("GetPhiTwist", &G4TwistedTrd::GetPhiTwist)
 
-      .def("__str__", [](const G4TwistedTrd &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4TwistedTrd &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

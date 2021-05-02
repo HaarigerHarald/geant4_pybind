@@ -17,9 +17,12 @@ void export_G4Orb(py::module &m)
       .def("GetRadius", &G4Orb::GetRadius)
       .def("SetRadius", &G4Orb::SetRadius)
 
-      .def("__str__", [](const G4Orb &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Orb &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

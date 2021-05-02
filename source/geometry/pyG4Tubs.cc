@@ -30,9 +30,12 @@ void export_G4Tubs(py::module &m)
       .def("GetSPhi", &G4Tubs::GetSPhi)
       .def("GetDPhi", &G4Tubs::GetDPhi)
 
-      .def("__str__", [](const G4Tubs &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Tubs &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

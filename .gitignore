@@ -13,3 +13,8 @@ examples/**/*.macro
 examples/**/*.root
 examples/**/*.csv
 examples/**/*.xml
+
+tests/*.macro
+tests/*.root
+tests/*.csv
+tests/*.xml

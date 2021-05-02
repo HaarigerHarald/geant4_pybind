@@ -13,6 +13,7 @@
 #include <G4LogicalVolumeStore.hh>
 
 #include "typecast.hh"
+#include "holder.hh"
 
 namespace py = pybind11;
 
@@ -64,9 +65,14 @@ void export_G4LogicalVolume(py::module &m)
       .def("GetFieldManager", &G4LogicalVolume::GetFieldManager, py::return_value_policy::reference_internal)
       .def("SetFieldManager", &G4LogicalVolume::SetFieldManager)
       .def("GetSensitiveDetector", &G4LogicalVolume::GetSensitiveDetector, py::return_value_policy::reference_internal)
-      .def("SetSensitiveDetector", &G4LogicalVolume::SetSensitiveDetector, py::keep_alive<1, 2>())
+      .def("SetSensitiveDetector", [](G4LogicalVolume& self, G4VSensitiveDetector* detector){
+           owntrans_ptr<G4VSensitiveDetector>::remove(detector);
+           TRAMPOLINE_REF_INCREASE(G4VSensitiveDetector, detector);
+           self.SetSensitiveDetector(detector);
+      })
+
       .def("GetUserLimits", &G4LogicalVolume::GetUserLimits, py::return_value_policy::reference_internal)
-      .def("SetUserLimits", &G4LogicalVolume::SetUserLimits)
+      .def("SetUserLimits", &G4LogicalVolume::SetUserLimits, py::keep_alive<1, 2>())
 
       .def("GetVoxelHeader", &G4LogicalVolume::GetVoxelHeader, py::return_value_policy::reference_internal)
       .def("SetVoxelHeader", &G4LogicalVolume::SetVoxelHeader)

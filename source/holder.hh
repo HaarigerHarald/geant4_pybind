@@ -73,7 +73,7 @@ public:
 // Returns a trampoline class name that works with the reference keeping macros.
 #define TRAMPOLINE_NAME(cname) Py##cname
 
-// Checks whether the given pointer is of Trampoline type and increases the reference.
+// Checks whether the given pointer is a trampoline class and if so increases the reference count.
 #define TRAMPOLINE_REF_INCREASE(cname, ptr)                                                         \
    bool isPy##cname(cname *);                                                                       \
    if (isPy##cname(ptr)) {                                                                          \

@@ -25,9 +25,12 @@ void export_G4Trd(py::module &m)
       .def("SetYHalfLength2", &G4Trd::SetYHalfLength2)
       .def("SetZHalfLength", &G4Trd::SetZHalfLength)
 
-      .def("__str__", [](const G4Trd &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Trd &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

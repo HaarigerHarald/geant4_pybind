@@ -26,12 +26,15 @@ void export_G4Colour(py::module &m)
       .def("GetBlue", &G4Colour::GetBlue)
       .def("GetAlpha", &G4Colour::GetAlpha)
 
-      .def("__str__",
-           [](const G4Colour &self) {
-              std::stringstream ss;
-              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-              return ss.str();
-           })
+      .def(
+         "__str__",
+         [](const G4Colour &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator())
+
       .def(py::self != py::self);
 
    m.attr("G4Color") = m.attr("G4Colour");

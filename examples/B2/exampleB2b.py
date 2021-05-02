@@ -452,6 +452,9 @@ ui = None
 if len(sys.argv) == 1:
     ui = G4UIExecutive(len(sys.argv), sys.argv)
 
+# Optionally: choose a different Random engine...
+# G4Random.setTheEngine(MTwistEngine())
+
 # Construct the default run manager
 runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
 

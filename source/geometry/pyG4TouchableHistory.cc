@@ -27,5 +27,5 @@ void export_G4TouchableHistory(py::module &m)
       // .def("UpdateYourself", &G4TouchableHistory::UpdateYourself, py::arg("pPhysVol"),
       //      py::arg("history") = static_cast<const G4NavigationHistory *>(nullptr), py::keep_alive<1, 2>())
 
-      .def("GetHistory", &G4TouchableHistory::GetHistory);
+      .def("GetHistory", &G4TouchableHistory::GetHistory, py::return_value_policy::reference_internal);
 }

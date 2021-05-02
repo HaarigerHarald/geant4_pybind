@@ -2,6 +2,7 @@
 
 #include <Randomize.hh>
 
+#include "holder.hh"
 #include "typecast.hh"
 
 namespace py = pybind11;
@@ -88,12 +89,19 @@ void export_Randomize(py::module &m)
                   })
 
       .def_static("getTheGenerator", &HepRandom::getTheGenerator, py::return_value_policy::reference)
-      .def_static("setTheEngine", &HepRandom::setTheEngine)
+      .def_static("setTheEngine",
+                  [](HepRandomEngine *engine) {
+                     owntrans_ptr<HepRandomEngine>::remove(engine);
+                     HepRandom::setTheEngine(engine);
+                  })
+
       .def_static("getTheEngine", &HepRandom::getTheEngine, py::return_value_policy::reference)
       .def_static("saveEngineStatus", &HepRandom::saveEngineStatus, py::arg("filename") = "Config.conf")
       .def_static("restoreEngineStatus", &HepRandom::restoreEngineStatus, py::arg("filename") = "Config.conf")
       .def_static("showEngineStatus", &HepRandom::showEngineStatus)
       .def_static("createInstance", &HepRandom::createInstance);
+
+   m.attr("G4Random") = m.attr("HepRandom");
 
    py::class_<RandBit, std::unique_ptr<RandBit>>(m, "RandBit", "generate bit random number")
       .def_static("shootBit", py::overload_cast<>(&RandBit::shootBit));

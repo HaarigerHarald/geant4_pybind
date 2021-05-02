@@ -13,16 +13,12 @@ void export_G4Para(py::module &m)
    py::class_<G4Para, G4VSolid, std::unique_ptr<G4Para, py::nodelete>>(m, "G4Para", "Skewed box sold class")
 
       .def(py::init<const G4String &, G4double, G4double, G4double, G4double, G4double, G4double>())
-      .def(py::init<>([](const G4String& pName, py::list pt){
-         if (pt.size() != 8)
-         {
+      .def(py::init<>([](const G4String &pName, py::list pt) {
+         if (pt.size() != 8) {
             py::pybind11_fail("array with length 8 expected");
-         }
-         else
-         {
+         } else {
             auto arrPts = std::make_unique<G4ThreeVector[]>(8);
-            for (size_t i = 0; i < pt.size(); i++)
-            {
+            for (size_t i = 0; i < pt.size(); i++) {
                arrPts[i] = pt[i].cast<G4ThreeVector>();
             }
             return G4Para(pName, arrPts.get());
@@ -42,9 +38,12 @@ void export_G4Para(py::module &m)
       .def("SetThetaAndPhi", &G4Para::SetThetaAndPhi)
       .def("SetAllParameters", &G4Para::SetAllParameters)
 
-      .def("__str__", [](const G4Para &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Para &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

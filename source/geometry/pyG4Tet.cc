@@ -17,9 +17,12 @@ void export_G4Tet(py::module &m)
       .def(py::init<const G4String &, const G4ThreeVector &, const G4ThreeVector &, const G4ThreeVector &,
                     const G4ThreeVector &>())
 
-      .def("__str__", [](const G4Tet &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Tet &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

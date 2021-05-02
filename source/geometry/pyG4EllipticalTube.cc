@@ -22,9 +22,12 @@ void export_G4EllipticalTube(py::module &m)
       .def("SetDy", &G4EllipticalTube::SetDy)
       .def("SetDz", &G4EllipticalTube::SetDz)
 
-      .def("__str__", [](const G4EllipticalTube &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4EllipticalTube &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

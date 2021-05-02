@@ -53,7 +53,8 @@ void export_PyG4ParticleList(py::module &m)
 {
    py::class_<PyG4ParticleList, std::unique_ptr<PyG4ParticleList>>(m, "PyG4ParticleList", "particle list")
       .def(py::init<>())
-      .def("__iter__", [](PyG4ParticleList &self) { py::make_iterator(self.p_begin(), self.p_end()); })
+      .def(
+         "__iter__", [](PyG4ParticleList &self) { py::make_iterator(self.p_begin(), self.p_end()); }, py::is_operator())
 
       .def(
          "__getitem__",

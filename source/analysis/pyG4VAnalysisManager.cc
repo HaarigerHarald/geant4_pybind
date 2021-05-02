@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4VAnalysisManager.hh>
 
@@ -225,17 +226,18 @@ void export_G4VAnalysisManager(py::module &m)
       .def("CreateNtupleSColumn", py::overload_cast<const G4String &>(&G4VAnalysisManager::CreateNtupleSColumn),
            py::arg("name"))
 
-      .def("CreateNtupleIColumn",
-           py::overload_cast<const G4String &, std::vector<int> &>(&G4VAnalysisManager::CreateNtupleIColumn),
-           py::arg("name"), py::arg("vector"))
+      // TODO maybe reference to std::vector reference to py lists do not work
+      //  .def("CreateNtupleIColumn",
+      //       py::overload_cast<const G4String &, std::vector<int> &>(&G4VAnalysisManager::CreateNtupleIColumn),
+      //       py::arg("name"), py::arg("vector"))
 
-      .def("CreateNtupleFColumn",
-           py::overload_cast<const G4String &, std::vector<float> &>(&G4VAnalysisManager::CreateNtupleFColumn),
-           py::arg("name"), py::arg("vector"))
+      //  .def("CreateNtupleFColumn",
+      //       py::overload_cast<const G4String &, std::vector<float> &>(&G4VAnalysisManager::CreateNtupleFColumn),
+      //       py::arg("name"), py::arg("vector"))
 
-      .def("CreateNtupleDColumn",
-           py::overload_cast<const G4String &, std::vector<double> &>(&G4VAnalysisManager::CreateNtupleDColumn),
-           py::arg("name"), py::arg("vector"))
+      //  .def("CreateNtupleDColumn",
+      //       py::overload_cast<const G4String &, std::vector<double> &>(&G4VAnalysisManager::CreateNtupleDColumn),
+      //       py::arg("name"), py::arg("vector"))
 
       .def("FinishNtuple", py::overload_cast<>(&G4VAnalysisManager::FinishNtuple))
 
@@ -251,17 +253,18 @@ void export_G4VAnalysisManager(py::module &m)
       .def("CreateNtupleSColumn", py::overload_cast<G4int, const G4String &>(&G4VAnalysisManager::CreateNtupleSColumn),
            py::arg("ntupleId"), py::arg("name"))
 
-      .def("CreateNtupleIColumn",
-           py::overload_cast<G4int, const G4String &, std::vector<int> &>(&G4VAnalysisManager::CreateNtupleIColumn),
-           py::arg("ntupleId"), py::arg("name"), py::arg("vector"))
+      // TODO maybe reference to std::vector reference to py lists do not work
+      //  .def("CreateNtupleIColumn",
+      //       py::overload_cast<G4int, const G4String &, std::vector<int> &>(&G4VAnalysisManager::CreateNtupleIColumn),
+      //       py::arg("ntupleId"), py::arg("name"), py::arg("vector"))
 
-      .def("CreateNtupleFColumn",
-           py::overload_cast<G4int, const G4String &, std::vector<float> &>(&G4VAnalysisManager::CreateNtupleFColumn),
-           py::arg("ntupleId"), py::arg("name"), py::arg("vector"))
+      //  .def("CreateNtupleFColumn",
+      //       py::overload_cast<G4int, const G4String &, std::vector<float>
+      //       &>(&G4VAnalysisManager::CreateNtupleFColumn), py::arg("ntupleId"), py::arg("name"), py::arg("vector"))
 
-      .def("CreateNtupleDColumn",
-           py::overload_cast<G4int, const G4String &, std::vector<double> &>(&G4VAnalysisManager::CreateNtupleDColumn),
-           py::arg("ntupleId"), py::arg("name"), py::arg("vector"))
+      //  .def("CreateNtupleDColumn",
+      //       py::overload_cast<G4int, const G4String &, std::vector<double>
+      //       &>(&G4VAnalysisManager::CreateNtupleDColumn), py::arg("ntupleId"), py::arg("name"), py::arg("vector"))
 
       .def("FinishNtuple", py::overload_cast<G4int>(&G4VAnalysisManager::FinishNtuple))
 
@@ -483,8 +486,8 @@ void export_G4VAnalysisManager(py::module &m)
       .def("GetH1Unit", &G4VAnalysisManager::GetH1Unit, py::arg("id"))
       .def("GetH1Activation", &G4VAnalysisManager::GetH1Activation, py::arg("id"))
       .def("GetH1Ascii", &G4VAnalysisManager::GetH1Ascii, py::arg("id"))
-      .def("GetH1Plotting", &G4VAnalysisManager::GetH1Plotting, py::arg("id"))     
-      //.def("GetH1FileName", &G4VAnalysisManager::GetH1FileName, py::arg("id")) -> no implementation 
+      .def("GetH1Plotting", &G4VAnalysisManager::GetH1Plotting, py::arg("id"))
+      //.def("GetH1FileName", &G4VAnalysisManager::GetH1FileName, py::arg("id")) -> no implementation
 
       .def("GetH2Name", &G4VAnalysisManager::GetH2Name, py::arg("id"))
       .def("GetH2XUnit", &G4VAnalysisManager::GetH2XUnit, py::arg("id"))
@@ -517,7 +520,7 @@ void export_G4VAnalysisManager(py::module &m)
       .def("GetP2Plotting", &G4VAnalysisManager::GetP2Plotting, py::arg("id"))
 
       .def("GetNtupleActivation", &G4VAnalysisManager::GetNtupleActivation, py::arg("id"))
-      //.def("GetNtupleFileName", &G4VAnalysisManager::GetNtupleFileName, py::arg("id")) -> no implementation 
+      //.def("GetNtupleFileName", &G4VAnalysisManager::GetNtupleFileName, py::arg("id")) -> no implementation
 
       .def("SetH1Title", &G4VAnalysisManager::SetH1Title, py::arg("id"), py::arg("title"))
       .def("SetH1XAxisTitle", &G4VAnalysisManager::SetH1XAxisTitle, py::arg("id"), py::arg("title"))

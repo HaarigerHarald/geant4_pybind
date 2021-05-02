@@ -22,9 +22,12 @@ void export_G4Ellipsoid(py::module &m)
       .def("SetSemiAxis", &G4Ellipsoid::SetSemiAxis)
       .def("SetZCuts", &G4Ellipsoid::SetZCuts)
 
-      .def("__str__", [](const G4Ellipsoid &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Ellipsoid &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

@@ -48,9 +48,12 @@ void export_G4Polyhedra(py::module &m)
       .def("IsOpen", &G4Polyhedra::IsOpen)
       .def("IsGeneric", &G4Polyhedra::IsGeneric)
 
-      .def("__str__", [](const G4Polyhedra &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4Polyhedra &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

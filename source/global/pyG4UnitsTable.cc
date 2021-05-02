@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
+#include <pybind11/operators.h>
 
 #include <G4UnitsTable.hh>
 
@@ -52,9 +53,25 @@ void export_G4UnitsTable(py::module &m)
 
       .def("GetCategory", &G4BestUnit::GetCategory)
       .def("GetIndexOfCategory", &G4BestUnit::GetIndexOfCategory)
-      .def("__str__", [](const G4BestUnit &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4BestUnit &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator())
+
+      .def(
+         "__format__",
+         [](const G4BestUnit &self, const py::str &spec) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            std::size_t idx      = 0;
+            std::string bestUnit = ss.str();
+            double      value    = std::stod(bestUnit, &idx);
+            py::object  format   = py::module::import("builtins").attr("format");
+            return format(value, spec) + py::str(bestUnit.c_str() + idx);
+         },
+         py::is_operator());
 }

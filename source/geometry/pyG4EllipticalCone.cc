@@ -20,9 +20,12 @@ void export_G4EllipticalCone(py::module &m)
       .def("SetSemiAxis", &G4EllipticalCone::SetSemiAxis)
       .def("SetZCut", &G4EllipticalCone::SetZCut)
 
-      .def("__str__", [](const G4EllipticalCone &self) {
-         std::stringstream ss;
-         ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-         return ss.str();
-      });
+      .def(
+         "__str__",
+         [](const G4EllipticalCone &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 }
