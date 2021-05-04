@@ -244,7 +244,10 @@ class B4cCalorHitsCollection(G4VHitsCollection):
     def insert(self, item):
         self.collection.append(item)
 
-    def entries(self):
+    def GetHit(self, i):
+        return self.collection[i]
+
+    def GetSize(self):
         return len(self.collection)
 
 
@@ -294,7 +297,7 @@ class B4cCalorimeterSD(G4VSensitiveDetector):
                         "MyCode0004", FatalException, msg)
 
         # Get hit for total accounting
-        hitTotal = self.fHitsCollection[self.fHitsCollection.entries()-1]
+        hitTotal = self.fHitsCollection[self.fHitsCollection.GetSize()-1]
 
         # Add values
         hit.Add(edep, stepLength)
@@ -304,7 +307,7 @@ class B4cCalorimeterSD(G4VSensitiveDetector):
 
     def EndOfEvent(self, hCofThisEvent):
         if self.verboseLevel > 1:
-            nofHits = self.fHitsCollection.entries()
+            nofHits = self.fHitsCollection.GetSize()
             print("")
             print("-------->Hits Collection: in this event they are", nofHits, end="")
             print(" hits in the tracker chambers: ")
@@ -340,8 +343,8 @@ class B4cEventAction(G4UserEventAction):
         gapHC = self.GetHitsCollection(self.fGapHCID, event)
 
         # Get hit with total values
-        absoHit = absoHC[absoHC.entries()-1]
-        gapHit = gapHC[gapHC.entries()-1]
+        absoHit = absoHC[absoHC.GetSize()-1]
+        gapHit = gapHC[gapHC.GetSize()-1]
 
         # Print per event (modulo n)
         eventID = event.GetEventID()

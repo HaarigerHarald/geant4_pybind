@@ -77,8 +77,8 @@ class B2HitsCollection(G4VHitsCollection):
     def insert(self, item):
         self.collection.append(item)
 
-    def entries(self):
-        return len(self.collection)
+    def GetHit(self, i):
+        return self.collection[i]
 
     def GetSize(self):
         return len(self.collection)
@@ -117,7 +117,7 @@ class B2TrackerSD(G4VSensitiveDetector):
 
     def EndOfEvent(self, hce):
         if self.verboseLevel > 1:
-            nofHits = self.fHitsCollection.entries()
+            nofHits = self.fHitsCollection.GetSize()
             print("-------->Hits Collection: in this event there are", nofHits,
                   "hits in the tracker chambers:")
             for i in range(nofHits):
@@ -423,7 +423,7 @@ class B2EventAction(G4UserEventAction):
         trajectoryContainer = event.GetTrajectoryContainer()
         n_trajectories = 0
         if trajectoryContainer != None:
-            n_trajectories = trajectoryContainer.entries()
+            n_trajectories = trajectoryContainer.GetSize()
 
         # periodic printing
         eventID = event.GetEventID()

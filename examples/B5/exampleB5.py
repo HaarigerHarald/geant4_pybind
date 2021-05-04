@@ -383,8 +383,11 @@ class B5HitsCollection(G4VHitsCollection):
     def insert(self, item):
         self.collection.append(item)
 
-    def entries(self):
+    def GetSize(self):
         return len(self.collection)
+
+    def GetHit(self, i):
+        return self.collection[i]
 
     def __iter__(self):
         return self.collection.__iter__()
@@ -744,7 +747,7 @@ class B5HodoscopeSD(G4VSensitiveDetector):
 
         # check if this finger already has a hit
         ix = -1
-        for i in range(0, self.fHitsCollection.entries()):
+        for i in range(0, self.fHitsCollection.GetSize()):
             if self.fHitsCollection[i].fId == copyNo:
                 ix = i
                 break
@@ -925,7 +928,7 @@ class B5EventAction(G4UserEventAction):
             if hc == None:
                 return
 
-            nhit = hc.entries()
+            nhit = hc.GetSize()
             analysisManager.FillH1(self.fDriftHistoID[0][iDet], nhit)
 
             # columns 0, 1
@@ -988,7 +991,7 @@ class B5EventAction(G4UserEventAction):
             if hc == None:
                 return
 
-            print("Hodoscope", iDet + 1, "has", hc.entries(), "hits.")
+            print("Hodoscope", iDet + 1, "has", hc.GetSize(), "hits.")
             for hit in hc:
                 hit.Print()
 
@@ -998,7 +1001,7 @@ class B5EventAction(G4UserEventAction):
             if hc == None:
                 return
 
-            print("Drift Chamber", iDet + 1, "has",  hc.entries(), "hits.")
+            print("Drift Chamber", iDet + 1, "has",  hc.GetSize(), "hits.")
             for layer in range(0, kNofChambers):
                 for hit in hc:
                     if hit.fLayerID == layer:
