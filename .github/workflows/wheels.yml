@@ -1,0 +1,166 @@
+name: Wheels
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+     - main
+  release:
+    types:
+      - published
+
+jobs:
+
+  build_sdist:
+    name: Build SDist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Build SDist
+        run: pipx run build --sdist
+
+      - name: Check metadata
+        run: pipx run twine check dist/*
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*.tar.gz
+
+
+  build_wheels:
+    name: Wheels for ${{ matrix.os }}/${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.6", "3.7", "3.8", "3.9"]
+
+    env:
+      GEANT4_GIT_TAG: v10.7.1
+      GEANT4_SOURCE_DIR: geant4_source
+      GEANT4_BUILD_DIR: geant4_build
+      GEANT4_INSTALL_DIR: geant4_install
+ 
+    steps:
+      - name: Cache Geant4 install
+        uses: actions/cache@v2
+        id: g4cache
+        with:
+          path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
+          key: ${{ env.GEANT4_GIT_TAG }}v2
+
+      - uses: actions/checkout@v2
+        if: steps.g4cache.outputs.cache-hit != 'true'
+        with:
+          repository: Geant4/geant4
+          ref: ${{ env.GEANT4_GIT_TAG }}
+          path: ${{ env.GEANT4_SOURCE_DIR }}
+
+      - uses: lukka/get-cmake@latest
+        if: steps.g4cache.outputs.cache-hit != 'true'
+
+      - name: CMake configure Geant4 Unix
+        if: steps.g4cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
+        run: >
+            cmake -E env CXXFLAGS="-fPIC"
+            cmake -E env CFLAGS="-fPIC" 
+            cmake
+            -DBUILD_STATIC_LIBS=ON
+            -DBUILD_SHARED_LIBS=OFF
+            -DGEANT4_INSTALL_EXAMPLES=OFF
+            -DGEANT4_USE_SYSTEM_EXPAT=OFF
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
+            -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
+            -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
+
+      - name: CMake configure Geant4 Windows
+        if: steps.g4cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        run: >
+            cmake
+            -DBUILD_STATIC_LIBS=ON
+            -DBUILD_SHARED_LIBS=OFF
+            -DGEANT4_INSTALL_EXAMPLES=OFF
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
+            -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
+            -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
+
+      - name: CMake build Geant4
+        if: steps.g4cache.outputs.cache-hit != 'true'
+        run: cmake --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}" --config Release
+
+      - name: CMake install Geant4
+        if: steps.g4cache.outputs.cache-hit != 'true'
+        run: >
+            cmake
+            --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
+            --config Release
+            --target install
+
+      - name: Setup environment variables
+        shell: bash
+        run: |
+            echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+            echo "HOME=${{ github.workspace }}" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          path: ${{ github.event.repository.name }}
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Add Python requirements
+        run: python -m pip install --upgrade wheel setuptools build psutil
+
+      - name: Build wheel
+        run: python -m build ${{ github.event.repository.name }}
+
+      - name: Install wheel
+        run: >
+            python -m pip install --no-index 
+            --find-links=${{ github.event.repository.name }}/dist
+            geant4_pybind
+
+      - name: Cache Geant4 datasets
+        uses: actions/cache@v2
+        with:
+          key: ${{ env.GEANT4_GIT_TAG }}-datasets
+          path: ${{ github.workspace }}/.geant4_pybind
+
+      - name: Run B1 (sanity) test
+        run: python ${{ github.event.repository.name }}/tests/test_B1.py
+
+      - name: Run example tests
+        if: runner.os == 'Linux'
+        run: python ${{ github.event.repository.name }}/tests/test_examples.py
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ${{ github.event.repository.name }}/dist/*.whl
+
+
+  upload_all:
+    name: Upload if release
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+
+    steps:
+      - uses: actions/setup-python@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: dist
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
