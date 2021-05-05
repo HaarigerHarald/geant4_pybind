@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4MultiFunctionalDetector.hh>
 #include <G4VPrimitiveScorer.hh>
@@ -6,6 +7,7 @@
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 
@@ -57,18 +59,20 @@ void export_G4MultiFunctionalDetector(py::module &m)
       .def("DrawAll", &G4MultiFunctionalDetector::DrawAll)
       .def("PrintAll", &G4MultiFunctionalDetector::PrintAll)
       .def("ProcessHits", &PublicG4MultiFunctionalDetector::ProcessHits)
-      .def("RegisterPrimitive", [] (G4MultiFunctionalDetector & self, G4VPrimitivePlotter* plotter)
-      {
-         owntrans_ptr<G4VPrimitivePlotter>::remove(plotter);
-         TRAMPOLINE_REF_INCREASE(G4VPrimitivePlotter, plotter);
-         return self.RegisterPrimitive(plotter);
-      })
-      .def("RegisterPrimitive", [] (G4MultiFunctionalDetector & self, G4VPrimitiveScorer* scorer)
-      {
-         owntrans_ptr<G4VPrimitiveScorer>::remove(scorer);
-         TRAMPOLINE_REF_INCREASE(G4VPrimitiveScorer, scorer);
-         return self.RegisterPrimitive(scorer);
-      })
+      .def("RegisterPrimitive",
+           [](G4MultiFunctionalDetector &self, G4VPrimitivePlotter *plotter) {
+              owntrans_ptr<G4VPrimitivePlotter>::remove(plotter);
+              TRAMPOLINE_REF_INCREASE(G4VPrimitivePlotter, plotter);
+              return self.RegisterPrimitive(plotter);
+           })
+
+      .def("RegisterPrimitive",
+           [](G4MultiFunctionalDetector &self, G4VPrimitiveScorer *scorer) {
+              owntrans_ptr<G4VPrimitiveScorer>::remove(scorer);
+              TRAMPOLINE_REF_INCREASE(G4VPrimitiveScorer, scorer);
+              return self.RegisterPrimitive(scorer);
+           })
+
       .def("RemovePrimitive", &G4MultiFunctionalDetector::RemovePrimitive) // TODO pass ownership
       .def("GetNumberOfPrimitives", &G4MultiFunctionalDetector::GetNumberOfPrimitives)
       .def("GetPrimitive", &G4MultiFunctionalDetector::GetPrimitive, py::return_value_policy::reference_internal);

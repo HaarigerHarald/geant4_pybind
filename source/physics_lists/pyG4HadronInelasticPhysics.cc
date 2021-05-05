@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4HadronInelasticQBBC.hh>
 #include <G4HadronPhysicsFTF_BIC.hh>
@@ -21,6 +22,7 @@
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <tools/histo/h1d>
 #include <tools/histo/h2d>
@@ -7,6 +8,7 @@
 #include <tools/histo/p2d>
 
 #include "typecast.hh"
+#include "opaques.hh"
 #include "holder.hh"
 
 namespace py = pybind11;

@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <pybind11/operators.h>
 
 #include <G4VHitsCollection.hh>
@@ -8,6 +9,7 @@
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 
@@ -30,7 +32,7 @@ public:
 
    size_t GetSize() const override { PYBIND11_OVERRIDE(size_t, G4VHitsCollection, GetSize, ); }
 
-   //TRAMPOLINE_DESTRUCTOR(G4VHitsCollection);
+   // TRAMPOLINE_DESTRUCTOR(G4VHitsCollection);
 };
 
 void export_G4VHitsCollection(py::module &m)

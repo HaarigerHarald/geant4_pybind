@@ -1,12 +1,14 @@
 
 #ifdef G4_HAS_GDML
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4GDMLParser.hh>
 #include <G4LogicalVolume.hh>
 #include <G4Material.hh>
 
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

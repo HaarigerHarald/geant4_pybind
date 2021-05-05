@@ -1,9 +1,11 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4VUIshell.hh>
 #include <G4UIcommandTree.hh>
 
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 
@@ -27,10 +29,7 @@ class PyG4VUIshell : public G4VUIshell {
 public:
    using G4VUIshell::G4VUIshell;
 
-   void MakePrompt(const char *msg = 0) override
-   {
-      PYBIND11_OVERRIDE(void, G4VUIshell, MakePrompt, msg);
-   }
+   void MakePrompt(const char *msg = 0) override { PYBIND11_OVERRIDE(void, G4VUIshell, MakePrompt, msg); }
 
    void SetLsColor(TermColorIndex idx1, TermColorIndex idx2) override
    {

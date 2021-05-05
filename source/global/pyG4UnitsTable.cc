@@ -8,11 +8,9 @@
 #include <limits>
 
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
-
-PYBIND11_MAKE_OPAQUE(G4UnitsTable);
-PYBIND11_MAKE_OPAQUE(G4UnitsContainer);
 
 void export_G4UnitsTable(py::module &m)
 {

@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <pybind11/eval.h>
 
 #include <G4coutDestination.hh>
@@ -7,6 +8,7 @@
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 std::vector<void *> HolderStore::store = std::vector<void *>();
 size_t              HolderStore::maxId = 0;

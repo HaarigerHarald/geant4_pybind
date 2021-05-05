@@ -1,9 +1,11 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4HCofThisEvent.hh>
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 
@@ -16,7 +18,7 @@ void export_G4HCofThisEvent(py::module &m)
       .def("AddHitsCollection",
            [](G4HCofThisEvent &self, G4int HCID, G4VHitsCollection *aHC) {
               owntrans_ptr<G4VHitsCollection>::remove(aHC);
-              //TRAMPOLINE_REF_INCREASE(G4VHitsCollection, aHC);
+              // TRAMPOLINE_REF_INCREASE(G4VHitsCollection, aHC);
               self.AddHitsCollection(HCID, aHC);
            })
 

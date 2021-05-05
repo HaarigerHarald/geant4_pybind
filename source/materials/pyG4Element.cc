@@ -3,8 +3,8 @@
 
 #include <G4Element.hh>
 
-#include "OpaqueTypes.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4Track.hh>
 #include <G4TrackingManager.hh>
@@ -6,6 +7,7 @@
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

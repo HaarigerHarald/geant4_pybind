@@ -61,6 +61,10 @@ def download_dataset(url, directory):
 
 
 def ask_for_download(data_directory):
+    # Skip for automated tests
+    if "CI" in os.environ and os.environ["CI"] == "true":
+        return True
+
     print("One or more Geant4 datasets were not found.")
     answer=input("Would you like to download the missing ones? [Y/n] ")
     if answer.lower() == 'y' or answer.lower() == 'yes':

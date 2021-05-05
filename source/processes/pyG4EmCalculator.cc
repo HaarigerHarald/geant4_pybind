@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4EmCalculator.hh>
 #include <G4Region.hh>
@@ -7,8 +8,8 @@
 #include <G4ParticleDefinition.hh>
 #include <G4MaterialCutsCouple.hh>
 
-#include "OpaqueTypes.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

@@ -1,11 +1,13 @@
 #ifdef G4_HAS_OPENGLX
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4OpenGLImmediateX.hh>
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

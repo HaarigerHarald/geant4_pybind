@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4EmDNAChemistry_option1.hh>
 #include <G4EmDNAChemistry_option2.hh>
@@ -35,6 +36,7 @@
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

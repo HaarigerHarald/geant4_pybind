@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
 #include <pybind11/stl.h>
+#include <pybind11/operators.h>
 
 #include <CLHEP/Random/JamesRandom.h>
 #include <CLHEP/Random/RandomEngine.h>
@@ -13,6 +13,7 @@
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

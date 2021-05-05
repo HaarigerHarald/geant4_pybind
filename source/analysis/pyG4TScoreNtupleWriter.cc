@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4TScoreNtupleWriter.hh>
 
@@ -16,6 +17,7 @@
 #include "G4XmlAnalysisReader.hh"
 
 #include "typecast.hh"
+#include "opaques.hh"
 #include "holder.hh"
 
 namespace py = pybind11;

@@ -5,6 +5,7 @@
 #include <G4AttDef.hh>
 
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

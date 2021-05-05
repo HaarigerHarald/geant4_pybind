@@ -1,10 +1,12 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4ExceptionSeverity.hh>
 #include <G4StateManager.hh>
 #include <G4ios.hh>
 
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

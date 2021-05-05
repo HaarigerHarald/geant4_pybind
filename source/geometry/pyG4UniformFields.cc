@@ -1,10 +1,12 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4UniformElectricField.hh>
 #include <G4UniformGravityField.hh>
 #include <G4ThreeVector.hh>
 
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

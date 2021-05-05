@@ -6,6 +6,7 @@
 
 #include "holder.hh"
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 
@@ -50,10 +51,7 @@ public:
       PYBIND11_OVERRIDE_PURE(G4bool, G4VSensitiveDetector, ProcessHits, aStep, ROhist);
    }
 
-   G4int GetCollectionID(G4int i) override
-   {
-      PYBIND11_OVERRIDE(G4int, G4VSensitiveDetector, GetCollectionID, i);
-   }
+   G4int GetCollectionID(G4int i) override { PYBIND11_OVERRIDE(G4int, G4VSensitiveDetector, GetCollectionID, i); }
 
    G4VSensitiveDetector *Clone() const override
    {
@@ -62,8 +60,6 @@ public:
 
    TRAMPOLINE_DESTRUCTOR(G4VSensitiveDetector);
 };
-
-PYBIND11_MAKE_OPAQUE(std::vector<G4String>);
 
 void export_G4VSensitiveDetector(py::module &m)
 {

@@ -1,10 +1,12 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4FieldManager.hh>
 #include <G4PropagatorInField.hh>
 #include <G4TransportationManager.hh>
 
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 

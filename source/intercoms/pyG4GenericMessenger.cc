@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <G4GenericMessenger.hh>
 #include <G4UIdirectory.hh>
@@ -6,6 +7,7 @@
 #include <array>
 
 #include "typecast.hh"
+#include "opaques.hh"
 
 namespace py = pybind11;
 
