@@ -21,18 +21,18 @@ def directory_contains(dir, subdir):
     return False
 
 
-progress=0
+progress = 0
 
 
 def show_progress(block_num, block_size, total_size):
     global progress
-    bar_width=50
+    bar_width = 50
     if block_num == 0:
         sys.stdout.write("[%s]" % (" " * bar_width))
         sys.stdout.flush()
         sys.stdout.write("\b" * (bar_width+1))
 
-    downloaded=int(bar_width * block_num * block_size/total_size)
+    downloaded = int(bar_width * block_num * block_size/total_size)
     if downloaded < bar_width:
         while progress < downloaded:
             sys.stdout.write("#")
@@ -44,7 +44,7 @@ def show_progress(block_num, block_size, total_size):
             progress += 1
         sys.stdout.write("\n")
         sys.stdout.flush()
-        progress=0
+        progress = 0
 
 
 def download_dataset(url, directory):
@@ -52,21 +52,17 @@ def download_dataset(url, directory):
         os.makedirs(directory)
 
     print("Downloading data file:", url)
-    temp=tempfile.mktemp()
+    temp = tempfile.mktemp()
     urllib.request.urlretrieve(url, temp, show_progress)
-    tar=tarfile.open(temp)
+    tar = tarfile.open(temp)
     tar.extractall(directory)
     tar.close()
     os.remove(temp)
 
 
 def ask_for_download(data_directory):
-    # Skip for automated tests
-    if "CI" in os.environ and os.environ["CI"] == "true":
-        return True
-
     print("One or more Geant4 datasets were not found.")
-    answer=input("Would you like to download the missing ones? [Y/n] ")
+    answer = input("Would you like to download the missing ones? [Y/n] ")
     if answer.lower() == 'y' or answer.lower() == 'yes':
         print("Storing data sets at:", data_directory)
         return True
@@ -75,10 +71,16 @@ def ask_for_download(data_directory):
 
 
 def init_datasets():
-    data_directory=os.path.join(os.path.expanduser("~"), ".geant4_pybind")
-    download_allowed=False
+    data_directory = os.path.join(os.path.expanduser("~"), ".geant4_pybind")
+    download_allowed = False
 
-    datasets=[["G4ABLADATA", "G4ABLA3.1", "http://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz"],
+    if "CI" in os.environ and os.environ["CI"] == "true":
+        # Automated tests
+        download_allowed = True
+        if "HOME" in os.environ:
+            data_directory = os.path.join(os.path.realpath(os.environ["HOME"]), ".geant4_pybind")
+
+    datasets = [["G4ABLADATA", "G4ABLA3.1", "http://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz"],
 
                 ["G4ENSDFSTATEDATA", "G4ENSDFSTATE2.3",
                  "http://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.3.tar.gz"],
@@ -108,13 +110,14 @@ def init_datasets():
         if not dataset[0] in os.environ:
             if not os.path.exists(data_directory) or not directory_contains(data_directory, dataset[1]):
                 if download_allowed or ask_for_download(data_directory):
-                    download_allowed=True
+                    download_allowed = True
                     download_dataset(
                         dataset[2], data_directory)
                 else:
                     return
 
-            os.environ[dataset[0]]=os.path.join(data_directory, dataset[1])
+            os.environ[dataset[0]] = os.path.join(data_directory, dataset[1])
+
 
 init_datasets()
 

@@ -109,7 +109,7 @@ jobs:
       - name: Cache Geant4 datasets
         uses: actions/cache@v2
         with:
-          key: ${{ env.GEANT4_GIT_TAG }}_datasets
+          key: ${{ env.GEANT4_GIT_TAG }}-datasets
           path: ${{ github.workspace }}/.geant4_pybind
 
       - name: Run B1 (sanity) test
