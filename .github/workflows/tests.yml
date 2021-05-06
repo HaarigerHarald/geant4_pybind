@@ -1,9 +1,11 @@
-name: Wheels
+name: Tests
 
 on:
-  release:
-    types:
-      - published
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+     - main
 
 env:
   GEANT4_GIT_TAG: v10.7.1
@@ -11,40 +13,23 @@ env:
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
 
+
 jobs:
-
-  build_sdist:
-    name: Build SDist
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-
-      - name: Build SDist
-        run: pipx run build --sdist
-
-      - name: Check metadata
-        run: pipx run twine check dist/*
-
-      - uses: actions/upload-artifact@v2
-        with:
-          path: dist/*.tar.gz
-
-
-  build_wheels:
-    name: Wheels for ${{ matrix.os }}
+  run_tests:
+    name: Tests on ${{ matrix.os }}/${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        python-version: ['3.6', '3.9']
+        exclude:
+          - os: macos-latest
+            python-version: '3.6'
+          - os: windows-latest
+            python-version: '3.6'
  
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-
       - name: Cache Geant4 install
         uses: actions/cache@v2
         id: g4cache
@@ -100,71 +85,36 @@ jobs:
             --config Release
             --target install
 
-      - name: Add Geant4 to the PATH
+      - name: Setup environment variables
         shell: bash
-        run: echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+        run: |
+            echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+            echo "HOME=${{ github.workspace }}" >> $GITHUB_ENV
 
-      - uses: joerick/cibuildwheel@v1.11.0
-        env:
-          CIBW_BUILD: cp3*
-          CIBW_ARCHS: native
-
-      - uses: actions/upload-artifact@v2
-        with:
-          path: wheelhouse/*.whl
-
-
-  build_wheels_linux:
-    name: Wheels for Linux
-    runs-on: ubuntu-latest
-
-    steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
+          path: ${{ github.event.repository.name }}
 
-      - uses: joerick/cibuildwheel@v1.11.0
-        env:
-          CIBW_ENVIRONMENT_LINUX: "CXXFLAGS='-fPIC' CFLAGS='-fPIC'"
-          CIBW_BEFORE_ALL_LINUX: >
-              python -m pip install cmake && \
-                git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1 \
-                https://github.com/Geant4/geant4 \
-                "{package}/${{ env.GEANT4_SOURCE_DIR }}" && \
-                mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" && \
-                cd "{package}/${{ env.GEANT4_BUILD_DIR }}" && \
-                cmake \
-                -DCMAKE_BUILD_TYPE=Release \
-                -DBUILD_STATIC_LIBS=ON \
-                -DBUILD_SHARED_LIBS=OFF \
-                -DGEANT4_INSTALL_EXAMPLES=OFF \
-                -DGEANT4_USE_SYSTEM_EXPAT=OFF \
-                "{package}/${{ env.GEANT4_SOURCE_DIR }}" && \
-                make -j8 && \
-                make install
-
-          CIBW_BUILD: cp3*
-          CIBW_ARCHS: native
-
-      - uses: actions/upload-artifact@v2
-        with:
-          path: wheelhouse/*.whl
-
-
-  upload_all:
-    name: Upload if release
-    needs: [build_wheels, build_wheels_linux, build_sdist]
-    runs-on: ubuntu-latest
-
-    steps:
       - uses: actions/setup-python@v2
-
-      - uses: actions/download-artifact@v2
         with:
-          name: artifact
-          path: dist
+          python-version: ${{ matrix.python-version }}
 
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Add Python requirements
+        run: python -m pip install --upgrade setuptools psutil
+
+      - name: Install ${{ github.event.repository.name }}
+        run: python -m pip install "${{ github.workspace }}/${{ github.event.repository.name }}"
+
+      - name: Cache Geant4 datasets
+        uses: actions/cache@v2
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          key: ${{ env.GEANT4_GIT_TAG }}_datasets
+          path: ${{ github.workspace }}/.geant4_pybind
+
+      - name: Run B1 (sanity) test
+        run: python ${{ github.event.repository.name }}/tests/test_B1.py
+
+      - name: Run example tests
+        if: runner.os == 'Linux'
+        run: python ${{ github.event.repository.name }}/tests/test_examples.py
