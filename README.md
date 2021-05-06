@@ -1,12 +1,22 @@
 # Python bindings for Geant4
 
+[![Tests](https://github.com/HaarigerHarald/geant4_pybind/actions/workflows/tests.yml/badge.svg)](https://github.com/HaarigerHarald/geant4_pybind/actions/workflows/tests.yml)
+[![Wheel](https://img.shields.io/pypi/wheel/geant4-pybind)](https://pypi.org/project/geant4-pybind)
+[![PyPI](https://img.shields.io/pypi/v/geant4-pybind)](https://pypi.org/project/geant4-pybind)
+
 Alternative Python bindings for [Geant4](https://geant4.web.cern.ch/) via [pybind11](https://github.com/pybind/pybind11). It is loosely based on g4py, but retains an API closer to the standard C++ API and does not require Boost.Python.
 
 It currently includes all g4py bindings plus a large portion of very commonly used classes and functions that aren't currently present in g4py. However, it is still far off from replicating the full Geant4 API and is thus (currently) only applicable for simple simulations.
 
-## Prerequisits
+## Installation
 
-**On Unix (Linux, OS X)**
+It's available on PyPI for all major platforms as a fully self-contained (i.e. statically linked) wheel.
+
+    pip install geant4-pybind
+
+## Building
+
+**Unix (Linux, OS X) prerequisits**
 
 * A Geant4 installation, version 10.7+ ([make sure it is also added to the path](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-unix))
 * A C++14 compiler (preferably the one Geant4 was compiled with)
@@ -15,7 +25,7 @@ It currently includes all g4py bindings plus a large portion of very commonly us
 * pip
 * git
 
-**On Windows**
+**Windows prerequisits**
 
   * A Geant4 installation, version 10.7+ ([make sure it is also added to the PATH](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-windows))
   * [Visual Studio 2019](https://visualstudio.microsoft.com/en/vs) for C++ development, with CMake
@@ -25,7 +35,7 @@ It currently includes all g4py bindings plus a large portion of very commonly us
 
 *Note*: If you haven't downloaded the required datasets yet don't worry, you can let geant4_pybind handle them.
 
-## Installation
+**Installation**
 
 ```bash
 git clone --recursive https://github.com/HaarigerHarald/geant4_pybind
