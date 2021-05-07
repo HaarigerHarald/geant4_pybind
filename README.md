@@ -70,7 +70,7 @@ ui.SessionStart()
 
 **Full examples**
 
-Check out the [examples](examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straight forward as the API is almost identical to the C++ one. One notable exception are template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4RootAnalysisManager>` becomes `G4RootScoreNtupleWriter`).
+Check out the [examples](https://github.com/HaarigerHarald/geant4_pybind/tree/main/examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straight forward as the API is almost identical to the C++ one. One notable exception are template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4RootAnalysisManager>` becomes `G4RootScoreNtupleWriter`).
 
 ## Bugs?
 
@@ -80,4 +80,4 @@ Though the bigger problem is probably that there is still quite a bit missing.
 
 ## License
 
-This builds upon Geant4 and g4py and thus the [Geant4 license](https://geant4.web.cern.ch/license/LICENSE.html) applies. The binding code uses [pybind11](https://github.com/pybind/pybind11/blob/master/LICENSE). All my contributions are [public domain](LICENSE).
+This builds upon Geant4 and g4py and thus the [Geant4 license](https://geant4.web.cern.ch/license/LICENSE.html) applies. The binding code uses [pybind11](https://github.com/pybind/pybind11/blob/master/LICENSE). All my contributions are [public domain](https://github.com/HaarigerHarald/geant4_pybind/blob/main/LICENSE).
