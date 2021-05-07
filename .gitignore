@@ -18,3 +18,6 @@ tests/*.macro
 tests/*.root
 tests/*.csv
 tests/*.xml
+
+# Generated 3rd party LICENSE file 
+LICENSE-3RD-PARTY

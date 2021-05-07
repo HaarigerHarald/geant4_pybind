@@ -2,6 +2,7 @@
 import os
 import sys
 import subprocess
+import urllib.request
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
@@ -69,9 +70,20 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", "."] + build_args, cwd=self.build_temp
         )
 
-readme = open("README.md", "r")
-long_desc = readme.read()
-readme.close()
+
+with open("README.md", "r") as readme:
+    long_desc = readme.read()
+
+# Amalgamate 3rd party licenses
+with open("pybind11/LICENSE", "r") as license_file:
+    licenses = license_file.read() + "\n\n\n"
+
+with urllib.request.urlopen(
+        "https://raw.githubusercontent.com/Geant4/geant4/v10.7.1/LICENSE") as resp:
+    licenses += resp.read().decode("utf-8")
+
+with open("LICENSE-3RD-PARTY", "w") as license_file:
+    license_file.write(licenses)
 
 setup(
     name="geant4_pybind",
@@ -83,7 +95,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/HaarigerHarald/geant4_pybind",
     license="Public Domain",
-    python_requires='>=3.5, <4',
+    python_requires=">=3.5, <4",
     ext_modules=[CMakeExtension("geant4_pybind")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False
