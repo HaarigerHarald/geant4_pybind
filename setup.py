@@ -78,9 +78,12 @@ with open("README.md", "r") as readme:
 with open("pybind11/LICENSE", "r") as license_file:
     licenses = license_file.read() + "\n\n\n"
 
-with urllib.request.urlopen(
-        "https://raw.githubusercontent.com/Geant4/geant4/v10.7.1/LICENSE") as resp:
-    licenses += resp.read().decode("utf-8")
+try:
+    with urllib.request.urlopen(
+                "https://raw.githubusercontent.com/Geant4/geant4/v10.7.1/LICENSE") as resp:
+        licenses += resp.read().decode("utf-8")
+except:
+    pass
 
 with open("LICENSE-3RD-PARTY", "w") as license_file:
     license_file.write(licenses)
