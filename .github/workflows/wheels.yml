@@ -22,10 +22,7 @@ jobs:
           submodules: true
 
       - name: Build SDist
-        run: pipx run build --sdist
-
-      - name: Check metadata
-        run: pipx run twine check dist/*
+        run: python setup.py sdist
 
       - uses: actions/upload-artifact@v2
         with:
