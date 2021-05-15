@@ -16,10 +16,6 @@ class CMakeExtension(Extension):
 
 class CMakeBuild(build_ext):
 
-    def initialize_options(self):
-        self.geant4_dir = None
-        build_ext.initialize_options(self)
-
     def build_extension(self, ext):
         extdir = os.path.abspath(os.path.dirname(
             self.get_ext_fullpath(ext.name)))
