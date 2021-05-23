@@ -22,6 +22,7 @@ class G4PyCoutDestination : public G4coutDestination {
 public:
    G4int ReceiveG4cout(const G4String &coutString) override
    {
+      py::gil_scoped_acquire gil;
       auto pystdout = py::module_::import("sys").attr("stdout").attr("write");
       pystdout(coutString);
       return 0;
@@ -29,6 +30,7 @@ public:
 
    G4int ReceiveG4cerr(const G4String &cerrString) override
    {
+      py::gil_scoped_acquire gil;
       auto pystderr = py::module_::import("sys").attr("stderr").attr("write");
       pystderr(cerrString);
       return 0;

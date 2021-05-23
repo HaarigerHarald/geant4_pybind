@@ -38,8 +38,14 @@ void export_G4RunManager(py::module &m)
       .def("GetPrintProgress", &G4RunManager::GetPrintProgress)
 
       .def("Initialize", &G4RunManager::Initialize)
-      .def("BeamOn", &G4RunManager::BeamOn, py::arg("n_event"),
-           py::arg("macroFile") = static_cast<const char *>(nullptr), py::arg("n_select") = -1, "Starts event loop.")
+      .def(
+         "BeamOn",
+         [](G4RunManager &self, G4int n_event, const char *macroFile = 0, G4int n_select = -1) {
+            py::gil_scoped_release gil;
+            self.BeamOn(n_event, macroFile, n_select);
+         },
+         py::arg("n_event"), py::arg("macroFile") = static_cast<const char *>(nullptr), py::arg("n_select") = -1,
+         "Starts event loop.")
 
       .def("SetUserInitialization",
            [](G4RunManager &self, G4VUserDetectorConstruction *detector) {
@@ -140,7 +146,9 @@ void export_G4RunManager(py::module &m)
            py::arg("topologyIsChanged") = true)
 
       .def("DumpRegion", py::overload_cast<const G4String &>(&G4RunManager::DumpRegion, py::const_))
-      .def("DumpRegion", py::overload_cast<G4Region *>(&G4RunManager::DumpRegion, py::const_))
+      .def("DumpRegion", py::overload_cast<G4Region *>(&G4RunManager::DumpRegion, py::const_),
+           py::arg("region") = static_cast<G4Region *>(nullptr))
+
       .def("rndmSaveThisRun", &G4RunManager::rndmSaveThisRun)
       .def("rndmSaveThisEvent", &G4RunManager::rndmSaveThisEvent)
       .def("RestoreRandomNumberStatus", &G4RunManager::RestoreRandomNumberStatus)
