@@ -18,7 +18,6 @@
 
 #include "typecast.hh"
 #include "opaques.hh"
-#include "holder.hh"
 
 namespace py = pybind11;
 

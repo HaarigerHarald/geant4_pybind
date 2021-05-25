@@ -10,7 +10,6 @@
 #include <G4Step.hh>
 #include <G4ParticleDefinition.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 

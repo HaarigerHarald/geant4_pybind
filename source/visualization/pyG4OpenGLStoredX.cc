@@ -5,7 +5,7 @@
 
 #include <G4OpenGLStoredX.hh>
 
-#include <../hoder.hh>
+#include <holder.hh>
 #include "typecast.hh"
 #include "opaques.hh"
 
