@@ -4,13 +4,12 @@
 #include <G4VUserPhysicsList.hh>
 #include <G4ProcessManager.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4VUserPhysicsList) : public G4VUserPhysicsList {
+class PyG4VUserPhysicsList : public G4VUserPhysicsList, public py::trampoline_self_life_support {
 
 public:
    using G4VUserPhysicsList::G4VUserPhysicsList;
@@ -20,14 +19,11 @@ public:
    void ConstructProcess() override { PYBIND11_OVERRIDE_PURE(void, G4VUserPhysicsList, ConstructProcess, ); }
 
    void SetCuts() override { PYBIND11_OVERRIDE_PURE(void, G4VUserPhysicsList, SetCuts, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4VUserPhysicsList);
 };
 
 void export_G4VUserPhysicsList(py::module &m)
 {
-   py::class_<G4VUserPhysicsList, TRAMPOLINE_NAME(G4VUserPhysicsList), owntrans_ptr<G4VUserPhysicsList>>(
-      m, "G4VUserPhysicsList", "base class of user physics list")
+   py::class_<G4VUserPhysicsList, PyG4VUserPhysicsList>(m, "G4VUserPhysicsList", "base class of user physics list")
 
       .def(py::init<>())
 

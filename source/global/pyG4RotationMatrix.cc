@@ -1,12 +1,11 @@
-#include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
 #include <pybind11/stl.h>
 
 #include <G4RotationMatrix.hh>
 
 #include <limits>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -14,7 +13,7 @@ namespace py = pybind11;
 
 void export_G4RotationMatrix(py::module &m)
 {
-   py::class_<G4RotationMatrix, owntrans_ptr<G4RotationMatrix>>(m, "G4RotationMatrix", "rotation matrix")
+   py::class_<G4RotationMatrix>(m, "G4RotationMatrix", "rotation matrix")
 
       .def(py::init<>(), "Default contructor gives a unit matrix")
       .def(py::init<const G4RotationMatrix &>())
@@ -70,24 +69,24 @@ void export_G4RotationMatrix(py::module &m)
 
       .def("rotateAxes", &G4RotationMatrix::rotateAxes, py::return_value_policy::reference)
       .def("inverse", &G4RotationMatrix::inverse)
-      .def("invert", &G4RotationMatrix::invert, py::return_value_policy::reference)
+      .def("invert", &G4RotationMatrix::invert, py::return_value_policy::reference);
 
-      .def(
-         "__str__",
-         [](const G4RotationMatrix &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator())
+   // .def(
+   //    "__str__",
+   //    [](const G4RotationMatrix &self) {
+   //       std::stringstream ss;
+   //       ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+   //       return ss.str();
+   //    },
+   //    py::is_operator())
 
-      .def(py::self == py::self)
-      .def(py::self != py::self)
-      .def(py::self > py::self)
-      .def(py::self < py::self)
-      .def(py::self >= py::self)
-      .def(py::self <= py::self)
-      .def(py::self * py::self)
-      .def(py::self * G4ThreeVector())
-      .def(py::self *= py::self);
+   // .def(py::self == py::self)
+   // .def(py::self != py::self)
+   // .def(py::self > py::self)
+   // .def(py::self < py::self)
+   // .def(py::self >= py::self)
+   // .def(py::self <= py::self)
+   // .def(py::self * py::self)
+   // .def(py::self * G4ThreeVector())
+   // .def(py::self *= py::self);
 }

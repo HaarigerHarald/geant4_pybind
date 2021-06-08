@@ -11,15 +11,14 @@ namespace py = pybind11;
 void export_G4NistManager(py::module &m)
 {
 
-   py::class_<G4NistManager, std::unique_ptr<G4NistManager, py::nodelete>>(m, "G4NistManager",
-                                                                           "manager class for NIST materials")
+   py::class_<G4NistManager, py::nodelete>(m, "G4NistManager", "manager class for NIST materials")
 
       .def_static("Instance", &G4NistManager::Instance, py::return_value_policy::reference)
 
       .def("SetVerbose", &G4NistManager::SetVerbose)
       .def("GetVerbose", &G4NistManager::GetVerbose)
 
-      .def("GetElement", &G4NistManager::GetElement, py::return_value_policy::reference_internal)
+      .def("GetElement", &G4NistManager::GetElement, py::return_value_policy::reference)
       .def("FindOrBuildElement", py::overload_cast<G4int, G4bool>(&G4NistManager::FindOrBuildElement),
            py::return_value_policy::reference)
 

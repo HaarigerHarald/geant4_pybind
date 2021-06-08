@@ -5,7 +5,6 @@
 
 #include <G4OpenGLImmediateX.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -13,8 +12,8 @@ namespace py = pybind11;
 
 void export_G4OpenGLImmediateX(py::module &m)
 {
-   py::class_<G4OpenGLImmediateX, G4VGraphicsSystem, owntrans_ptr<G4OpenGLImmediateX>>(
-      m, "G4OpenGLImmediateX", "OpenGL(Immediate X) visualization module")
+   py::class_<G4OpenGLImmediateX, G4VGraphicsSystem>(m, "G4OpenGLImmediateX",
+                                                     "OpenGL(Immediate X) visualization module")
       .def(py::init<>());
    // TODO
 }

@@ -3,13 +3,12 @@
 
 #include <G4VPhysicsConstructor.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4VPhysicsConstructor) : public G4VPhysicsConstructor {
+class PyG4VPhysicsConstructor : public G4VPhysicsConstructor, public py::trampoline_self_life_support {
 
 public:
    using G4VPhysicsConstructor::G4VPhysicsConstructor;
@@ -17,14 +16,12 @@ public:
    void ConstructParticle() override { PYBIND11_OVERRIDE_PURE(void, G4VPhysicsConstructor, ConstructParticle, ); }
 
    void ConstructProcess() override { PYBIND11_OVERRIDE_PURE(void, G4VPhysicsConstructor, ConstructProcess, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4VPhysicsConstructor);
 };
 
 void export_G4VPhysicsConstructor(py::module &m)
 {
-   py::class_<G4VPhysicsConstructor, TRAMPOLINE_NAME(G4VPhysicsConstructor), owntrans_ptr<G4VPhysicsConstructor>>(
-      m, "G4VPhysicsConstructor", "base class of user physics constructor")
+   py::class_<G4VPhysicsConstructor, PyG4VPhysicsConstructor>(m, "G4VPhysicsConstructor",
+                                                              "base class of user physics constructor")
 
       .def(py::init<const G4String &>(), py::arg("name") = "")
       .def(py::init<const G4String &, G4int>())

@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4UIExecutive(py::module &m)
 {
-   py::class_<G4UIExecutive, std::unique_ptr<G4UIExecutive>>(m, "G4UIExecutive")
+   py::class_<G4UIExecutive>(m, "G4UIExecutive")
       .def(py::init<>([](G4int argc, const std::vector<std::string> &argv, const G4String &type) {
               static std::vector<std::string>  arvCopy = std::vector<std::string>(argv);
               static std::unique_ptr<char *[]> pArgv   = std::make_unique<char *[]>(argc);

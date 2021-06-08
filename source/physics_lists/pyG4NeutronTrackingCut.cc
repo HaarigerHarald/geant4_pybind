@@ -4,27 +4,23 @@
 #include <G4NeutronTrackingCut.hh>
 #include <G4NeutronKiller.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4NeutronTrackingCut) : public G4NeutronTrackingCut {
+class PyG4NeutronTrackingCut : public G4NeutronTrackingCut, public py::trampoline_self_life_support {
 public:
    using G4NeutronTrackingCut::G4NeutronTrackingCut;
 
    void ConstructParticle() override { PYBIND11_OVERRIDE(void, G4NeutronTrackingCut, ConstructParticle, ); }
 
    void ConstructProcess() override { PYBIND11_OVERRIDE(void, G4NeutronTrackingCut, ConstructProcess, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4NeutronTrackingCut);
 };
 
 void export_G4NeutronTrackingCut(py::module &m)
 {
-   py::class_<G4NeutronTrackingCut, TRAMPOLINE_NAME(G4NeutronTrackingCut), G4VPhysicsConstructor,
-              owntrans_ptr<G4NeutronTrackingCut>>(m, "G4NeutronTrackingCut")
+   py::class_<G4NeutronTrackingCut, PyG4NeutronTrackingCut, G4VPhysicsConstructor>(m, "G4NeutronTrackingCut")
 
       .def(py::init<G4int>(), py::arg("ver") = 0)
       .def(py::init<const G4String &, G4int>(), py::arg("name"), py::arg("ver") = 0)

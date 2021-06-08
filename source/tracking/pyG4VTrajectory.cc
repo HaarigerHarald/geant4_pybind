@@ -7,13 +7,12 @@
 #include <G4Step.hh>
 #include <G4VTrajectoryPoint.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class PyG4VTrajectory : public G4VTrajectory {
+class PyG4VTrajectory : public G4VTrajectory, public py::trampoline_self_life_support {
 public:
    using G4VTrajectory::G4VTrajectory;
 
@@ -104,7 +103,7 @@ public:
 
 void export_G4VTrajectory(py::module &m)
 {
-   py::class_<G4VTrajectory, PyG4VTrajectory, owntrans_ptr<G4VTrajectory>>(m, "G4VTrajectory")
+   py::class_<G4VTrajectory, PyG4VTrajectory>(m, "G4VTrajectory")
       .def(py::init<>())
 
       .def("GetTrackID", &G4VTrajectory::GetTrackID)

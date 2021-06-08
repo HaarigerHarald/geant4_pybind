@@ -12,7 +12,7 @@ namespace py = pybind11;
 
 void export_G4Sphere(py::module &m)
 {
-   py::class_<G4Sphere, G4VSolid, std::unique_ptr<G4Sphere, py::nodelete>>(m, "G4Sphere", "Sphere solid class")
+   py::class_<G4Sphere, G4VSolid, py::nodelete>(m, "G4Sphere", "Sphere solid class")
 
       .def(py::init<const G4String &, G4double, G4double, G4double, G4double, G4double, G4double>())
 
@@ -29,12 +29,11 @@ void export_G4Sphere(py::module &m)
       .def("SetStartThetaAngle", &G4Sphere::SetStartThetaAngle)
       .def("SetDeltaThetaAngle", &G4Sphere::SetDeltaThetaAngle)
 
-      .def(
-         "__str__",
-         [](const G4Sphere &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator());
+      .def("__str__",
+           [](const G4Sphere &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator());
 }

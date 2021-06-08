@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4StepPoint(py::module &m)
 {
-   py::class_<G4StepPoint, std::unique_ptr<G4StepPoint>>(m, "G4StepPoint", "step point class")
+   py::class_<G4StepPoint>(m, "G4StepPoint", "step point class")
       .def(py::init<>())
       .def(py::init<const G4StepPoint &>())
 

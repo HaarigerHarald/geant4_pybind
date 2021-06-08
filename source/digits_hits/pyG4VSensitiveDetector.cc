@@ -4,7 +4,6 @@
 
 #include <G4VSensitiveDetector.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -26,7 +25,7 @@ public:
 };
 
 // Trampolin class
-class TRAMPOLINE_NAME(G4VSensitiveDetector) : public G4VSensitiveDetector {
+class PyG4VSensitiveDetector : public G4VSensitiveDetector, public py::trampoline_self_life_support {
 public:
    using G4VSensitiveDetector::G4VSensitiveDetector;
 
@@ -57,27 +56,23 @@ public:
    {
       PYBIND11_OVERRIDE(G4VSensitiveDetector *, G4VSensitiveDetector, Clone, );
    }
-
-   TRAMPOLINE_DESTRUCTOR(G4VSensitiveDetector);
 };
 
 void export_G4VSensitiveDetector(py::module &m)
 {
-   py::class_<G4CollectionNameVector, std::unique_ptr<G4CollectionNameVector>>(m, "G4CollectionNameVector")
+   py::class_<G4CollectionNameVector>(m, "G4CollectionNameVector")
       .def(py::init<>())
       .def("insert", &G4CollectionNameVector::insert)
-      .def(
-         "__getitem__", [](G4CollectionNameVector &self, std::size_t n) { return self[n]; }, py::is_operator(),
-         py::return_value_policy::reference_internal);
+      .def("__getitem__", [](G4CollectionNameVector &self, std::size_t n) { return self[n]; }, py::is_operator(),
+           py::return_value_policy::reference_internal);
 
    py::implicitly_convertible<G4CollectionNameVector, std::vector<G4String>>();
 
-   py::class_<G4VSensitiveDetector, TRAMPOLINE_NAME(G4VSensitiveDetector), owntrans_ptr<G4VSensitiveDetector>>(
-      m, "G4VSensitiveDetector", "base class of senstive detector")
+   py::class_<G4VSensitiveDetector, PyG4VSensitiveDetector>(m, "G4VSensitiveDetector",
+                                                            "base class of senstive detector")
 
       .def(py::init<G4String>())
-      .def(py::init(
-         [](const TRAMPOLINE_NAME(G4VSensitiveDetector) & o) { return new TRAMPOLINE_NAME(G4VSensitiveDetector)(o); }))
+      .def(py::init([](const PyG4VSensitiveDetector &o) { return new PyG4VSensitiveDetector(o); }))
 
       .def("Initialize", &G4VSensitiveDetector::Initialize)
       .def("EndOfEvent", &G4VSensitiveDetector::EndOfEvent)

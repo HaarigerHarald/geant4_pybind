@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4TrackingManager(py::module &m)
 {
-   py::class_<G4TrackingManager, std::unique_ptr<G4TrackingManager>>(m, "G4TrackingManager", "tracking manager class")
+   py::class_<G4TrackingManager>(m, "G4TrackingManager", "tracking manager class")
       .def(py::init<>())
 
       // TODO

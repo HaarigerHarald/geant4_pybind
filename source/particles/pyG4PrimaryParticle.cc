@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4PrimaryParticle(py::module &m)
 {
-   py::class_<G4PrimaryParticle, std::unique_ptr<G4PrimaryParticle>>(m, "G4PrimaryParticle", "primary particle")
+   py::class_<G4PrimaryParticle>(m, "G4PrimaryParticle", "primary particle")
       .def(py::init<>())
       .def(py::init<G4int>())
       .def(py::init<G4int, G4double, G4double, G4double>())

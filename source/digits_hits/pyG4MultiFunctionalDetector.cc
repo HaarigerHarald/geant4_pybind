@@ -5,19 +5,18 @@
 #include <G4VPrimitiveScorer.hh>
 #include <G4VPrimitivePlotter.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class PublicG4MultiFunctionalDetector : public G4MultiFunctionalDetector {
+class PublicG4MultiFunctionalDetector : public G4MultiFunctionalDetector, public py::trampoline_self_life_support {
 public:
    using G4MultiFunctionalDetector::ProcessHits;
 };
 
 // Trampolin class
-class TRAMPOLINE_NAME(G4MultiFunctionalDetector) : public G4MultiFunctionalDetector {
+class PyG4MultiFunctionalDetector : public G4MultiFunctionalDetector {
 public:
    using G4MultiFunctionalDetector::G4MultiFunctionalDetector;
 
@@ -41,15 +40,12 @@ public:
    {
       PYBIND11_OVERRIDE(G4bool, G4MultiFunctionalDetector, ProcessHits, aStep, ROhist);
    }
-
-   TRAMPOLINE_DESTRUCTOR(G4MultiFunctionalDetector);
 };
 
 void export_G4MultiFunctionalDetector(py::module &m)
 {
-
-   py::class_<G4MultiFunctionalDetector, TRAMPOLINE_NAME(G4MultiFunctionalDetector), G4VSensitiveDetector,
-              owntrans_ptr<G4MultiFunctionalDetector>>(m, "G4MultiFunctionalDetector")
+   py::class_<G4MultiFunctionalDetector, PyG4MultiFunctionalDetector, G4VSensitiveDetector>(m,
+                                                                                            "G4MultiFunctionalDetector")
 
       .def(py::init<G4String>())
 
@@ -60,16 +56,7 @@ void export_G4MultiFunctionalDetector(py::module &m)
       .def("PrintAll", &G4MultiFunctionalDetector::PrintAll)
       .def("ProcessHits", &PublicG4MultiFunctionalDetector::ProcessHits)
       .def("RegisterPrimitive",
-           [](G4MultiFunctionalDetector &self, G4VPrimitivePlotter *plotter) {
-              owntrans_ptr<G4VPrimitivePlotter>::remove(plotter);
-              TRAMPOLINE_REF_INCREASE(G4VPrimitivePlotter, plotter);
-              return self.RegisterPrimitive(plotter);
-           })
-
-      .def("RegisterPrimitive",
-           [](G4MultiFunctionalDetector &self, G4VPrimitiveScorer *scorer) {
-              owntrans_ptr<G4VPrimitiveScorer>::remove(scorer);
-              TRAMPOLINE_REF_INCREASE(G4VPrimitiveScorer, scorer);
+           [](G4MultiFunctionalDetector &self, py::disown_ptr<G4VPrimitiveScorer> scorer) {
               return self.RegisterPrimitive(scorer);
            })
 

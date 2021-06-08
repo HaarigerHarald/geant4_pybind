@@ -7,7 +7,6 @@
 #include <G4VSensitiveDetector.hh>
 #include <G4LogicalVolume.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -20,7 +19,7 @@ public:
    using G4VUserDetectorConstruction::SetSensitiveDetector;
 };
 
-class TRAMPOLINE_NAME(G4VUserDetectorConstruction) : public G4VUserDetectorConstruction {
+class PyG4VUserDetectorConstruction : public G4VUserDetectorConstruction, public py::trampoline_self_life_support {
 
 public:
    using G4VUserDetectorConstruction::G4VUserDetectorConstruction;
@@ -37,11 +36,7 @@ public:
          if (pySelf && o && !pySelf.is_none() && !o.is_none()) {
             py::detail::add_patient(pySelf.ptr(), o.ptr());
          }
-         if (py::detail::cast_is_temporary_value_reference<G4VPhysicalVolume *>::value) {
-            static py::detail::override_caster_t<G4VPhysicalVolume *> caster;
-            return py::detail::cast_ref<G4VPhysicalVolume *>(std::move(o), caster);
-         } else
-            return py::detail::cast_safe<G4VPhysicalVolume *>(std::move(o));
+         return py::detail::cast_safe<G4VPhysicalVolume *>(std::move(o));
       }
 
       py::pybind11_fail("Tried to call pure virtual function \"G4VUserDetectorConstruction::Construct\"");
@@ -52,15 +47,12 @@ public:
    void CloneSD() override { PYBIND11_OVERRIDE(void, G4VUserDetectorConstruction, CloneSD, ); }
 
    void CloneF() override { PYBIND11_OVERRIDE(void, G4VUserDetectorConstruction, CloneF, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4VUserDetectorConstruction);
 };
 
 void export_G4VUserDetectorConstruction(py::module &m)
 {
-   py::class_<G4VUserDetectorConstruction, TRAMPOLINE_NAME(G4VUserDetectorConstruction),
-              owntrans_ptr<G4VUserDetectorConstruction>>(m, "G4VUserDetectorConstruction",
-                                                         "base class of user detector construction")
+   py::class_<G4VUserDetectorConstruction, PyG4VUserDetectorConstruction>(m, "G4VUserDetectorConstruction",
+                                                                          "base class of user detector construction")
 
       .def(py::init<>())
       .def("Construct", &G4VUserDetectorConstruction::Construct)
@@ -74,26 +66,13 @@ void export_G4VUserDetectorConstruction(py::module &m)
       .def("RegisterParallelWorld", &G4VUserDetectorConstruction::RegisterParallelWorld)
       .def("GetParallelWorld", &G4VUserDetectorConstruction::GetParallelWorld)
 
-      .def(
-         "SetSensitiveDetector",
-         [](G4VUserDetectorConstruction &self, const G4String &logVolName, G4VSensitiveDetector *aSD, G4bool multi) {
-            auto fp =
-               static_cast<void (G4VUserDetectorConstruction::*)(const G4String &, G4VSensitiveDetector *, G4bool)>(
-                  &PublicG4VUserDetectorConstruction::SetSensitiveDetector);
-
-            owntrans_ptr<G4VSensitiveDetector>::remove(aSD);
-            TRAMPOLINE_REF_INCREASE(G4VSensitiveDetector, aSD);
-            (self.*fp)(logVolName, aSD, multi);
-         },
-         py::arg("logVolName"), py::arg("aSD"), py::arg("multi") = false)
+      .def("SetSensitiveDetector",
+           static_cast<void (G4VUserDetectorConstruction::*)(const G4String &, G4VSensitiveDetector *, G4bool)>(
+              &PublicG4VUserDetectorConstruction::SetSensitiveDetector),
+           py::arg("logVolName"), py::arg("aSD"), py::arg("multi") = false)
 
       .def("SetSensitiveDetector",
-           [](G4VUserDetectorConstruction &self, G4LogicalVolume *logVol, G4VSensitiveDetector *aSD) {
-              auto fp = static_cast<void (G4VUserDetectorConstruction::*)(G4LogicalVolume *, G4VSensitiveDetector *)>(
-                 &PublicG4VUserDetectorConstruction::SetSensitiveDetector);
-
-              owntrans_ptr<G4VSensitiveDetector>::remove(aSD);
-              TRAMPOLINE_REF_INCREASE(G4VSensitiveDetector, aSD);
-              (self.*fp)(logVol, aSD);
-           });
+           static_cast<void (G4VUserDetectorConstruction::*)(G4LogicalVolume *, G4VSensitiveDetector *)>(
+              &PublicG4VUserDetectorConstruction::SetSensitiveDetector),
+           py::arg("logVol"), py::arg("aSD"));
 }

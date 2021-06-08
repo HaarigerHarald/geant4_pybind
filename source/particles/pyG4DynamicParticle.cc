@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4DynamicParticle(py::module &m)
 {
-   py::class_<G4DynamicParticle, std::unique_ptr<G4DynamicParticle>>(m, "G4DynamicParticle", "dynamic particle")
+   py::class_<G4DynamicParticle>(m, "G4DynamicParticle", "dynamic particle")
       .def(py::init<>())
       .def(py::init<const G4ParticleDefinition *, const G4ThreeVector &>())
       .def(py::init<const G4ParticleDefinition *, const G4LorentzVector &>())

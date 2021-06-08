@@ -23,8 +23,7 @@ namespace py = pybind11;
 
 void export_G4TScoreNtupleWriter(py::module &m)
 {
-   py::class_<G4TScoreNtupleWriter<G4RootAnalysisManager>,
-              std::unique_ptr<G4TScoreNtupleWriter<G4RootAnalysisManager>>>(m, "G4RootScoreNtupleWriter")
+   py::class_<G4TScoreNtupleWriter<G4RootAnalysisManager>>(m, "G4RootScoreNtupleWriter")
 
       .def(py::init<>())
       .def("Book", &G4TScoreNtupleWriter<G4RootAnalysisManager>::Book)
@@ -37,8 +36,7 @@ void export_G4TScoreNtupleWriter(py::module &m)
       .def("GetFileName", &G4TScoreNtupleWriter<G4RootAnalysisManager>::GetFileName)
       .def("GetVerboseLevel", &G4TScoreNtupleWriter<G4RootAnalysisManager>::GetVerboseLevel);
 
-   py::class_<G4TScoreNtupleWriter<G4CsvAnalysisManager>, std::unique_ptr<G4TScoreNtupleWriter<G4CsvAnalysisManager>>>(
-      m, "G4CsvScoreNtupleWriter")
+   py::class_<G4TScoreNtupleWriter<G4CsvAnalysisManager>>(m, "G4CsvScoreNtupleWriter")
 
       .def(py::init<>())
       .def("Book", &G4TScoreNtupleWriter<G4CsvAnalysisManager>::Book)
@@ -51,8 +49,7 @@ void export_G4TScoreNtupleWriter(py::module &m)
       .def("GetFileName", &G4TScoreNtupleWriter<G4CsvAnalysisManager>::GetFileName)
       .def("GetVerboseLevel", &G4TScoreNtupleWriter<G4CsvAnalysisManager>::GetVerboseLevel);
 
-   py::class_<G4TScoreNtupleWriter<G4XmlAnalysisManager>, std::unique_ptr<G4TScoreNtupleWriter<G4XmlAnalysisManager>>>(
-      m, "G4XmlScoreNtupleWriter")
+   py::class_<G4TScoreNtupleWriter<G4XmlAnalysisManager>>(m, "G4XmlScoreNtupleWriter")
 
       .def(py::init<>())
       .def("Book", &G4TScoreNtupleWriter<G4XmlAnalysisManager>::Book)

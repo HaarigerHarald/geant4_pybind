@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4VProcess(py::module &m)
 {
-   py::class_<G4VProcess, std::unique_ptr<G4VProcess>>(m, "G4VProcess", "base class for process")
+   py::class_<G4VProcess>(m, "G4VProcess", "base class for process")
 
       .def("SetPILfactor", &G4VProcess::SetPILfactor)
       .def("GetPILfactor", &G4VProcess::GetPILfactor)

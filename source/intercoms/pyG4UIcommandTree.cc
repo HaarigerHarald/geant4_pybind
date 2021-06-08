@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4UIcommandTree(py::module &m)
 {
-   py::class_<G4UIcommandTree, std::unique_ptr<G4UIcommandTree>>(m, "G4UIcommandTree", "UI command tree")
+   py::class_<G4UIcommandTree>(m, "G4UIcommandTree", "UI command tree")
 
       .def(py::init<const char *>())
 

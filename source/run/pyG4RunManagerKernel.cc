@@ -10,13 +10,12 @@ namespace py = pybind11;
 
 void export_G4RunManagerKernel(py::module &m)
 {
-   py::class_<G4RunManagerKernel, std::unique_ptr<G4RunManagerKernel, py::nodelete>>(m, "G4RunManagerKernel",
-                                                                                     "run manager kernel")
+   py::class_<G4RunManagerKernel, py::nodelete>(m, "G4RunManagerKernel", "run manager kernel")
 
       .def(py::init<>())
       .def_static("GetRunManagerKernel", &G4RunManagerKernel::GetRunManagerKernel,
                   "Get an instance of G4RunManagerKernel", py::return_value_policy::reference)
-
+      // TODO
       //.def("DefineWorldVolume", &G4RunManagerKernel::DefineWorldVolume)
       //.def("SetPhysics", &G4RunManagerKernel::SetPhysics)
       //.def("InitializePhysics", &G4RunManagerKernel::InitializePhysics)

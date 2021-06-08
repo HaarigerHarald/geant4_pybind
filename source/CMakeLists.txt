@@ -49,6 +49,8 @@ if(Geant4_qt_FOUND)
   add_definitions(-DG4_HAS_QT)
 endif()
 
+add_definitions(-DPYBIND11_USE_SMART_HOLDER_AS_DEFAULT)
+
 pybind11_add_module(geant4_pybind
   ${SOURCE}
   geant4_pybind.cc

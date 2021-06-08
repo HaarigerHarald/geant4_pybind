@@ -13,8 +13,7 @@ namespace py = pybind11;
 
 void export_G4VCrossSectionHandler(py::module &m)
 {
-   py::class_<G4VCrossSectionHandler, std::unique_ptr<G4VCrossSectionHandler>>(m, "G4VCrossSectionHandler",
-                                                                               "cross section handler")
+   py::class_<G4VCrossSectionHandler>(m, "G4VCrossSectionHandler", "cross section handler")
 
       //  .def("Initialise", &G4VCrossSectionHandler::Initialise,
       //       py::arg("interpolation") = static_cast<G4VDataSetAlgorithm *>(nullptr), py::arg("minE") = 250 *

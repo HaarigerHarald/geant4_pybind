@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4UIcmdWith3Vector(py::module &m)
 {
-   py::class_<G4UIcmdWith3Vector, G4UIcommand, std::unique_ptr<G4UIcmdWith3Vector>>(m, "G4UIcmdWith3Vector")
+   py::class_<G4UIcmdWith3Vector, G4UIcommand>(m, "G4UIcmdWith3Vector")
 
       .def(py::init<const char *, G4UImessenger *>(), py::arg("theCommandPath"), py::arg("theMessenger"))
 

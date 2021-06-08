@@ -11,10 +11,9 @@ namespace py = pybind11;
 
 void export_G4GeometryManager(py::module &m)
 {
-   py::class_<G4GeometryManager, std::unique_ptr<G4GeometryManager, py::nodelete>>(m, "G4GeometryManager",
-                                                                                   "geometry manager")
+   py::class_<G4GeometryManager, py::nodelete>(m, "G4GeometryManager", "geometry manager")
 
-      .def_static("GetInstance", &G4GeometryManager::GetInstance, py::return_value_policy::reference)
+      .def_static("GetInstance", &G4GeometryManager::GetInstance)
 
       .def("CloseGeometry", &G4GeometryManager::CloseGeometry, py::arg("pOptimise") = true, py::arg("verbose") = false,
            py::arg("vol") = static_cast<G4VPhysicalVolume *>(nullptr))

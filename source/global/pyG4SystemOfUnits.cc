@@ -3,8 +3,6 @@
 
 #include <G4SystemOfUnits.hh>
 
-#include "opaques.hh"
-
 namespace py = pybind11;
 
 void export_G4SystemOfUnits(py::module &m)

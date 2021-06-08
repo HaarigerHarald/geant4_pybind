@@ -6,13 +6,12 @@
 #include <G4AttDef.hh>
 #include <G4AttValue.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4VHit) : public G4VHit {
+class PyG4VHit : public G4VHit, public py::trampoline_self_life_support {
 public:
    using G4VHit::G4VHit;
 
@@ -52,13 +51,11 @@ public:
       }
       return G4VHit::CreateAttValues();
    }
-
-   TRAMPOLINE_DESTRUCTOR(G4VHit);
 };
 
 void export_G4VHit(py::module &m)
 {
-   py::class_<G4VHit, TRAMPOLINE_NAME(G4VHit), owntrans_ptr<G4VHit>>(m, "G4VHit")
+   py::class_<G4VHit, PyG4VHit>(m, "G4VHit")
       .def(py::init<>())
       .def(py::self == py::self)
       .def("Draw", &G4VHit::Draw)

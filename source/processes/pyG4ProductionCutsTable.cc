@@ -11,8 +11,7 @@ namespace py = pybind11;
 
 void export_G4ProductionCutsTable(py::module &m)
 {
-   py::class_<G4ProductionCutsTable, std::unique_ptr<G4ProductionCutsTable, py::nodelete>>(m, "G4ProductionCutsTable",
-                                                                                           "production cuts table")
+   py::class_<G4ProductionCutsTable, py::nodelete>(m, "G4ProductionCutsTable", "production cuts table")
 
       .def_static("GetProductionCutsTable", &G4ProductionCutsTable::GetProductionCutsTable,
                   py::return_value_policy::reference)

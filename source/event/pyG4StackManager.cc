@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4StackManager(py::module &m)
 {
-   py::class_<G4StackManager, std::unique_ptr<G4StackManager>>(m, "G4StackManager", "stack management class")
+   py::class_<G4StackManager>(m, "G4StackManager", "stack management class")
       .def(py::init<>())
 
       // TODO

@@ -5,13 +5,12 @@
 #include <G4TrackingManager.hh>
 #include <G4UserTrackingAction.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4UserTrackingAction) : public G4UserTrackingAction {
+class PyG4UserTrackingAction : public G4UserTrackingAction, public py::trampoline_self_life_support {
 
 public:
    using G4UserTrackingAction::G4UserTrackingAction;
@@ -30,14 +29,11 @@ public:
    {
       PYBIND11_OVERRIDE(void, G4UserTrackingAction, PostUserTrackingAction, atrack);
    }
-
-   TRAMPOLINE_DESTRUCTOR(G4UserTrackingAction);
 };
 
 void export_G4UserTrackingAction(py::module &m)
 {
-   py::class_<G4UserTrackingAction, TRAMPOLINE_NAME(G4UserTrackingAction), owntrans_ptr<G4UserTrackingAction>>(
-      m, "G4UserTrackingAction", "tracking action class")
+   py::class_<G4UserTrackingAction, PyG4UserTrackingAction>(m, "G4UserTrackingAction", "tracking action class")
 
       .def(py::init<>())
 

@@ -21,8 +21,7 @@ public:
 
 void export_G4UIcmdWithADoubleAndUnit(py::module &m)
 {
-   py::class_<G4UIcmdWithADoubleAndUnit, PyG4UIcmdWithADoubleAndUnit, G4UIcommand,
-              std::unique_ptr<G4UIcmdWithADoubleAndUnit>>(m, "G4UIcmdWithADoubleAndUnit")
+   py::class_<G4UIcmdWithADoubleAndUnit, PyG4UIcmdWithADoubleAndUnit, G4UIcommand>(m, "G4UIcmdWithADoubleAndUnit")
 
       .def(py::init<const char *, G4UImessenger *>(), py::arg("theCommandPath"), py::arg("theMessenger"))
       .def("DoIt", &G4UIcmdWithADoubleAndUnit::DoIt)

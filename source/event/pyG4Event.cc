@@ -3,7 +3,6 @@
 
 #include <G4Event.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -11,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4Event(py::module &m)
 {
-   py::class_<G4Event, owntrans_ptr<G4Event>>(m, "G4Event", "event class")
+   py::class_<G4Event>(m, "G4Event", "event class")
       .def(py::init<>())
       .def(py::init<G4int>())
 

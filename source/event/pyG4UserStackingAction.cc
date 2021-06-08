@@ -4,13 +4,12 @@
 #include <G4Track.hh>
 #include <G4UserStackingAction.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4UserStackingAction) : public G4UserStackingAction {
+class PyG4UserStackingAction : public G4UserStackingAction, public py::trampoline_self_life_support {
 public:
    using G4UserStackingAction::G4UserStackingAction;
 
@@ -22,14 +21,11 @@ public:
    void NewStage() { PYBIND11_OVERRIDE(void, G4UserStackingAction, NewStage, ); }
 
    void PrepareNewEvent() { PYBIND11_OVERRIDE(void, G4UserStackingAction, PrepareNewEvent, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4UserStackingAction);
 };
 
 void export_G4UserStackingAction(py::module &m)
 {
-   py::class_<G4UserStackingAction, TRAMPOLINE_NAME(G4UserStackingAction), owntrans_ptr<G4UserStackingAction>>(
-      m, "G4UserStackingAction", "stacking action class")
+   py::class_<G4UserStackingAction, PyG4UserStackingAction>(m, "G4UserStackingAction", "stacking action class")
       .def(py::init<>())
       .def("ClassifyNewTrack", &G4UserStackingAction::ClassifyNewTrack)
       .def("NewStage", &G4UserStackingAction::NewStage)

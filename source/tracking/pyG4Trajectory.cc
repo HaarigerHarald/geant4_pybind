@@ -9,13 +9,12 @@
 #include <G4Step.hh>
 #include <G4VTrajectoryPoint.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class PyG4Trajectory : public G4Trajectory {
+class PyG4Trajectory : public G4Trajectory, public py::trampoline_self_life_support {
 public:
    using G4Trajectory::G4Trajectory;
 
@@ -94,7 +93,7 @@ public:
 
 void export_G4Trajectory(py::module &m)
 {
-   py::class_<G4Trajectory, PyG4Trajectory, G4VTrajectory, owntrans_ptr<G4Trajectory>>(m, "G4Trajectory")
+   py::class_<G4Trajectory, PyG4Trajectory, G4VTrajectory>(m, "G4Trajectory")
       .def(py::init<>())
       .def(py::init<const G4Track *>())
       .def(py::init<>([](G4Trajectory &other) { return new G4Trajectory(other); }))
@@ -114,13 +113,8 @@ void export_G4Trajectory(py::module &m)
       .def("AppendStep", &G4Trajectory::AppendStep)
       .def("GetPointEntries", &G4Trajectory::GetPointEntries)
       .def("GetPoint", &G4Trajectory::GetPoint, py::return_value_policy::reference_internal)
-      .def(
-         "MergeTrajectory",
-         [](G4Trajectory &self, G4VTrajectory *second) {
-            self.MergeTrajectory(second);
-            owntrans_ptr<G4VTrajectory>::remove(second);
-         },
-         py::keep_alive<1, 2>())
+      .def("MergeTrajectory",
+           [](G4Trajectory &self, py::disown_ptr<G4VTrajectory> second) { self.MergeTrajectory(second); })
 
       .def("GetParticleDefinition", &G4Trajectory::GetParticleDefinition, py::return_value_policy::reference)
       .def("GetAttDefs", &G4Trajectory::GetAttDefs, py::return_value_policy::reference)

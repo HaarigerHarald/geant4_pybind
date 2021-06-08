@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_PhysListFactory(py::module &m)
 {
-   py::class_<G4PhysListFactory, std::unique_ptr<G4PhysListFactory>>(m, "G4PhysListFactory", "phys list factory")
+   py::class_<G4PhysListFactory>(m, "G4PhysListFactory", "phys list factory")
       .def(py::init<>())
       .def("GetReferencePhysList", &G4PhysListFactory::GetReferencePhysList,
            py::return_value_policy::reference_internal)

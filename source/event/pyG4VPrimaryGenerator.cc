@@ -21,8 +21,7 @@ public:
 
 void export_G4VPrimaryGenerator(py::module &m)
 {
-   py::class_<G4VPrimaryGenerator, PyG4VPrimaryGenerator, std::unique_ptr<G4VPrimaryGenerator>>(m,
-                                                                                                "G4VPrimaryGenerator")
+   py::class_<G4VPrimaryGenerator, PyG4VPrimaryGenerator>(m, "G4VPrimaryGenerator")
       .def(py::init<>())
       .def_static("CheckVertexInsideWorld", &G4VPrimaryGenerator::CheckVertexInsideWorld)
 

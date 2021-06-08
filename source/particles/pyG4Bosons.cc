@@ -10,21 +10,20 @@
 #include <G4PhononTransSlow.hh>
 #include <G4UnknownParticle.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
 #define ADD_BOSON(name, sname)                                                                       \
-   py::class_<name, G4ParticleDefinition, std::unique_ptr<name, py::nodelete>>(m, #name)             \
+   py::class_<name, G4ParticleDefinition, py::nodelete>(m, #name)                                    \
       .def_static("Definition", &name::Definition, py::return_value_policy::reference)               \
       .def_static(#sname "Definition", &name::sname##Definition, py::return_value_policy::reference) \
       .def_static(#sname, &name::sname, py::return_value_policy::reference)
 
-#define ADD_BOSON_REDUCED(name, sname)                                                   \
-   py::class_<name, G4ParticleDefinition, std::unique_ptr<name, py::nodelete>>(m, #name) \
-      .def_static("Definition", &name::Definition, py::return_value_policy::reference)   \
+#define ADD_BOSON_REDUCED(name, sname)                                                 \
+   py::class_<name, G4ParticleDefinition, py::nodelete>(m, #name)                      \
+      .def_static("Definition", &name::Definition, py::return_value_policy::reference) \
       .def_static(#sname "Definition", &name::sname##Definition, py::return_value_policy::reference)
 
 void export_G4Bosons(py::module &m)

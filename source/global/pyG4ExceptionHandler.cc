@@ -65,6 +65,5 @@ public:
 
 void export_G4ExceptionHandler(py::module &m)
 {
-   py::class_<PyG4ExceptionHandler, std::unique_ptr<PyG4ExceptionHandler>>(m, "G4ExceptionHandler", "exception handler")
-      .def(py::init<>());
+   py::class_<PyG4ExceptionHandler>(m, "G4ExceptionHandler", "exception handler").def(py::init<>());
 }

@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4UIcmdWithABool(py::module &m)
 {
-   py::class_<G4UIcmdWithABool, G4UIcommand, std::unique_ptr<G4UIcmdWithABool>>(m, "G4UIcmdWithABool")
+   py::class_<G4UIcmdWithABool, G4UIcommand>(m, "G4UIcmdWithABool")
 
       .def(py::init<const char *, G4UImessenger *>(), py::arg("theCommandPath"), py::arg("theMessenger"))
       .def_static("GetNewBoolValue", &G4UIcmdWithABool::GetNewBoolValue)

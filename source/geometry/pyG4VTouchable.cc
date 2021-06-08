@@ -44,7 +44,7 @@ public:
 
 void export_G4VTouchable(py::module &m)
 {
-   py::class_<G4VTouchable, PyG4VTouchable, std::unique_ptr<G4VTouchable>>(m, "G4VTouchable", "touchable class")
+   py::class_<G4VTouchable, PyG4VTouchable>(m, "G4VTouchable", "touchable class")
       .def(py::init<>())
       .def("GetTranslation", &G4VTouchable::GetTranslation, py::arg("depth") = 0)
       .def("GetRotation", &G4VTouchable::GetRotation, py::arg("depth") = 0, py::return_value_policy::reference)

@@ -12,8 +12,7 @@ namespace py = pybind11;
 
 void export_G4TouchableHistory(py::module &m)
 {
-   py::class_<G4TouchableHistory, G4VTouchable, std::unique_ptr<G4TouchableHistory>>(m, "G4TouchableHistory",
-                                                                                     "touchable history class")
+   py::class_<G4TouchableHistory, G4VTouchable>(m, "G4TouchableHistory", "touchable history class")
       .def(py::init<>())
       .def(py::init<const G4NavigationHistory &>())
 

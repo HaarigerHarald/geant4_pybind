@@ -7,7 +7,6 @@
 #include <G4AttDef.hh>
 #include <G4AttValue.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -20,7 +19,7 @@ public:
    using G4VHitsCollection::SDname;
 };
 
-class TRAMPOLINE_NAME(G4VHitsCollection) : public G4VHitsCollection {
+class PyG4VHitsCollection : public G4VHitsCollection, public py::trampoline_self_life_support {
 public:
    using G4VHitsCollection::G4VHitsCollection;
 
@@ -31,14 +30,11 @@ public:
    G4VHit *GetHit(size_t n) const override { PYBIND11_OVERRIDE(G4VHit *, G4VHitsCollection, GetHit, n); }
 
    size_t GetSize() const override { PYBIND11_OVERRIDE(size_t, G4VHitsCollection, GetSize, ); }
-
-   // TRAMPOLINE_DESTRUCTOR(G4VHitsCollection);
 };
 
 void export_G4VHitsCollection(py::module &m)
 {
-   py::class_<G4VHitsCollection, TRAMPOLINE_NAME(G4VHitsCollection), owntrans_ptr<G4VHitsCollection>>(
-      m, "G4VHitsCollection")
+   py::class_<G4VHitsCollection, PyG4VHitsCollection>(m, "G4VHitsCollection")
 
       .def(py::init<>())
       .def(py::init<G4String, G4String>())

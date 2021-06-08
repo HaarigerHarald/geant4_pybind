@@ -12,8 +12,7 @@ namespace py = pybind11;
 
 void export_G4TransportationManager(py::module &m)
 {
-   py::class_<G4TransportationManager, std::unique_ptr<G4TransportationManager, py::nodelete>>(
-      m, "G4TransportationManager", "manager class for transportation")
+   py::class_<G4TransportationManager, py::nodelete>(m, "G4TransportationManager", "manager class for transportation")
 
       .def_static("GetTransportationManager", &G4TransportationManager::GetTransportationManager,
                   py::return_value_policy::reference)

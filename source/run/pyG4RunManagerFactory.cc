@@ -21,7 +21,7 @@ void export_G4RunManagerFactory(py::module &m)
       .value("TBBOnly", G4RunManagerType::TBBOnly)
       .value("Default", G4RunManagerType::Default);
 
-   py::class_<G4RunManagerFactory, std::unique_ptr<G4RunManagerFactory>>(m, "G4RunManagerFactory")
+   py::class_<G4RunManagerFactory>(m, "G4RunManagerFactory")
       .def_static("CreateRunManager",
                   static_cast<G4RunManager *(*)(G4RunManagerType, G4VUserTaskQueue *, G4bool, G4int)>(
                      &G4RunManagerFactory::CreateRunManager),

@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4Track(py::module &m)
 {
-   py::class_<G4Track, std::unique_ptr<G4Track>>(m, "G4Track", "track class")
+   py::class_<G4Track>(m, "G4Track", "track class")
       .def(py::init<>())
       .def(py::init<G4DynamicParticle *, G4double, const G4ThreeVector &>())
       .def(py::init<const G4Track &>())

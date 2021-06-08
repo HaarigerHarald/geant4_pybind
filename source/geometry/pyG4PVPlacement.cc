@@ -3,8 +3,8 @@
 
 #include <G4LogicalVolume.hh>
 #include <G4PVPlacement.hh>
+#include <G4VPVParameterisation.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -12,23 +12,20 @@ namespace py = pybind11;
 
 void export_G4PVPlacement(py::module &m)
 {
-   py::class_<G4PVPlacement, G4VPhysicalVolume, std::unique_ptr<G4PVPlacement, py::nodelete>>(
-      m, "G4PVPlacement", "physical volume placement")
+   py::class_<G4PVPlacement, G4VPhysicalVolume, py::nodelete>(m, "G4PVPlacement", "physical volume placement")
 
-      .def(py::init<>([](G4RotationMatrix *pRot, const G4ThreeVector &tlate, const G4String &pName,
+      .def(py::init<>([](py::disown_ptr<G4RotationMatrix> pRot, const G4ThreeVector &tlate, const G4String &pName,
                          G4LogicalVolume *pLogical, G4VPhysicalVolume *pMother, G4bool pMany, G4int pCopyNo,
                          G4bool pSurfChk) {
-              owntrans_ptr<G4RotationMatrix>::remove(pRot);
               return new G4PVPlacement(pRot, tlate, pName, pLogical, pMother, pMany, pCopyNo, pSurfChk);
            }),
            py::arg("pRot"), py::arg("tlate"), py::arg("pName"), py::arg("pLogical"), py::arg("pMother"),
            py::arg("pMany"), py::arg("pCopyNo"), py::arg("pSurfChk") = false, py::keep_alive<1, 2>(),
            py::keep_alive<1, 5>(), py::keep_alive<6, 1>())
 
-      .def(py::init<>([](G4RotationMatrix *pRot, const G4ThreeVector &tlate, G4LogicalVolume *pCurrentLogical,
-                         const G4String &pName, G4LogicalVolume *pMotherLogical, G4bool pMany, G4int pCopyNo,
-                         G4bool pSurfChk) {
-              owntrans_ptr<G4RotationMatrix>::remove(pRot);
+      .def(py::init<>([](py::disown_ptr<G4RotationMatrix> pRot, const G4ThreeVector &tlate,
+                         G4LogicalVolume *pCurrentLogical, const G4String &pName, G4LogicalVolume *pMotherLogical,
+                         G4bool pMany, G4int pCopyNo, G4bool pSurfChk) {
               return new G4PVPlacement(pRot, tlate, pCurrentLogical, pName, pMotherLogical, pMany, pCopyNo, pSurfChk);
            }),
            py::arg("pRot"), py::arg("tlate"), py::arg("pCurrentLogical"), py::arg("pName"), py::arg("pMotherLogical"),
@@ -55,8 +52,9 @@ void export_G4PVPlacement(py::module &m)
       .def("IsMany", &G4PVPlacement::IsMany)
       .def("IsReplicated", &G4PVPlacement::IsReplicated)
       .def("IsParameterised", &G4PVPlacement::IsParameterised)
-      //.def("GetParameterisation", &G4PVPlacement::GetParameterisation) TODO
-      //.def("GetReplicationData", &G4PVPlacement::GetReplicationData)
+      .def("GetParameterisation", &G4PVPlacement::GetParameterisation)
+      .def("GetReplicationData", &G4PVPlacement::GetReplicationData)
       .def("IsRegularStructure", &G4PVPlacement::IsRegularStructure)
-      .def("GetRegularStructureId", &G4PVPlacement::GetRegularStructureId);
+      .def("GetRegularStructureId", &G4PVPlacement::GetRegularStructureId)
+      .def("VolumeType", &G4PVPlacement::VolumeType);
 }

@@ -34,20 +34,18 @@
 #include <G4EmStandardPhysicsWVI.hh>
 #include <G4OpticalPhysics.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-#define ADD_EM_PHYSICS(name)                                             \
-   py::class_<name, G4VPhysicsConstructor, owntrans_ptr<name>>(m, #name) \
-      .def(py::init<>())                                                 \
-      .def("ConstructParticle", &name::ConstructParticle)                \
+#define ADD_EM_PHYSICS(name)                              \
+   py::class_<name, G4VPhysicsConstructor>(m, #name)      \
+      .def(py::init<>())                                  \
+      .def("ConstructParticle", &name::ConstructParticle) \
       .def("ConstructProcess", &name::ConstructProcess)
 
-#define ADD_EM_PHYSICS_REDUCED(name) \
-   py::class_<name, G4VPhysicsConstructor, owntrans_ptr<name>>(m, #name).def(py::init<>());
+#define ADD_EM_PHYSICS_REDUCED(name) py::class_<name, G4VPhysicsConstructor>(m, #name).def(py::init<>());
 
 void export_G4EmPhysics(py::module &m)
 {

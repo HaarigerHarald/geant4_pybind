@@ -6,7 +6,6 @@
 #include <G4ParticleTable.hh>
 #include <G4ProcessManager.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -14,15 +13,13 @@ namespace py = pybind11;
 
 void export_G4ParticleDefinition(py::module &m)
 {
-   py::class_<G4ParticleDefinition, std::unique_ptr<G4ParticleDefinition>>(m, "G4ParticleDefinition",
-                                                                           "particle definition")
+   py::class_<G4ParticleDefinition>(m, "G4ParticleDefinition", "particle definition")
 
       .def(py::init<>([](const G4String &aName, G4double mass, G4double width, G4double charge, G4int iSpin,
                          G4int iParity, G4int iConjugation, G4int iIsospin, G4int iIsospin3, G4int gParity,
                          const G4String &pType, G4int lepton, G4int baryon, G4int encoding, G4bool stable,
-                         G4double lifetime, G4DecayTable *decaytable, G4bool shortlived, const G4String &subType,
-                         G4int anti_encoding, G4double magneticMoment) {
-              owntrans_ptr<G4DecayTable>::remove(decaytable);
+                         G4double lifetime, py::disown_ptr<G4DecayTable> decaytable, G4bool shortlived,
+                         const G4String &subType, G4int anti_encoding, G4double magneticMoment) {
               return new G4ParticleDefinition(aName, mass, width, charge, iSpin, iParity, iConjugation, iIsospin,
                                               iIsospin3, gParity, pType, lepton, baryon, encoding, stable, lifetime,
                                               decaytable, shortlived, subType, anti_encoding, magneticMoment);
@@ -61,10 +58,7 @@ void export_G4ParticleDefinition(py::module &m)
       .def("SetPDGLifeTime", &G4ParticleDefinition::SetPDGLifeTime)
       .def("GetDecayTable", &G4ParticleDefinition::GetDecayTable, py::return_value_policy::reference_internal)
       .def("SetDecayTable",
-           [](G4ParticleDefinition &self, G4DecayTable *decayTable) {
-              owntrans_ptr<G4DecayTable>::remove(decayTable);
-              self.SetDecayTable(decayTable);
-           })
+           [](G4ParticleDefinition &self, py::disown_ptr<G4DecayTable> decayTable) { self.SetDecayTable(decayTable); })
 
       .def("GetProcessManager", &G4ParticleDefinition::GetProcessManager, py::return_value_policy::reference_internal)
       .def("SetProcessManager", &G4ParticleDefinition::SetProcessManager)

@@ -6,14 +6,8 @@
 #include <G4strstreambuf.hh>
 #include <G4UImanager.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
-
-std::vector<void *> HolderStore::store = std::vector<void *>();
-size_t              HolderStore::maxId = 0;
-std::mutex          HolderStore::storeMutex;
-void *              HolderStore::ptrToDelete = nullptr;
 
 namespace py = pybind11;
 
@@ -23,7 +17,7 @@ public:
    G4int ReceiveG4cout(const G4String &coutString) override
    {
       py::gil_scoped_acquire gil;
-      auto pystdout = py::module_::import("sys").attr("stdout").attr("write");
+      auto                   pystdout = py::module_::import("sys").attr("stdout").attr("write");
       pystdout(coutString);
       return 0;
    }
@@ -31,7 +25,7 @@ public:
    G4int ReceiveG4cerr(const G4String &cerrString) override
    {
       py::gil_scoped_acquire gil;
-      auto pystderr = py::module_::import("sys").attr("stderr").attr("write");
+      auto                   pystderr = py::module_::import("sys").attr("stderr").attr("write");
       pystderr(cerrString);
       return 0;
    }

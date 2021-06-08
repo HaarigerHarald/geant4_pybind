@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4UserLimits(py::module &m)
 {
-   py::class_<G4UserLimits, std::unique_ptr<G4UserLimits>>(m, "G4UserLimits", "user step limitations")
+   py::class_<G4UserLimits>(m, "G4UserLimits", "user step limitations")
 
       .def(py::init<G4double>())
       .def(py::init<G4double, G4double>())

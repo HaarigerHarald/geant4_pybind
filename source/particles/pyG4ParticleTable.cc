@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4ParticleTable(py::module &m)
 {
-   py::class_<G4ParticleTable, std::unique_ptr<G4ParticleTable, py::nodelete>>(m, "G4ParticleTable", "particle table")
+   py::class_<G4ParticleTable, py::nodelete>(m, "G4ParticleTable", "particle table")
 
       .def_static("GetParticleTable", &G4ParticleTable::GetParticleTable, py::return_value_policy::reference)
       .def("contains", py::overload_cast<const G4String &>(&G4ParticleTable::contains, py::const_))

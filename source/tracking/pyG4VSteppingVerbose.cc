@@ -14,7 +14,6 @@
 #include <G4StepPoint.hh>
 #include <G4VParticleChange.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -91,7 +90,7 @@ public:
    using G4VSteppingVerbose::physIntLength;
 };
 
-class TRAMPOLINE_NAME(G4VSteppingVerbose) : public G4VSteppingVerbose {
+class PyG4VSteppingVerbose : public G4VSteppingVerbose, public py::trampoline_self_life_support {
 public:
    using G4VSteppingVerbose::G4VSteppingVerbose;
 
@@ -122,28 +121,14 @@ public:
    void VerboseTrack() override { PYBIND11_OVERRIDE(void, G4VSteppingVerbose, VerboseTrack, ); }
 
    void VerboseParticleChange() override { PYBIND11_OVERRIDE(void, G4VSteppingVerbose, VerboseParticleChange, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4VSteppingVerbose);
 };
 
 void export_G4VSteppingVerbose(py::module &m)
 {
-   py::class_<G4VSteppingVerbose, TRAMPOLINE_NAME(G4VSteppingVerbose), owntrans_ptr<G4VSteppingVerbose>>(
-      m, "G4VSteppingVerbose")
+   py::class_<G4VSteppingVerbose, PyG4VSteppingVerbose>(m, "G4VSteppingVerbose")
 
       .def_static("SetInstance",
-                  [](G4SteppingVerbose *instance) {
-                     owntrans_ptr<G4SteppingVerbose>::remove(instance);
-                     TRAMPOLINE_REF_INCREASE(G4SteppingVerbose, instance);
-                     G4VSteppingVerbose::SetInstance(instance);
-                  })
-
-      .def_static("SetInstance",
-                  [](G4VSteppingVerbose *instance) {
-                     owntrans_ptr<G4VSteppingVerbose>::remove(instance);
-                     TRAMPOLINE_REF_INCREASE(G4VSteppingVerbose, instance);
-                     G4VSteppingVerbose::SetInstance(instance);
-                  })
+                  [](py::disown_ptr<G4VSteppingVerbose> instance) { G4VSteppingVerbose::SetInstance(instance); })
 
       .def_static("GetInstance", &G4VSteppingVerbose::GetInstance, py::return_value_policy::reference)
       .def_static("GetSilent", &G4VSteppingVerbose::GetSilent)

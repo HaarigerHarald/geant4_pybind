@@ -13,8 +13,7 @@ namespace py = pybind11;
 
 void export_G4VisAttributes(py::module &m)
 {
-   py::class_<G4VisAttributes, std::unique_ptr<G4VisAttributes>> visAttributes(m, "G4VisAttributes",
-                                                                               "visualization attributes");
+   py::class_<G4VisAttributes> visAttributes(m, "G4VisAttributes", "visualization attributes");
 
    py::enum_<G4VisAttributes::LineStyle>(visAttributes, "LineStyle")
       .value("unbroken", G4VisAttributes::unbroken)
@@ -58,14 +57,13 @@ void export_G4VisAttributes(py::module &m)
       .def("SetAttValues", &G4VisAttributes::SetAttValues)
       .def("SetAttDefs", &G4VisAttributes::SetAttDefs)
 
-      .def(
-         "__str__",
-         [](const G4VisAttributes &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator())
+      .def("__str__",
+           [](const G4VisAttributes &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator())
 
       .def(py::self == py::self)
       .def(py::self != py::self);

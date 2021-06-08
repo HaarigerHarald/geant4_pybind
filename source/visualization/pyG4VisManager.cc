@@ -17,7 +17,6 @@
 #include <G4VHit.hh>
 #include <G4VTrajectory.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -25,8 +24,7 @@ namespace py = pybind11;
 
 void export_G4VisManager(py::module &m)
 {
-   py::class_<G4VisManager, G4VVisManager, std::unique_ptr<G4VisManager>> vismanager(m, "G4VisManager",
-                                                                                     "visualization manager");
+   py::class_<G4VisManager, G4VVisManager> vismanager(m, "G4VisManager", "visualization manager");
 
    py::enum_<G4VisManager::Verbosity>(vismanager, "Verbosity")
       .value("quiet", G4VisManager::quiet)
@@ -47,13 +45,10 @@ void export_G4VisManager(py::module &m)
       .def("SetVerboseLevel", py::overload_cast<const G4String &>(&G4VisManager::SetVerboseLevel))
       //.def("SetVerboseLevel", py::overload_cast<G4VisManager::Verbosity>(&G4VisManager::SetVerboseLevel))
       .def_static("GetVerbosity", &G4VisManager::GetVerbosity)
-      .def(
-         "RegisterGraphicsSystem",
-         [](G4VisManager &self, G4VGraphicsSystem *graphicssystem) {
-            owntrans_ptr<G4VGraphicsSystem>::remove(graphicssystem);
-            return self.RegisterGraphicsSystem(graphicssystem);
-         },
-         py::keep_alive<1, 2>())
+      .def("RegisterGraphicsSystem",
+           [](G4VisManager &self, py::disown_ptr<G4VGraphicsSystem> graphicssystem) {
+              return self.RegisterGraphicsSystem(graphicssystem);
+           })
 
       .def("Draw", py::overload_cast<const G4Circle &, const G4Transform3D &>(&G4VisManager::Draw), py::arg("circle"),
            py::arg("objectTransformation") = G4Transform3D())

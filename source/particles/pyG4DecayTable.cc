@@ -4,7 +4,6 @@
 
 #include <G4DecayTable.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -12,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4DecayTable(py::module &m)
 {
-   py::class_<G4DecayTable, owntrans_ptr<G4DecayTable>>(m, "G4DecayTable", "decay table")
+   py::class_<G4DecayTable>(m, "G4DecayTable", "decay table")
       .def(py::init<>())
 
       .def(py::self == py::self)

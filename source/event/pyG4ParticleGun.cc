@@ -12,7 +12,7 @@ namespace py = pybind11;
 
 void export_G4ParticleGun(py::module &m)
 {
-   py::class_<G4ParticleGun, std::unique_ptr<G4ParticleGun>>(m, "G4ParticleGun", "particle gun")
+   py::class_<G4ParticleGun>(m, "G4ParticleGun", "particle gun")
 
       .def(py::init<>())
       .def(py::init<G4int>())

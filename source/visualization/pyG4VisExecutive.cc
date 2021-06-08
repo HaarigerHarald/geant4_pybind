@@ -10,6 +10,6 @@ namespace py = pybind11;
 
 void export_G4VisExecutive(py::module &m)
 {
-   py::class_<G4VisExecutive, G4VisManager, std::unique_ptr<G4VisExecutive>>(m, "G4VisExecutive")
+   py::class_<G4VisExecutive, G4VisManager>(m, "G4VisExecutive")
       .def(py::init<const G4String &>(), py::arg("verbosity") = "warnings");
 }

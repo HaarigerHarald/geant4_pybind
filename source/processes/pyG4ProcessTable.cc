@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4ProcessTable(py::module &m)
 {
-   py::class_<G4ProcessTable, std::unique_ptr<G4ProcessTable, py::nodelete>>(m, "G4ProcessTable", "process table")
+   py::class_<G4ProcessTable, py::nodelete>(m, "G4ProcessTable", "process table")
 
       .def_static("GetProcessTable", &G4ProcessTable::GetProcessTable, py::return_value_policy::reference)
       .def("Length", &G4ProcessTable::Length)
@@ -101,7 +101,7 @@ void export_G4ProcessTable(py::module &m)
       .def("SetProcessActivation",
            py::overload_cast<G4ProcessType, G4ProcessManager *, G4bool>(&G4ProcessTable::SetProcessActivation))
 
-      .def("GetNameList", &G4ProcessTable::GetNameList, py::return_value_policy::reference_internal)
+      .def("GetNameList", &G4ProcessTable::GetNameList, py::return_value_policy::reference)
       .def("DumpInfo", &G4ProcessTable::DumpInfo, py::arg("process"),
            py::arg("particle") = static_cast<const G4ParticleDefinition *>(nullptr))
 

@@ -3,7 +3,6 @@
 
 #include <G4VGraphicsSystem.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -11,8 +10,7 @@ namespace py = pybind11;
 
 void export_G4VGraphicsSystem(py::module &m)
 {
-   py::class_<G4VGraphicsSystem, owntrans_ptr<G4VGraphicsSystem>> graphicsSystem(m, "G4VGraphicsSystem",
-                                                                                 "base class of graphics system");
+   py::class_<G4VGraphicsSystem> graphicsSystem(m, "G4VGraphicsSystem", "base class of graphics system");
 
    py::enum_<G4VGraphicsSystem::Functionality>(graphicsSystem, "Functionality")
       .value("noFunctionality", G4VGraphicsSystem::noFunctionality)

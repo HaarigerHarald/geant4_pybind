@@ -22,16 +22,14 @@
 #include <QGS_BIC.hh>
 #include <Shielding.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
 // macro for adding physics lists
-#define ADD_PHYSICS_LIST(plname)                                                                        \
-   py::class_<plname, G4VModularPhysicsList, owntrans_ptr<plname>>(m, #plname, #plname " physics list") \
-      .def(py::init<>());
+#define ADD_PHYSICS_LIST(plname) \
+   py::class_<plname, G4VModularPhysicsList>(m, #plname, #plname " physics list").def(py::init<>());
 
 void export_PhysicsLists(py::module &m)
 {

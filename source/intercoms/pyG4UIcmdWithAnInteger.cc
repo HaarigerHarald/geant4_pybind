@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4UIcmdWithAnInteger(py::module &m)
 {
-   py::class_<G4UIcmdWithAnInteger, G4UIcommand, std::unique_ptr<G4UIcmdWithAnInteger>>(m, "G4UIcmdWithAnInteger")
+   py::class_<G4UIcmdWithAnInteger, G4UIcommand>(m, "G4UIcmdWithAnInteger")
 
       .def(py::init<const char *, G4UImessenger *>(), py::arg("theCommandPath"), py::arg("theMessenger"))
       .def_static("GetNewIntValue", &G4UIcmdWithAnInteger::GetNewIntValue)

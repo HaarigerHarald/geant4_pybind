@@ -19,7 +19,7 @@ void export_G4Material(py::module &m)
       .value("kStateGas", kStateGas)
       .export_values();
 
-   py::class_<G4Material, std::unique_ptr<G4Material, py::nodelete>>(m, "G4Material", "material class")
+   py::class_<G4Material, py::nodelete>(m, "G4Material", "material class")
 
       .def(py::init<const G4String &, G4double, G4double, G4double, G4State, G4double, G4double>(), py::arg("name"),
            py::arg("z"), py::arg("a"), py::arg("density"), py::arg("state") = kStateUndefined,
@@ -45,7 +45,7 @@ void export_G4Material(py::module &m)
       .def("GetTemperature", &G4Material::GetTemperature)
       .def("GetPressure", &G4Material::GetPressure)
 
-      .def("GetElementVector", &G4Material::GetElementVector, py::return_value_policy::reference_internal)
+      .def("GetElementVector", &G4Material::GetElementVector, py::return_value_policy::reference)
       .def("GetElement", &G4Material::GetElement, py::return_value_policy::reference)
       .def("GetTotNbOfAtomsPerVolume", &G4Material::GetTotNbOfAtomsPerVolume)
       .def("GetTotNbOfElectPerVolume", &G4Material::GetTotNbOfElectPerVolume)
@@ -96,14 +96,13 @@ void export_G4Material(py::module &m)
       .def("GetElectronDensity", &G4Material::GetElectronDensity)
       .def("GetRadlen", &G4Material::GetRadlen)
       .def("GetNuclearInterLength", &G4Material::GetNuclearInterLength)
-      .def("GetIonisation", &G4Material::GetIonisation, py::return_value_policy::reference_internal)
-      .def("GetSandiaTable", &G4Material::GetSandiaTable, py::return_value_policy::reference_internal)
+      .def("GetIonisation", &G4Material::GetIonisation, py::return_value_policy::reference)
+      .def("GetSandiaTable", &G4Material::GetSandiaTable, py::return_value_policy::reference)
 
       .def("GetZ", &G4Material::GetZ)
       .def("GetA", &G4Material::GetA)
       .def("SetMaterialPropertiesTable", &G4Material::SetMaterialPropertiesTable)
-      .def("GetMaterialPropertiesTable", &G4Material::GetMaterialPropertiesTable,
-           py::return_value_policy::reference_internal)
+      .def("GetMaterialPropertiesTable", &G4Material::GetMaterialPropertiesTable, py::return_value_policy::reference)
 
       .def_static("GetMaterialTable", &G4Material::GetMaterialTable, py::return_value_policy::reference)
       .def_static("GetNumberOfMaterials", &G4Material::GetNumberOfMaterials)
@@ -117,14 +116,13 @@ void export_G4Material(py::module &m)
       .def_static("GetMaterial", py::overload_cast<size_t, G4double>(&G4Material::GetMaterial),
                   py::return_value_policy::reference)
 
-      .def(
-         "__str__",
-         [](const G4Material &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator())
+      .def("__str__",
+           [](const G4Material &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator())
 
       .def("Print", [](const G4Material &self) { G4cout << self; });
 }

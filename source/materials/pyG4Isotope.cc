@@ -12,7 +12,7 @@ namespace py = pybind11;
 
 void export_G4Isotope(py::module &m)
 {
-   py::class_<G4Isotope, std::unique_ptr<G4Isotope>>(m, "G4Isotope", "isotope class")
+   py::class_<G4Isotope>(m, "G4Isotope", "isotope class")
 
       .def(py::init<const G4String &, G4int, G4int>())
       .def(py::init<const G4String &, G4int, G4int, G4double>())

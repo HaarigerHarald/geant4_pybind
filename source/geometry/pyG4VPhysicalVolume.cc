@@ -12,8 +12,7 @@ namespace py = pybind11;
 
 void export_G4VPhysicalVolume(py::module &m)
 {
-   py::class_<G4VPhysicalVolume, std::unique_ptr<G4VPhysicalVolume, py::nodelete>>(m, "G4VPhysicalVolume",
-                                                                                   "physical volume class")
+   py::class_<G4VPhysicalVolume, py::nodelete>(m, "G4VPhysicalVolume", "physical volume class")
 
       .def("SetTranslation", &G4VPhysicalVolume::SetTranslation)
       .def("GetTranslation", &G4VPhysicalVolume::GetTranslation)
@@ -22,13 +21,12 @@ void export_G4VPhysicalVolume(py::module &m)
 
       .def("SetRotation", &G4VPhysicalVolume::SetRotation)
       .def("GetRotation", py::overload_cast<>(&G4VPhysicalVolume::GetRotation, py::const_),
-           py::return_value_policy::reference_internal)
+           py::return_value_policy::reference)
 
-      .def("GetRotation", py::overload_cast<>(&G4VPhysicalVolume::GetRotation),
-           py::return_value_policy::reference_internal)
+      .def("GetRotation", py::overload_cast<>(&G4VPhysicalVolume::GetRotation), py::return_value_policy::reference)
 
       .def("GetObjectRotationValue", &G4VPhysicalVolume::GetObjectRotationValue)
-      .def("GetFrameRotation", &G4VPhysicalVolume::GetFrameRotation, py::return_value_policy::reference_internal)
+      .def("GetFrameRotation", &G4VPhysicalVolume::GetFrameRotation, py::return_value_policy::reference)
 
       .def("SetLogicalVolume", &G4VPhysicalVolume::SetLogicalVolume)
       .def("SetMotherLogical", &G4VPhysicalVolume::SetMotherLogical)

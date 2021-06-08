@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4ChordFinder(py::module &m)
 {
-   py::class_<G4ChordFinder, std::unique_ptr<G4ChordFinder>>(m, "G4ChordFinder", "chord finder class")
+   py::class_<G4ChordFinder>(m, "G4ChordFinder", "chord finder class")
 
       .def(py::init<G4MagneticField *>())
       .def(py::init<G4MagneticField *, G4double>())

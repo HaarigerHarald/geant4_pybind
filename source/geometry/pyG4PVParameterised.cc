@@ -12,7 +12,7 @@ namespace py = pybind11;
 
 void export_G4PVParameterised(py::module &m)
 {
-   py::class_<G4PVParameterised, G4PVReplica, std::unique_ptr<G4PVParameterised, py::nodelete>>(m, "G4PVParameterised")
+   py::class_<G4PVParameterised, G4PVReplica, py::nodelete>(m, "G4PVParameterised")
 
       .def(py::init<const G4String &, G4LogicalVolume *, G4LogicalVolume *, const EAxis, const G4int,
                     G4VPVParameterisation *, G4bool>(),
@@ -28,8 +28,8 @@ void export_G4PVParameterised(py::module &m)
 
       .def("IsParameterised", &G4PVParameterised::IsParameterised)
       .def("VolumeType", &G4PVParameterised::VolumeType)
-      .def("GetParameterisation", &G4PVParameterised::GetParameterisation, py::return_value_policy::reference_internal)
-      //.def("GetReplicationData", &G4PVParameterised::GetReplicationData)
+      .def("GetParameterisation", &G4PVParameterised::GetParameterisation, py::return_value_policy::reference)
+      .def("GetReplicationData", &G4PVParameterised::GetReplicationData)
       .def("SetRegularStructureId", &G4PVParameterised::SetRegularStructureId)
       .def("CheckOverlaps", &G4PVParameterised::CheckOverlaps, py::arg("res") = 1000, py::arg("tol") = 0.,
            py::arg("verbose") = true, py::arg("maxErr") = 1);

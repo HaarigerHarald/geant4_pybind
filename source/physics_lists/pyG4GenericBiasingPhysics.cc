@@ -3,27 +3,23 @@
 
 #include <G4GenericBiasingPhysics.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4GenericBiasingPhysics) : public G4GenericBiasingPhysics {
+class PyG4GenericBiasingPhysics : public G4GenericBiasingPhysics, public py::trampoline_self_life_support {
 public:
    using G4GenericBiasingPhysics::G4GenericBiasingPhysics;
 
    void ConstructParticle() override { PYBIND11_OVERRIDE(void, G4GenericBiasingPhysics, ConstructParticle, ); }
 
    void ConstructProcess() override { PYBIND11_OVERRIDE(void, G4GenericBiasingPhysics, ConstructProcess, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4GenericBiasingPhysics);
 };
 
 void export_G4GenericBiasingPhysics(py::module &m)
 {
-   py::class_<G4GenericBiasingPhysics, TRAMPOLINE_NAME(G4GenericBiasingPhysics), G4VPhysicsConstructor,
-              owntrans_ptr<G4GenericBiasingPhysics>>(m, "G4GenericBiasingPhysics")
+   py::class_<G4GenericBiasingPhysics, PyG4GenericBiasingPhysics, G4VPhysicsConstructor>(m, "G4GenericBiasingPhysics")
 
       .def(py::init<const G4String &>(), py::arg("name") = "BiasingP")
 

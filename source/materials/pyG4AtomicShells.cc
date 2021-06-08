@@ -10,8 +10,7 @@ namespace py = pybind11;
 
 void export_G4AtomicShells(py::module &m)
 {
-   py::class_<G4AtomicShells, std::unique_ptr<G4AtomicShells>>(m, "G4AtomicShells",
-                                                               "Atomic subshell binding energy table")
+   py::class_<G4AtomicShells>(m, "G4AtomicShells", "Atomic subshell binding energy table")
 
       .def_static("GetNumberOfShells", &G4AtomicShells::GetNumberOfShells)
       .def_static("GetNumberOfElectrons", &G4AtomicShells::GetNumberOfElectrons)

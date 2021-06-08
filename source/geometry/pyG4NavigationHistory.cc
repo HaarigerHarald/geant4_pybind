@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4NavigationHistory(py::module &m)
 {
-   py::class_<G4NavigationHistory, std::unique_ptr<G4NavigationHistory>>(m, "G4NavigationHistory")
+   py::class_<G4NavigationHistory>(m, "G4NavigationHistory")
       .def(py::init<>())
 
       .def("Reset", &G4NavigationHistory::Reset)
@@ -32,12 +32,11 @@ void export_G4NavigationHistory(py::module &m)
 
       .def("BackLevel", py::overload_cast<>(&G4NavigationHistory::BackLevel))
       .def("BackLevel", py::overload_cast<G4int>(&G4NavigationHistory::BackLevel), py::arg("n"))
-      .def(
-         "__str__",
-         [](const G4NavigationHistory &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator());
+      .def("__str__",
+           [](const G4NavigationHistory &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator());
 }

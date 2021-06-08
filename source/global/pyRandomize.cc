@@ -3,7 +3,6 @@
 
 #include <Randomize.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -15,7 +14,7 @@ void export_Randomize(py::module &m)
 {
    static long *seedArray = nullptr;
 
-   py::class_<HepRandom, std::unique_ptr<HepRandom>>(m, "HepRandom", "generate random number")
+   py::class_<HepRandom>(m, "HepRandom", "generate random number")
 
       .def(py::init<>())
       .def(py::init<long>())
@@ -91,11 +90,7 @@ void export_Randomize(py::module &m)
                   })
 
       .def_static("getTheGenerator", &HepRandom::getTheGenerator, py::return_value_policy::reference)
-      .def_static("setTheEngine",
-                  [](HepRandomEngine *engine) {
-                     owntrans_ptr<HepRandomEngine>::remove(engine);
-                     HepRandom::setTheEngine(engine);
-                  })
+      .def_static("setTheEngine", [](py::disown_ptr<HepRandomEngine> engine) { HepRandom::setTheEngine(engine); })
 
       .def_static("getTheEngine", &HepRandom::getTheEngine, py::return_value_policy::reference)
       .def_static("saveEngineStatus", &HepRandom::saveEngineStatus, py::arg("filename") = "Config.conf")
@@ -105,10 +100,10 @@ void export_Randomize(py::module &m)
 
    m.attr("G4Random") = m.attr("HepRandom");
 
-   py::class_<RandBit, std::unique_ptr<RandBit>>(m, "RandBit", "generate bit random number")
+   py::class_<RandBit>(m, "RandBit", "generate bit random number")
       .def_static("shootBit", py::overload_cast<>(&RandBit::shootBit));
 
-   py::class_<G4RandGauss, std::unique_ptr<G4RandGauss>>(m, "G4RandGauss", "generate gaussian random number")
+   py::class_<G4RandGauss>(m, "G4RandGauss", "generate gaussian random number")
       .def_static("shoot", py::overload_cast<>(&RandGaussQ::shoot))
       .def_static("shoot", py::overload_cast<double, double>(&RandGaussQ::shoot));
 

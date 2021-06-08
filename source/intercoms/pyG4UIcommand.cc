@@ -5,7 +5,6 @@
 #include <G4UIcommand.hh>
 #include <G4UImessenger.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -22,7 +21,7 @@ public:
 
 void export_G4UIcommand(py::module &m)
 {
-   py::class_<G4UIcommand, std::unique_ptr<G4UIcommand>>(m, "G4UIcommand", "UI command")
+   py::class_<G4UIcommand>(m, "G4UIcommand", "UI command")
       .def(py::init<const char *, G4UImessenger *>())
 
       .def("GetTitle", &G4UIcommand::GetTitle)
@@ -82,10 +81,7 @@ void export_G4UIcommand(py::module &m)
       .def("GetStateList", &G4UIcommand::GetStateList)
       .def("GetMessenger", &G4UIcommand::GetMessenger, py::return_value_policy::reference)
       .def("SetParameter",
-           [](G4UIcommand &self, G4UIparameter *const newParameter) {
-              self.SetParameter(newParameter);
-              owntrans_ptr<G4UIparameter>::remove(newParameter);
-           })
+           [](G4UIcommand &self, py::disown_ptr<G4UIparameter> newParameter) { self.SetParameter(newParameter); })
 
       .def("SetGuidance", &G4UIcommand::SetGuidance)
       .def("GetTitle", &G4UIcommand::GetTitle)

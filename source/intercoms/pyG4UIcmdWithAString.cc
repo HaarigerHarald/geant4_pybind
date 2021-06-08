@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4UIcmdWithAString(py::module &m)
 {
-   py::class_<G4UIcmdWithAString, G4UIcommand, std::unique_ptr<G4UIcmdWithAString>>(m, "G4UIcmdWithAString")
+   py::class_<G4UIcmdWithAString, G4UIcommand>(m, "G4UIcmdWithAString")
 
       .def(py::init<const char *, G4UImessenger *>(), py::arg("theCommandPath"), py::arg("theMessenger"))
       .def("SetParameterName", &G4UIcmdWithAString::SetParameterName, py::arg("theName"), py::arg("omittable"),

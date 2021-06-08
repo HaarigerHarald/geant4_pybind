@@ -12,7 +12,7 @@ namespace py = pybind11;
 
 void export_G4Trd(py::module &m)
 {
-   py::class_<G4Trd, G4VSolid, std::unique_ptr<G4Trd, py::nodelete>>(m, "G4Trd", "Trapezoild solid class")
+   py::class_<G4Trd, G4VSolid, py::nodelete>(m, "G4Trd", "Trapezoild solid class")
 
       .def(py::init<const G4String &, G4double, G4double, G4double, G4double, G4double>())
 
@@ -27,12 +27,11 @@ void export_G4Trd(py::module &m)
       .def("SetYHalfLength2", &G4Trd::SetYHalfLength2)
       .def("SetZHalfLength", &G4Trd::SetZHalfLength)
 
-      .def(
-         "__str__",
-         [](const G4Trd &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator());
+      .def("__str__",
+           [](const G4Trd &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator());
 }

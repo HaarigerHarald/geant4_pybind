@@ -14,7 +14,7 @@ namespace py = pybind11;
 
 void export_G4FieldManager(py::module &m)
 {
-   py::class_<G4FieldManager, std::unique_ptr<G4FieldManager>>(m, "G4FieldManager", "field manager class")
+   py::class_<G4FieldManager>(m, "G4FieldManager", "field manager class")
 
       .def(py::init<>())
       .def(py::init<G4Field *>())

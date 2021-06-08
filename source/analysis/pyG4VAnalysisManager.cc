@@ -24,7 +24,7 @@ namespace py = pybind11;
 
 void export_G4VAnalysisManager(py::module &m)
 {
-   py::class_<G4VAnalysisManager, std::unique_ptr<G4VAnalysisManager, py::nodelete>>(m, "G4VAnalysisManager")
+   py::class_<G4VAnalysisManager, py::nodelete>(m, "G4VAnalysisManager")
 
       //.def(py::init<const G4String &, G4bool>())
 
@@ -178,6 +178,7 @@ void export_G4VAnalysisManager(py::module &m)
            py::arg("zmax") = 0, py::arg("xunitName") = "none", py::arg("yunitName") = "none",
            py::arg("zunitName") = "none", py::arg("xfcnName") = "none", py::arg("yfcnName") = "none",
            py::arg("zfcnName") = "none")
+
       .def("SetP1",
            py::overload_cast<G4int, G4int, G4double, G4double, G4double, G4double, const G4String &, const G4String &,
                              const G4String &, const G4String &, const G4String &>(&G4VAnalysisManager::SetP1),

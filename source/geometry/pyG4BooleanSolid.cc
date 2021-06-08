@@ -10,8 +10,7 @@ namespace py = pybind11;
 
 void export_G4BooleanSolid(py::module &m)
 {
-   py::class_<G4BooleanSolid, G4VSolid, std::unique_ptr<G4BooleanSolid, py::nodelete>>(m, "G4BooleanSolid",
-                                                                                       "boolean solid class")
+   py::class_<G4BooleanSolid, G4VSolid, py::nodelete>(m, "G4BooleanSolid", "boolean solid class")
 
       .def("GetCubVolStatistics", &G4BooleanSolid::GetCubVolStatistics)
       .def("GetCubVolEpsilon", &G4BooleanSolid::GetCubVolEpsilon)

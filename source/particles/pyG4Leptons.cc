@@ -15,14 +15,13 @@
 #include <G4TauMinus.hh>
 #include <G4TauPlus.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
 #define ADD_LEPTON(name)                                                                               \
-   py::class_<G4##name, G4ParticleDefinition, std::unique_ptr<G4##name, py::nodelete>>(m, "G4" #name)  \
+   py::class_<G4##name, G4ParticleDefinition, py::nodelete>(m, "G4" #name)                             \
       .def_static("Definition", &G4##name::Definition, py::return_value_policy::reference)             \
       .def_static(#name "Definition", &G4##name::name##Definition, py::return_value_policy::reference) \
       .def_static(#name, &G4##name::name, py::return_value_policy::reference)

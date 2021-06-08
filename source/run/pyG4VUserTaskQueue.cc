@@ -11,5 +11,5 @@ namespace py = pybind11;
 // TODO
 void export_G4VUserTaskQueue(py::module &m)
 {
-   py::class_<G4VUserTaskQueue, std::unique_ptr<G4VUserTaskQueue>>(m, "G4VUserTaskQueue");
+   py::class_<G4VUserTaskQueue>(m, "G4VUserTaskQueue");
 }

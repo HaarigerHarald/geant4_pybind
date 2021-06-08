@@ -12,8 +12,7 @@ namespace py = pybind11;
 
 void export_G4Polyhedra(py::module &m)
 {
-   py::class_<G4Polyhedra, G4VSolid, std::unique_ptr<G4Polyhedra, py::nodelete>>(m, "G4Polyhedra",
-                                                                                 "Polyhedra solid class")
+   py::class_<G4Polyhedra, G4VSolid, py::nodelete>(m, "G4Polyhedra", "Polyhedra solid class")
 
       .def(py::init<>([](const G4String &name, G4double phiStart, G4double phiTotal, G4int numSide, G4int numZPlanes,
                          const py::list &zPlane, const py::list &rInner, const py::list &rOuter) {
@@ -50,12 +49,11 @@ void export_G4Polyhedra(py::module &m)
       .def("IsOpen", &G4Polyhedra::IsOpen)
       .def("IsGeneric", &G4Polyhedra::IsGeneric)
 
-      .def(
-         "__str__",
-         [](const G4Polyhedra &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator());
+      .def("__str__",
+           [](const G4Polyhedra &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator());
 }

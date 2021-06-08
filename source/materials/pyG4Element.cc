@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4Element(py::module &m)
 {
-   py::class_<G4Element, std::unique_ptr<G4Element>>(m, "G4Element", "element class")
+   py::class_<G4Element>(m, "G4Element", "element class")
 
       .def(py::init<const G4String &, const G4String &, G4double, G4double>())
       .def(py::init<const G4String &, const G4String &, G4int>())

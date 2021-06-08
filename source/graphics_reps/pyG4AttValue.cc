@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4AttValue(py::module &m)
 {
-   py::class_<G4AttValue, std::unique_ptr<G4AttValue>>(m, "G4AttValue")
+   py::class_<G4AttValue>(m, "G4AttValue")
       .def(py::init<const G4String &, const G4String &, const G4String &>())
       .def(py::init<>())
 

@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4UImanager(py::module &m)
 {
-   py::class_<G4UImanager, std::unique_ptr<G4UImanager, py::nodelete>>(m, "G4UImanager", "UI manager class")
+   py::class_<G4UImanager, py::nodelete>(m, "G4UImanager", "UI manager class")
       .def_static("GetUIpointer", &G4UImanager::GetUIpointer, py::return_value_policy::reference)
 
       .def("GetCurrentValues", &G4UImanager::GetCurrentValues)

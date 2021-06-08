@@ -12,7 +12,7 @@ namespace py = pybind11;
 
 void export_G4Hype(py::module &m)
 {
-   py::class_<G4Hype, G4VSolid, std::unique_ptr<G4Hype, py::nodelete>>(m, "G4Hype", "hyperbolic solid class")
+   py::class_<G4Hype, G4VSolid, py::nodelete>(m, "G4Hype", "hyperbolic solid class")
 
       .def(py::init<const G4String &, G4double, G4double, G4double, G4double, G4double>())
 
@@ -27,12 +27,11 @@ void export_G4Hype(py::module &m)
       .def("SetInnerStereo", &G4Hype::SetInnerStereo)
       .def("SetOuterStereo", &G4Hype::SetOuterStereo)
 
-      .def(
-         "__str__",
-         [](const G4Hype &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator());
+      .def("__str__",
+           [](const G4Hype &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator());
 }

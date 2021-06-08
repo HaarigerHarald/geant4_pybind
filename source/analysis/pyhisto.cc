@@ -14,7 +14,7 @@ namespace py = pybind11;
 
 void export_histo(py::module &m)
 {
-   py::class_<tools::histo::h1d, std::unique_ptr<tools::histo::h1d>>(m, "h1d")
+   py::class_<tools::histo::h1d>(m, "h1d")
       .def(py::init<>())
       .def(py::init<const std::string &, const std::vector<double> &>(), py::arg("title"), py::arg("edges"))
       .def(py::init<const std::string &, unsigned int, double, double>(), py::arg("title"), py::arg("xnumber"),
@@ -51,8 +51,8 @@ void export_histo(py::module &m)
       .def("dimension", &tools::histo::h1d::dimension)
       .def("divide", &tools::histo::h1d::divide)
       .def("entries", &tools::histo::h1d::entries)
-      .def("equals", &tools::histo::h1d::equals)
-      .def("equals_TH", &tools::histo::h1d::equals_TH)
+      //.def("equals", &tools::histo::h1d::equals)
+      //.def("equals_TH", &tools::histo::h1d::equals_TH)
       .def("equivalent_bin_entries", &tools::histo::h1d::equivalent_bin_entries)
       .def("extra_entries", &tools::histo::h1d::extra_entries)
       .def("Fill", &tools::histo::h1d::Fill)

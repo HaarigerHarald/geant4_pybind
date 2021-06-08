@@ -25,7 +25,7 @@ public:
 
 void export_G4VSolid(py::module &m)
 {
-   py::class_<G4VSolid, PyG4VSolid, std::unique_ptr<G4VSolid, py::nodelete>>(m, "G4VSolid", "solid class")
+   py::class_<G4VSolid, PyG4VSolid, py::nodelete>(m, "G4VSolid", "solid class")
       //.def(py::init<const G4String&>())
 
       .def("GetName", &G4VSolid::GetName)

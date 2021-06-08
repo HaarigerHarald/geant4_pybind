@@ -7,7 +7,6 @@
 #include <G4IsotopeProperty.hh>
 #include <G4NuclideTable.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -15,7 +14,7 @@ namespace py = pybind11;
 
 void export_G4IonTable(py::module &m)
 {
-   py::class_<G4IonTable, std::unique_ptr<G4IonTable>>(m, "G4IonTable")
+   py::class_<G4IonTable>(m, "G4IonTable")
       .def(py::init<>())
       .def_static("GetIonTable", &G4IonTable::GetIonTable, py::return_value_policy::reference)
 

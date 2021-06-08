@@ -4,7 +4,6 @@
 #include <G4SDManager.hh>
 #include <G4MultiFunctionalDetector.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -12,23 +11,15 @@ namespace py = pybind11;
 
 void export_G4SDManager(py::module &m)
 {
-   py::class_<G4SDManager, std::unique_ptr<G4SDManager, py::nodelete>>(m, "G4SDManager")
+   py::class_<G4SDManager, py::nodelete>(m, "G4SDManager")
       .def_static("GetSDMpointer", &G4SDManager::GetSDMpointer, py::return_value_policy::reference)
       .def_static("GetSDMpointerIfExist", &G4SDManager::GetSDMpointerIfExist, py::return_value_policy::reference)
 
       .def("AddNewDetector",
-           [](G4SDManager &self, G4MultiFunctionalDetector *aMD) {
-              owntrans_ptr<G4MultiFunctionalDetector>::remove(aMD);
-              TRAMPOLINE_REF_INCREASE(G4MultiFunctionalDetector, aMD);
-              self.AddNewDetector(aMD);
-           })
+           [](G4SDManager &self, py::disown_ptr<G4MultiFunctionalDetector> aMD) { self.AddNewDetector(aMD); })
 
       .def("AddNewDetector",
-           [](G4SDManager &self, G4VSensitiveDetector *aSD) {
-              owntrans_ptr<G4VSensitiveDetector>::remove(aSD);
-              TRAMPOLINE_REF_INCREASE(G4VSensitiveDetector, aSD);
-              self.AddNewDetector(aSD);
-           })
+           [](G4SDManager &self, py::disown_ptr<G4VSensitiveDetector> aSD) { self.AddNewDetector(aSD); })
 
       .def("Activate", &G4SDManager::Activate)
       .def("GetCollectionID", py::overload_cast<G4String>(&G4SDManager::GetCollectionID))

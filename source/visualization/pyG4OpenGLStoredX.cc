@@ -5,7 +5,6 @@
 
 #include <G4OpenGLStoredX.hh>
 
-#include <holder.hh>
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -13,8 +12,7 @@ namespace py = pybind11;
 
 void export_G4OpenGLStoredX(py::module &m)
 {
-   py::class_<G4OpenGLStoredX, G4VGraphicsSystem, owntrans_ptr<G4OpenGLStoredX>>(
-      m, "G4OpenGLStoredX", "OpenGL(Stored X) visualization module")
+   py::class_<G4OpenGLStoredX, G4VGraphicsSystem>(m, "G4OpenGLStoredX", "OpenGL(Stored X) visualization module")
       .def(py::init<>());
 }
 

@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4UIcmdWithALongInt(py::module &m)
 {
-   py::class_<G4UIcmdWithALongInt, G4UIcommand, std::unique_ptr<G4UIcmdWithALongInt>>(m, "G4UIcmdWithALongInt")
+   py::class_<G4UIcmdWithALongInt, G4UIcommand>(m, "G4UIcmdWithALongInt")
 
       .def(py::init<const char *, G4UImessenger *>(), py::arg("theCommandPath"), py::arg("theMessenger"))
       .def_static("GetNewLongIntValue", &G4UIcmdWithALongInt::GetNewLongIntValue)

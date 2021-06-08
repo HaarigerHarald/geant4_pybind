@@ -10,8 +10,7 @@ namespace py = pybind11;
 
 void export_G4GeneralParticleSource(py::module &m)
 {
-   py::class_<G4GeneralParticleSource, G4VPrimaryGenerator, std::unique_ptr<G4GeneralParticleSource>>(
-      m, "G4GeneralParticleSource")
+   py::class_<G4GeneralParticleSource, G4VPrimaryGenerator>(m, "G4GeneralParticleSource")
       .def(py::init<>())
       .def("GeneratePrimaryVertex", &G4GeneralParticleSource::GeneratePrimaryVertex)
       .def("GetNumberofSource", &G4GeneralParticleSource::GetNumberofSource)

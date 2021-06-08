@@ -3,8 +3,6 @@
 
 #include <G4PhysicalConstants.hh>
 
-#include "opaques.hh"
-
 namespace py = pybind11;
 
 void export_G4PhysicalConstants(py::module &m)

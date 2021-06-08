@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4Navigator(py::module &m)
 {
-   py::class_<G4Navigator, std::unique_ptr<G4Navigator>>(m, "G4Navigator", "navigator")
+   py::class_<G4Navigator>(m, "G4Navigator", "navigator")
       .def(py::init<>())
 
       .def("GetWorldVolume", &G4Navigator::GetWorldVolume, py::return_value_policy::reference)

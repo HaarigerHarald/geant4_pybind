@@ -18,7 +18,6 @@
 #include <G4VTrajectory.hh>
 #include <G4VisAttributes.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -26,7 +25,7 @@ namespace py = pybind11;
 
 void export_G4VVisManager(py::module &m)
 {
-   py::class_<G4VVisManager, std::unique_ptr<G4VVisManager>>(m, "G4VVisManager")
+   py::class_<G4VVisManager>(m, "G4VVisManager")
 
       .def_static("GetConcreteInstance", &G4VVisManager::GetConcreteInstance, "Get an instance of G4VVisManager",
                   py::return_value_policy::reference)

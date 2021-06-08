@@ -20,12 +20,6 @@ find_package(Geant4 OPTIONAL_COMPONENTS gdml ui_tcsh motif vis_raytracer_x11 vis
 include_directories(${Geant4_INCLUDE_DIRS})
 
 set(PYBIND11_PYTHON_VERSION 3.5)
-
-if(EXISTS ${CMAKE_SOURCE_DIR}/pybind11/CMakeLists.txt)
-  add_subdirectory(pybind11)
-else()
-  # if not checked out correctly we search for an install
-  find_package(pybind11 2.6 REQUIRED)
-endif()
+add_subdirectory(pybind11)
 
 add_subdirectory(source)

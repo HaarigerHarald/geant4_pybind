@@ -60,8 +60,7 @@ public:
 
 void export_G4ElectroMagneticField(py::module &m)
 {
-   py::class_<G4ElectroMagneticField, G4Field, PyG4ElectroMagneticField, std::unique_ptr<G4ElectroMagneticField>>(
-      m, "G4ElectroMagneticField")
+   py::class_<G4ElectroMagneticField, G4Field, PyG4ElectroMagneticField>(m, "G4ElectroMagneticField")
       .def(py::init<>())
 
       .def("DoesFieldChangeEnergy", &G4ElectroMagneticField::DoesFieldChangeEnergy)

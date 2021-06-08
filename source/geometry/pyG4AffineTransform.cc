@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4AffineTransform(py::module &m)
 {
-   py::class_<G4AffineTransform, std::unique_ptr<G4AffineTransform>>(m, "G4AffineTransform")
+   py::class_<G4AffineTransform>(m, "G4AffineTransform")
       .def(py::init<>())
       .def(py::init<const G4ThreeVector &>(), py::arg("tlate"))
       .def(py::init<const G4RotationMatrix &>(), py::arg("rot"))

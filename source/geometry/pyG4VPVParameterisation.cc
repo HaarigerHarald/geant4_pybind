@@ -126,8 +126,7 @@ public:
 
 void export_G4VPVParameterisation(py::module &m)
 {
-   py::class_<G4VPVParameterisation, PyG4VPVParameterisation, std::unique_ptr<G4VPVParameterisation, py::nodelete>>(
-      m, "G4VPVParameterisation")
+   py::class_<G4VPVParameterisation, PyG4VPVParameterisation, py::nodelete>(m, "G4VPVParameterisation")
 
       .def(py::init<>())
       .def("ComputeTransformation", &G4VPVParameterisation::ComputeTransformation)

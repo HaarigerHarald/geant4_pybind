@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4PrimaryVertex(py::module &m)
 {
-   py::class_<G4PrimaryVertex, std::unique_ptr<G4PrimaryVertex>>(m, "G4PrimaryVertex", "primary vertex")
+   py::class_<G4PrimaryVertex>(m, "G4PrimaryVertex", "primary vertex")
       .def(py::init<>())
       .def(py::init<G4double, G4double, G4double, G4double>())
       .def(py::init<G4ThreeVector, G4double>())

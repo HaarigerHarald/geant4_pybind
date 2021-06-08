@@ -15,8 +15,7 @@ namespace py = pybind11;
 
 void export_G4EmCalculator(py::module &m)
 {
-   py::class_<G4EmCalculator, std::unique_ptr<G4EmCalculator>>(m, "G4EmCalculator",
-                                                               "Provide access to dE/dx and cross section")
+   py::class_<G4EmCalculator>(m, "G4EmCalculator", "Provide access to dE/dx and cross section")
       .def(py::init<>())
 
       .def("GetDEDX",

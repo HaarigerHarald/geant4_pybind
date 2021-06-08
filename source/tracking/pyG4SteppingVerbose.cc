@@ -13,13 +13,12 @@
 #include <G4StepPoint.hh>
 #include <G4VParticleChange.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4SteppingVerbose) : public G4SteppingVerbose {
+class PyG4SteppingVerbose : public G4SteppingVerbose, public py::trampoline_self_life_support {
 public:
    using G4SteppingVerbose::G4SteppingVerbose;
 
@@ -50,14 +49,11 @@ public:
    void VerboseTrack() override { PYBIND11_OVERRIDE(void, G4SteppingVerbose, VerboseTrack, ); }
 
    void VerboseParticleChange() override { PYBIND11_OVERRIDE(void, G4SteppingVerbose, VerboseParticleChange, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4SteppingVerbose);
 };
 
 void export_G4SteppingVerbose(py::module &m)
 {
-   py::class_<G4SteppingVerbose, TRAMPOLINE_NAME(G4SteppingVerbose), G4VSteppingVerbose,
-              owntrans_ptr<G4SteppingVerbose>>(m, "G4SteppingVerbose")
+   py::class_<G4SteppingVerbose, PyG4SteppingVerbose, G4VSteppingVerbose>(m, "G4SteppingVerbose")
 
       .def(py::init<>())
       .def("NewStep", &G4SteppingVerbose::NewStep)

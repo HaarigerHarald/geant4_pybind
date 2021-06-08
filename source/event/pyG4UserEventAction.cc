@@ -5,13 +5,12 @@
 #include <G4UserEventAction.hh>
 #include <G4EventManager.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4UserEventAction) : public G4UserEventAction {
+class PyG4UserEventAction : public G4UserEventAction, public py::trampoline_self_life_support {
 public:
    using G4UserEventAction::G4UserEventAction;
 
@@ -29,14 +28,11 @@ public:
    {
       PYBIND11_OVERRIDE(void, G4UserEventAction, SetEventManager, value);
    }
-
-   TRAMPOLINE_DESTRUCTOR(G4UserEventAction);
 };
 
 void export_G4UserEventAction(py::module &m)
 {
-   py::class_<G4UserEventAction, TRAMPOLINE_NAME(G4UserEventAction), owntrans_ptr<G4UserEventAction>>(
-      m, "G4UserEventAction", "event action class")
+   py::class_<G4UserEventAction, PyG4UserEventAction>(m, "G4UserEventAction", "event action class")
 
       .def(py::init<>())
       .def("BeginOfEventAction", &G4UserEventAction::BeginOfEventAction)

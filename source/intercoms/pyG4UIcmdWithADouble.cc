@@ -11,7 +11,7 @@ namespace py = pybind11;
 
 void export_G4UIcmdWithADouble(py::module &m)
 {
-   py::class_<G4UIcmdWithADouble, G4UIcommand, std::unique_ptr<G4UIcmdWithADouble>>(m, "G4UIcmdWithADouble")
+   py::class_<G4UIcmdWithADouble, G4UIcommand>(m, "G4UIcmdWithADouble")
 
       .def(py::init<const char *, G4UImessenger *>(), py::arg("theCommandPath"), py::arg("theMessenger"))
       .def_static("GetNewDoubleValue", &G4UIcmdWithADouble::GetNewDoubleValue)

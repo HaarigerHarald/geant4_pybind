@@ -49,8 +49,7 @@ public:
 void export_G4MagneticField(py::module &m)
 {
 
-   py::class_<G4MagneticField, G4Field, PyG4MagneticField, std::unique_ptr<G4MagneticField>>(
-      m, "G4MagneticField", "base class of magnetic field")
+   py::class_<G4MagneticField, G4Field, PyG4MagneticField>(m, "G4MagneticField", "base class of magnetic field")
       .def(py::init<>())
 
       .def("DoesFieldChangeEnergy", &G4MagneticField::DoesFieldChangeEnergy)

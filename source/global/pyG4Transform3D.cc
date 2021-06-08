@@ -13,7 +13,7 @@ namespace py = pybind11;
 
 void export_G4Transform3D(py::module &m)
 {
-   py::class_<G4Transform3D, std::unique_ptr<G4Transform3D>>(m, "G4Transform3D", "geometrical 3D transformation")
+   py::class_<G4Transform3D>(m, "G4Transform3D", "geometrical 3D transformation")
 
       .def(py::init<>())
       .def(py::init<const G4RotationMatrix &, const G4ThreeVector &>())

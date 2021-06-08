@@ -16,21 +16,20 @@
 #include <G4IonConstructor.hh>
 #include <G4Triton.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
 #define ADD_ION(name)                                                                                  \
-   py::class_<G4##name, G4Ions, std::unique_ptr<G4##name, py::nodelete>>(m, "G4" #name)                \
+   py::class_<G4##name, G4Ions, py::nodelete>(m, "G4" #name)                                           \
       .def_static("Definition", &G4##name::Definition, py::return_value_policy::reference)             \
       .def_static(#name "Definition", &G4##name::name##Definition, py::return_value_policy::reference) \
       .def_static(#name, &G4##name::name, py::return_value_policy::reference)
 
 void export_G4Ions(py::module &m)
 {
-   py::class_<G4Ions, G4ParticleDefinition, std::unique_ptr<G4Ions, py::nodelete>> g4Ions(m, "G4Ions");
+   py::class_<G4Ions, G4ParticleDefinition, py::nodelete> g4Ions(m, "G4Ions");
 
    py::enum_<G4Ions::G4FloatLevelBase>(g4Ions, "G4FloatLevelBase")
       .value("no_Float", G4Ions::G4FloatLevelBase::no_Float)
@@ -53,9 +52,8 @@ void export_G4Ions(py::module &m)
       .def(py::init<>([](const G4String &aName, G4double mass, G4double width, G4double charge, G4int iSpin,
                          G4int iParity, G4int iConjugation, G4int iIsospin, G4int iIsospin3, G4int gParity,
                          const G4String &pType, G4int lepton, G4int baryon, G4int encoding, G4bool stable,
-                         G4double lifetime, G4DecayTable *decaytable, G4bool shortlived, const G4String &subType,
-                         G4int anti_encoding, G4double excitation, G4int isomer) {
-              owntrans_ptr<G4DecayTable>::remove(decaytable);
+                         G4double lifetime, py::disown_ptr<G4DecayTable> decaytable, G4bool shortlived,
+                         const G4String &subType, G4int anti_encoding, G4double excitation, G4int isomer) {
               return new G4Ions(aName, mass, width, charge, iSpin, iParity, iConjugation, iIsospin, iIsospin3, gParity,
                                 pType, lepton, baryon, encoding, stable, lifetime, decaytable, shortlived, subType,
                                 anti_encoding, excitation, isomer);

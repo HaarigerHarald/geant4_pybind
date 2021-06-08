@@ -18,7 +18,6 @@
 #include <G4UImanager.hh>
 #include <G4DCtable.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -26,9 +25,9 @@ namespace py = pybind11;
 
 void export_G4RunManager(py::module &m)
 {
-   py::class_<G4RunManager, std::unique_ptr<G4RunManager, py::nodelete>>(m, "G4RunManager", "run manager class")
-      .def(py::init<>())
+   py::class_<G4RunManager, py::nodelete>(m, "G4RunManager", "run manager class")
 
+      .def(py::init<>())
       .def_static("GetRunManager", &G4RunManager::GetRunManager, "Get an instance of G4RunManager",
                   py::return_value_policy::reference)
 
@@ -38,42 +37,29 @@ void export_G4RunManager(py::module &m)
       .def("GetPrintProgress", &G4RunManager::GetPrintProgress)
 
       .def("Initialize", &G4RunManager::Initialize)
-      .def(
-         "BeamOn",
-         [](G4RunManager &self, G4int n_event, const char *macroFile = 0, G4int n_select = -1) {
-            py::gil_scoped_release gil;
-            self.BeamOn(n_event, macroFile, n_select);
-         },
-         py::arg("n_event"), py::arg("macroFile") = static_cast<const char *>(nullptr), py::arg("n_select") = -1,
-         "Starts event loop.")
+      .def("BeamOn",
+           [](G4RunManager &self, G4int n_event, const char *macroFile = 0, G4int n_select = -1) {
+              py::gil_scoped_release gil;
+              self.BeamOn(n_event, macroFile, n_select);
+           },
+           py::arg("n_event"), py::arg("macroFile") = static_cast<const char *>(nullptr), py::arg("n_select") = -1,
+           "Starts event loop.")
 
       .def("SetUserInitialization",
-           [](G4RunManager &self, G4VUserDetectorConstruction *detector) {
+           [](G4RunManager &self, py::disown_ptr<G4VUserDetectorConstruction> detector) {
               self.SetUserInitialization(detector);
-              TRAMPOLINE_REF_INCREASE(G4VUserDetectorConstruction, detector);
-              owntrans_ptr<G4VUserDetectorConstruction>::remove(detector);
            })
 
       // I've not 100% understood this, but upcasting to (G4VUserPhysicsList *) does not properly work
       .def("SetUserInitialization",
-           [](G4RunManager &self, G4VModularPhysicsList *list) {
-              self.SetUserInitialization(list);
-              TRAMPOLINE_REF_INCREASE(G4VModularPhysicsList, list);
-              owntrans_ptr<G4VModularPhysicsList>::remove(list);
-           })
+           [](G4RunManager &self, py::disown_ptr<G4VModularPhysicsList> list) { self.SetUserInitialization(list); })
 
       .def("SetUserInitialization",
-           [](G4RunManager &self, G4VUserPhysicsList *list) {
-              self.SetUserInitialization(list);
-              TRAMPOLINE_REF_INCREASE(G4VUserPhysicsList, list);
-              owntrans_ptr<G4VUserPhysicsList>::remove(list);
-           })
+           [](G4RunManager &self, py::disown_ptr<G4VUserPhysicsList> list) { self.SetUserInitialization(list); })
 
       .def("SetUserInitialization",
-           [](G4RunManager &self, G4VUserActionInitialization *actionInit) {
+           [](G4RunManager &self, py::disown_ptr<G4VUserActionInitialization> actionInit) {
               self.SetUserInitialization(actionInit);
-              TRAMPOLINE_REF_INCREASE(G4VUserActionInitialization, actionInit);
-              owntrans_ptr<G4VUserActionInitialization>::remove(actionInit);
            })
 
       // TODO
@@ -86,59 +72,43 @@ void export_G4RunManager(py::module &m)
       //       py::keep_alive<1, 2>())
 
       .def("SetUserAction",
-           [](G4RunManager &self, G4UserRunAction *action) {
-              self.SetUserAction(action);
-              TRAMPOLINE_REF_INCREASE(G4UserRunAction, action);
-              owntrans_ptr<G4UserRunAction>::remove(action);
-           })
+           [](G4RunManager &self, py::disown_ptr<G4UserRunAction> action) { self.SetUserAction(action); })
 
       .def("SetUserAction",
-           [](G4RunManager &self, G4VUserPrimaryGeneratorAction *genAction) {
+           [](G4RunManager &self, py::disown_ptr<G4VUserPrimaryGeneratorAction> genAction) {
               self.SetUserAction(genAction);
-              TRAMPOLINE_REF_INCREASE(G4VUserPrimaryGeneratorAction, genAction);
-              owntrans_ptr<G4VUserPrimaryGeneratorAction>::remove(genAction);
            })
 
       .def("SetUserAction",
-           [](G4RunManager &self, G4UserEventAction *eventAction) {
-              self.SetUserAction(eventAction);
-              TRAMPOLINE_REF_INCREASE(G4UserEventAction, eventAction);
-              owntrans_ptr<G4UserEventAction>::remove(eventAction);
-           })
+           [](G4RunManager &self, py::disown_ptr<G4UserEventAction> eventAction) { self.SetUserAction(eventAction); })
 
       .def("SetUserAction",
-           [](G4RunManager &self, G4UserStackingAction *stackingAction) {
+           [](G4RunManager &self, py::disown_ptr<G4UserStackingAction> stackingAction) {
               self.SetUserAction(stackingAction);
-              TRAMPOLINE_REF_INCREASE(G4UserStackingAction, stackingAction);
-              owntrans_ptr<G4UserStackingAction>::remove(stackingAction);
            })
 
       .def("SetUserAction",
-           [](G4RunManager &self, G4UserTrackingAction *trackingAction) {
+           [](G4RunManager &self, py::disown_ptr<G4UserTrackingAction> trackingAction) {
               self.SetUserAction(trackingAction);
-              TRAMPOLINE_REF_INCREASE(G4UserTrackingAction, trackingAction);
-              owntrans_ptr<G4UserTrackingAction>::remove(trackingAction);
            })
 
       .def("SetUserAction",
-           [](G4RunManager &self, G4UserSteppingAction *steppingAction) {
+           [](G4RunManager &self, py::disown_ptr<G4UserSteppingAction> steppingAction) {
               self.SetUserAction(steppingAction);
-              TRAMPOLINE_REF_INCREASE(G4UserSteppingAction, steppingAction);
-              owntrans_ptr<G4UserSteppingAction>::remove(steppingAction);
            })
 
       .def("GetUserDetectorConstruction", &G4RunManager::GetUserDetectorConstruction,
-           py::return_value_policy::reference_internal)
+           py::return_value_policy::reference)
 
-      .def("GetUserPhysicsList", &G4RunManager::GetUserPhysicsList, py::return_value_policy::reference_internal)
+      .def("GetUserPhysicsList", &G4RunManager::GetUserPhysicsList, py::return_value_policy::reference)
       .def("GetUserPrimaryGeneratorAction", &G4RunManager::GetUserPrimaryGeneratorAction,
-           py::return_value_policy::reference_internal)
+           py::return_value_policy::reference)
 
-      .def("GetUserRunAction", &G4RunManager::GetUserRunAction, py::return_value_policy::reference_internal)
-      .def("GetUserEventAction", &G4RunManager::GetUserEventAction, py::return_value_policy::reference_internal)
-      .def("GetUserStackingAction", &G4RunManager::GetUserStackingAction, py::return_value_policy::reference_internal)
-      .def("GetUserTrackingAction", &G4RunManager::GetUserTrackingAction, py::return_value_policy::reference_internal)
-      .def("GetUserSteppingAction", &G4RunManager::GetUserSteppingAction, py::return_value_policy::reference_internal)
+      .def("GetUserRunAction", &G4RunManager::GetUserRunAction, py::return_value_policy::reference)
+      .def("GetUserEventAction", &G4RunManager::GetUserEventAction, py::return_value_policy::reference)
+      .def("GetUserStackingAction", &G4RunManager::GetUserStackingAction, py::return_value_policy::reference)
+      .def("GetUserTrackingAction", &G4RunManager::GetUserTrackingAction, py::return_value_policy::reference)
+      .def("GetUserSteppingAction", &G4RunManager::GetUserSteppingAction, py::return_value_policy::reference)
 
       .def("AbortRun", &G4RunManager::AbortRun, py::arg("softAbort") = false, "Abort run (event loop).")
       .def("AbortEvent", &G4RunManager::AbortEvent)
@@ -173,8 +143,7 @@ void export_G4RunManager(py::module &m)
       .def("GetRunManagerType", &G4RunManager::GetRunManagerType)
       .def("SetRunIDCounter", &G4RunManager::SetRunIDCounter)
       .def("GetVersionString", &G4RunManager::GetVersionString, py::return_value_policy::reference)
-      .def("GetRandomNumberStoreDir", &G4RunManager::GetRandomNumberStoreDir,
-           py::return_value_policy::reference_internal);
+      .def("GetRandomNumberStoreDir", &G4RunManager::GetRandomNumberStoreDir, py::return_value_policy::reference);
 
    m.add_object("_cleanup", py::capsule([]() {
                    G4UImanager *UImgr = G4UImanager::GetUIpointer();

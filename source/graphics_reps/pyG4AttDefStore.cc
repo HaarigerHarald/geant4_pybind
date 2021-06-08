@@ -14,7 +14,7 @@ class ScopeG4AttDefStore {
 
 void export_G4AttDefStore(py::module &m)
 {
-   py::class_<ScopeG4AttDefStore, std::unique_ptr<ScopeG4AttDefStore, py::nodelete>>(m, "G4AttDefStore")
+   py::class_<ScopeG4AttDefStore>(m, "G4AttDefStore")
       .def_static("GetInstance",
                   [](const G4String &storeKey) {
                      G4bool                        isNew;

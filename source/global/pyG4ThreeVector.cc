@@ -14,7 +14,7 @@ namespace py = pybind11;
 
 void export_G4ThreeVector(py::module &m)
 {
-   py::class_<G4ThreeVector, std::unique_ptr<G4ThreeVector>>(m, "G4ThreeVector", "general 3-vector")
+   py::class_<G4ThreeVector>(m, "G4ThreeVector", "general 3-vector")
 
       .def(py::init<>())
       .def(py::init<G4double>())
@@ -142,7 +142,8 @@ void export_G4ThreeVector(py::module &m)
               std::stringstream ss;
               ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
               return ss.str();
-           }, py::is_operator())
+           },
+           py::is_operator())
 
       .def(py::self == py::self)
       .def(py::self != py::self)

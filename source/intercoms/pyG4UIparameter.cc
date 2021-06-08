@@ -3,7 +3,6 @@
 
 #include <G4UIparameter.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -11,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4UIparameter(py::module &m)
 {
-   py::class_<G4UIparameter, owntrans_ptr<G4UIparameter>>(m, "G4UIparameter", "UI parameter")
+   py::class_<G4UIparameter>(m, "G4UIparameter", "UI parameter")
 
       .def(py::init<>())
       .def(py::init<char>())

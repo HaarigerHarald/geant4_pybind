@@ -5,13 +5,12 @@
 #include <G4Step.hh>
 #include <G4SteppingManager.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4UserSteppingAction) : public G4UserSteppingAction {
+class PyG4UserSteppingAction : public G4UserSteppingAction, public py::trampoline_self_life_support {
 
 public:
    using G4UserSteppingAction::G4UserSteppingAction;
@@ -25,14 +24,11 @@ public:
    {
       PYBIND11_OVERRIDE(void, G4UserSteppingAction, UserSteppingAction, aStep);
    }
-
-   TRAMPOLINE_DESTRUCTOR(G4UserSteppingAction);
 };
 
 void export_G4UserSteppingAction(py::module &m)
 {
-   py::class_<G4UserSteppingAction, TRAMPOLINE_NAME(G4UserSteppingAction), owntrans_ptr<G4UserSteppingAction>>(
-      m, "G4UserSteppingAction", "stepping action class")
+   py::class_<G4UserSteppingAction, PyG4UserSteppingAction>(m, "G4UserSteppingAction", "stepping action class")
 
       .def(py::init<>())
       .def("SetSteppingManagerPointer", &G4UserSteppingAction::SetSteppingManagerPointer)

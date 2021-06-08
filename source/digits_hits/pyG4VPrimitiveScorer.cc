@@ -4,7 +4,6 @@
 #include <G4VPrimitiveScorer.hh>
 #include <G4VSolid.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -20,7 +19,7 @@ public:
    using G4VPrimitiveScorer::ProcessHits;
 };
 
-class TRAMPOLINE_NAME(G4VPrimitiveScorer) : public G4VPrimitiveScorer {
+class PyG4VPrimitiveScorer : public G4VPrimitiveScorer, public py::trampoline_self_life_support {
 public:
    using G4VPrimitiveScorer::G4VPrimitiveScorer;
 
@@ -46,14 +45,11 @@ public:
    void DrawAll() override { PYBIND11_OVERRIDE(void, G4VPrimitiveScorer, DrawAll, ); }
 
    void PrintAll() override { PYBIND11_OVERRIDE(void, G4VPrimitiveScorer, PrintAll, ); }
-
-   TRAMPOLINE_DESTRUCTOR(G4VPrimitiveScorer);
 };
 
 void export_G4VPrimitiveScorer(py::module &m)
 {
-   py::class_<G4VPrimitiveScorer, TRAMPOLINE_NAME(G4VPrimitiveScorer), owntrans_ptr<G4VPrimitiveScorer>>(
-      m, "G4VPrimitiveScorer")
+   py::class_<G4VPrimitiveScorer, PyG4VPrimitiveScorer>(m, "G4VPrimitiveScorer")
 
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
 

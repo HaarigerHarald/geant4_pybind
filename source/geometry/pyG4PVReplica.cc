@@ -12,10 +12,11 @@ namespace py = pybind11;
 
 void export_G4PVReplica(py::module &m)
 {
-   py::class_<G4PVReplica, G4VPhysicalVolume, std::unique_ptr<G4PVReplica, py::nodelete>>(
-      m, "G4PVReplica", "physical volume placement with replication")
+   py::class_<G4PVReplica, G4VPhysicalVolume, py::nodelete>(m, "G4PVReplica",
+                                                            "physical volume placement with replication")
 
       .def(py::init<const G4String &, G4LogicalVolume *, G4LogicalVolume *, const EAxis, const G4int, const G4double>())
+
       .def(py::init<const G4String &, G4LogicalVolume *, G4LogicalVolume *, const EAxis, const G4int, const G4double,
                     const G4double>())
 

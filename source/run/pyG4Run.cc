@@ -6,26 +6,23 @@
 #include <G4DCtable.hh>
 #include <G4Event.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4Run) : public G4Run {
+class PyG4Run : public G4Run, public py::trampoline_self_life_support {
 public:
    using G4Run::G4Run;
 
    void RecordEvent(const G4Event *anEvent) override { PYBIND11_OVERRIDE(void, G4Run, RecordEvent, anEvent); }
 
    void Merge(const G4Run *aRun) override { PYBIND11_OVERRIDE(void, G4Run, Merge, aRun); }
-
-   TRAMPOLINE_DESTRUCTOR(G4Run);
 };
 
 void export_G4Run(py::module &m)
 {
-   py::class_<G4Run, TRAMPOLINE_NAME(G4Run), owntrans_ptr<G4Run>>(m, "G4Run", "run class")
+   py::class_<G4Run, PyG4Run>(m, "G4Run", "run class")
 
       .def(py::init<>())
 
@@ -40,11 +37,7 @@ void export_G4Run(py::module &m)
       .def("SetDCtable", &G4Run::SetDCtable) // TODO pass ownership
       .def("GetRandomNumberStatus", &G4Run::GetRandomNumberStatus)
       .def("SetRandomNumberStatus", &G4Run::SetRandomNumberStatus)
-      .def("StoreEvent",
-           [](G4Run &self, G4Event *evt) {
-              owntrans_ptr<G4Event>::remove(evt);
-              self.StoreEvent(evt);
-           })
+      .def("StoreEvent", [](G4Run &self, py::disown_ptr<G4Event> evt) { self.StoreEvent(evt); })
       .def("GetEventVector", &G4Run::GetEventVector, py::return_value_policy::reference_internal)
 
       .def("RecordEvent", &G4Run::RecordEvent)

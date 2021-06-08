@@ -27,7 +27,7 @@ public:
 
 void export_G4UImessenger(py::module &m)
 {
-   py::class_<G4UImessenger, PyG4UImessenger, std::unique_ptr<G4UImessenger>>(m, "G4UImessenger")
+   py::class_<G4UImessenger, PyG4UImessenger>(m, "G4UImessenger")
       .def(py::init<>())
       .def(py::init<const G4String &, const G4String &, G4bool>(), py::arg("path"), py::arg("dsc"),
            py::arg("commandsToBeBroadcasted") = true)

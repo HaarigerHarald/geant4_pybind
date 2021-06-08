@@ -101,10 +101,9 @@ struct PropertyWrapper {
 
 void export_G4GenericMessenger(py::module &m)
 {
-   py::class_<ProxyG4GenericMessenger, G4UImessenger, std::unique_ptr<ProxyG4GenericMessenger>> genericMessenger(
-      m, "G4GenericMessenger");
+   py::class_<ProxyG4GenericMessenger, G4UImessenger> genericMessenger(m, "G4GenericMessenger");
 
-   py::class_<PropertyWrapper, std::unique_ptr<PropertyWrapper>>(genericMessenger, "Property")
+   py::class_<PropertyWrapper>(genericMessenger, "Property")
 
       .def(py::init<>([](const py::object &variable) {
          if (py::isinstance<py::bool_>(variable)) {
@@ -119,30 +118,28 @@ void export_G4GenericMessenger(py::module &m)
          }
          py::pybind11_fail("Property must be bool, int or float!");
       }))
-      .def_property(
-         "value",
-         [](PropertyWrapper &self) -> py::object {
-            if (self.type == type_bool) {
-               return py::bool_(self.boolVal);
-            } else if (self.type == type_int) {
-               return py::int_(self.intVal);
-            } else if (self.type == type_double) {
-               return py::float_(self.doubleVal);
-            }
-            return py::none();
-         },
-         [](PropertyWrapper &self, const py::object &variable) {
-            if (self.type == type_bool) {
-               self.boolVal = variable.cast<G4bool>();
-            } else if (self.type == type_int) {
-               self.intVal = variable.cast<G4int>();
-            } else if (self.type == type_double) {
-               self.doubleVal = variable.cast<G4double>();
-            }
-         });
+      .def_property("value",
+                    [](PropertyWrapper &self) -> py::object {
+                       if (self.type == type_bool) {
+                          return py::bool_(self.boolVal);
+                       } else if (self.type == type_int) {
+                          return py::int_(self.intVal);
+                       } else if (self.type == type_double) {
+                          return py::float_(self.doubleVal);
+                       }
+                       return py::none();
+                    },
+                    [](PropertyWrapper &self, const py::object &variable) {
+                       if (self.type == type_bool) {
+                          self.boolVal = variable.cast<G4bool>();
+                       } else if (self.type == type_int) {
+                          self.intVal = variable.cast<G4int>();
+                       } else if (self.type == type_double) {
+                          self.doubleVal = variable.cast<G4double>();
+                       }
+                    });
 
-   py::class_<G4GenericMessenger::Command, std::unique_ptr<G4GenericMessenger::Command>> gmCommand(genericMessenger,
-                                                                                                   "Command");
+   py::class_<G4GenericMessenger::Command> gmCommand(genericMessenger, "Command");
 
    py::enum_<G4GenericMessenger::Command::UnitSpec>(gmCommand, "UnitSpec")
       .value("UnitCategory", G4GenericMessenger::Command::UnitCategory)
@@ -186,84 +183,80 @@ void export_G4GenericMessenger(py::module &m)
       .def("GetCurrentValue", &G4GenericMessenger::GetCurrentValue, py::arg("command"))
       .def("SetNewValue", &G4GenericMessenger::SetNewValue, py::arg("command"), py::arg("newValue"))
 
-      .def(
-         "DeclareProperty",
-         [](ProxyG4GenericMessenger &self, const G4String &name, PropertyWrapper *wrapper, const G4String &doc) {
-            if (wrapper->type == type_bool) {
-               return self.DeclareProperty(name, G4AnyType(wrapper->boolVal), doc);
-            } else if (wrapper->type == type_int) {
-               return self.DeclareProperty(name, G4AnyType(wrapper->intVal), doc);
-            } else {
-               return self.DeclareProperty(name, G4AnyType(wrapper->doubleVal), doc);
-            }
-         },
-         py::arg("name"), py::arg("variable"), py::arg("doc") = "")
+      .def("DeclareProperty",
+           [](ProxyG4GenericMessenger &self, const G4String &name, PropertyWrapper *wrapper, const G4String &doc) {
+              if (wrapper->type == type_bool) {
+                 return self.DeclareProperty(name, G4AnyType(wrapper->boolVal), doc);
+              } else if (wrapper->type == type_int) {
+                 return self.DeclareProperty(name, G4AnyType(wrapper->intVal), doc);
+              } else {
+                 return self.DeclareProperty(name, G4AnyType(wrapper->doubleVal), doc);
+              }
+           },
+           py::arg("name"), py::arg("variable"), py::arg("doc") = "")
 
-      .def(
-         "DeclarePropertyWithUnit",
-         [](ProxyG4GenericMessenger &self, const G4String &name, const G4String &defaultUnit, PropertyWrapper *wrapper,
-            const G4String &doc) {
-            if (wrapper->type == type_bool) {
-               return self.DeclarePropertyWithUnit(name, defaultUnit, G4AnyType(wrapper->boolVal), doc);
-            } else if (wrapper->type == type_int) {
-               return self.DeclarePropertyWithUnit(name, defaultUnit, G4AnyType(wrapper->intVal), doc);
-            } else {
-               return self.DeclarePropertyWithUnit(name, defaultUnit, G4AnyType(wrapper->doubleVal), doc);
-            }
-         },
-         py::arg("name"), py::arg("defaultUnit"), py::arg("variable"), py::arg("doc") = "")
+      .def("DeclarePropertyWithUnit",
+           [](ProxyG4GenericMessenger &self, const G4String &name, const G4String &defaultUnit,
+              PropertyWrapper *wrapper, const G4String &doc) {
+              if (wrapper->type == type_bool) {
+                 return self.DeclarePropertyWithUnit(name, defaultUnit, G4AnyType(wrapper->boolVal), doc);
+              } else if (wrapper->type == type_int) {
+                 return self.DeclarePropertyWithUnit(name, defaultUnit, G4AnyType(wrapper->intVal), doc);
+              } else {
+                 return self.DeclarePropertyWithUnit(name, defaultUnit, G4AnyType(wrapper->doubleVal), doc);
+              }
+           },
+           py::arg("name"), py::arg("defaultUnit"), py::arg("variable"), py::arg("doc") = "")
 
-      .def(
-         "DeclareMethod",
-         [](ProxyG4GenericMessenger &self, const G4String &name, py::function fun, const G4String &doc) {
-            py::object get_type_hints = py::module::import("typing").attr("get_type_hints");
-            py::list   types          = py::list(get_type_hints(fun).attr("values")());
+      .def("DeclareMethod",
+           [](ProxyG4GenericMessenger &self, const G4String &name, py::function fun, const G4String &doc) {
+              py::object get_type_hints = py::module::import("typing").attr("get_type_hints");
+              py::list   types          = py::list(get_type_hints(fun).attr("values")());
 
-            if (types.size() < 1) {
-               PROXY_REGISTER(G4double, fun, self);
-               return self.DeclareMethod(name, PROXY_GET_LAST(G4double, self), doc);
-            } else {
-               py::object argtype = types[0];
+              if (types.size() < 1) {
+                 PROXY_REGISTER(G4double, fun, self);
+                 return self.DeclareMethod(name, PROXY_GET_LAST(G4double, self), doc);
+              } else {
+                 py::object argtype = types[0];
 
-               if (argtype.is(py::bool_().get_type())) {
-                  PROXY_REGISTER(G4bool, fun, self);
-                  return self.DeclareMethod(name, PROXY_GET_LAST(G4bool, self), doc);
-               } else if (argtype.is(py::int_().get_type())) {
-                  PROXY_REGISTER(G4int, fun, self);
-                  return self.DeclareMethod(name, PROXY_GET_LAST(G4int, self), doc);
-               } else {
-                  PROXY_REGISTER(G4double, fun, self);
-                  return self.DeclareMethod(name, PROXY_GET_LAST(G4double, self), doc);
-               }
-            }
-         },
-         py::arg("name"), py::arg("fun"), py::arg("doc") = "")
-      .def(
-         "DeclareMethodWithUnit",
-         [](ProxyG4GenericMessenger &self, const G4String &name, const G4String &defaultUnit, py::function fun,
-            const G4String &doc) {
-            py::object get_type_hints = py::module::import("typing").attr("get_type_hints");
-            py::list   types          = py::list(get_type_hints(fun).attr("values")());
+                 if (argtype.is(py::bool_().get_type())) {
+                    PROXY_REGISTER(G4bool, fun, self);
+                    return self.DeclareMethod(name, PROXY_GET_LAST(G4bool, self), doc);
+                 } else if (argtype.is(py::int_().get_type())) {
+                    PROXY_REGISTER(G4int, fun, self);
+                    return self.DeclareMethod(name, PROXY_GET_LAST(G4int, self), doc);
+                 } else {
+                    PROXY_REGISTER(G4double, fun, self);
+                    return self.DeclareMethod(name, PROXY_GET_LAST(G4double, self), doc);
+                 }
+              }
+           },
+           py::arg("name"), py::arg("fun"), py::arg("doc") = "")
+      .def("DeclareMethodWithUnit",
+           [](ProxyG4GenericMessenger &self, const G4String &name, const G4String &defaultUnit, py::function fun,
+              const G4String &doc) {
+              py::object get_type_hints = py::module::import("typing").attr("get_type_hints");
+              py::list   types          = py::list(get_type_hints(fun).attr("values")());
 
-            if (types.size() < 1) {
-               PROXY_REGISTER(G4double, fun, self);
-               return self.DeclareMethodWithUnit(name, defaultUnit, PROXY_GET_LAST(G4double, self), doc);
-            } else {
-               py::object argtype = types[0];
+              if (types.size() < 1) {
+                 PROXY_REGISTER(G4double, fun, self);
+                 return self.DeclareMethodWithUnit(name, defaultUnit, PROXY_GET_LAST(G4double, self), doc);
+              } else {
+                 py::object argtype = types[0];
 
-               if (argtype.is(py::bool_().get_type())) {
-                  PROXY_REGISTER(G4bool, fun, self);
-                  return self.DeclareMethodWithUnit(name, defaultUnit, PROXY_GET_LAST(G4bool, self), doc);
-               } else if (argtype.is(py::int_().get_type())) {
-                  PROXY_REGISTER(G4int, fun, self);
-                  return self.DeclareMethodWithUnit(name, defaultUnit, PROXY_GET_LAST(G4int, self), doc);
-               } else {
-                  PROXY_REGISTER(G4double, fun, self);
-                  return self.DeclareMethodWithUnit(name, defaultUnit, PROXY_GET_LAST(G4double, self), doc);
-               }
-            }
-         },
-         py::arg("name"), py::arg("defaultUnit"), py::arg("fun"), py::arg("doc") = "")
+                 if (argtype.is(py::bool_().get_type())) {
+                    PROXY_REGISTER(G4bool, fun, self);
+                    return self.DeclareMethodWithUnit(name, defaultUnit, PROXY_GET_LAST(G4bool, self), doc);
+                 } else if (argtype.is(py::int_().get_type())) {
+                    PROXY_REGISTER(G4int, fun, self);
+                    return self.DeclareMethodWithUnit(name, defaultUnit, PROXY_GET_LAST(G4int, self), doc);
+                 } else {
+                    PROXY_REGISTER(G4double, fun, self);
+                    return self.DeclareMethodWithUnit(name, defaultUnit, PROXY_GET_LAST(G4double, self), doc);
+                 }
+              }
+           },
+           py::arg("name"), py::arg("defaultUnit"), py::arg("fun"), py::arg("doc") = "")
 
       .def("SetDirectory", &G4GenericMessenger::SetDirectory, py::arg("dir"))
       .def("SetGuidance", &G4GenericMessenger::SetGuidance);

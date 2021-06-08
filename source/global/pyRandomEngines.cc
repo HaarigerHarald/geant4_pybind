@@ -11,7 +11,6 @@
 #include <CLHEP/Random/MTwistEngine.h>
 #include <CLHEP/Random/NonRandomEngine.h>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -21,7 +20,7 @@ using namespace CLHEP;
 
 void export_RandomEngines(py::module &m)
 {
-   py::class_<HepRandomEngine, owntrans_ptr<HepRandomEngine>>(m, "HepRandomEngine", "base class of random engine")
+   py::class_<HepRandomEngine>(m, "HepRandomEngine", "base class of random engine")
 
       .def("flat", &HepRandomEngine::flat)
       .def("flatArray",
@@ -44,41 +43,36 @@ void export_RandomEngines(py::module &m)
       .def("getState", py::overload_cast<const std::vector<unsigned long> &>(&HepRandomEngine::getState))
       .def("newEngine", py::overload_cast<const std::vector<unsigned long> &>(&HepRandomEngine::newEngine));
 
-   py::class_<HepJamesRandom, HepRandomEngine, owntrans_ptr<HepJamesRandom>>(m, "HepJamesRandom",
-                                                                             "HepJames random engine")
+   py::class_<HepJamesRandom, HepRandomEngine>(m, "HepJamesRandom", "HepJames random engine")
       .def(py::init<>())
       .def(py::init<long>())
       .def(py::init<int, int>());
 
-   py::class_<RanecuEngine, HepRandomEngine, owntrans_ptr<RanecuEngine>>(m, "RanecuEngine", "Ranecu random engine")
+   py::class_<RanecuEngine, HepRandomEngine>(m, "RanecuEngine", "Ranecu random engine")
       .def(py::init<>())
       .def(py::init<int>());
 
-   py::class_<RanluxEngine, HepRandomEngine, owntrans_ptr<RanluxEngine>>(m, "RanluxEngine", "Ranlux random engine")
+   py::class_<RanluxEngine, HepRandomEngine>(m, "RanluxEngine", "Ranlux random engine")
       .def(py::init<>())
       .def(py::init<long>())
       .def(py::init<long, int>())
       .def(py::init<int, int, int>());
 
-   py::class_<Ranlux64Engine, HepRandomEngine, owntrans_ptr<Ranlux64Engine>>(m, "Ranlux64Engine",
-                                                                             "Ranlux64 random engine")
+   py::class_<Ranlux64Engine, HepRandomEngine>(m, "Ranlux64Engine", "Ranlux64 random engine")
       .def(py::init<>())
       .def(py::init<long>())
       .def(py::init<long, int>())
       .def(py::init<int, int, int>());
 
-   py::class_<MTwistEngine, HepRandomEngine, owntrans_ptr<MTwistEngine>>(m, "MTwistEngine",
-                                                                         "MTwistEngine random engine")
+   py::class_<MTwistEngine, HepRandomEngine>(m, "MTwistEngine", "MTwistEngine random engine")
       .def(py::init<>())
       .def(py::init<long>())
       .def(py::init<int, int>());
 
-   py::class_<NonRandomEngine, HepRandomEngine, owntrans_ptr<NonRandomEngine>>(m, "NonRandomEngine",
-                                                                               "NonRandomEngine random engine")
+   py::class_<NonRandomEngine, HepRandomEngine>(m, "NonRandomEngine", "NonRandomEngine random engine")
       .def(py::init<>());
 
-   py::class_<RanshiEngine, HepRandomEngine, owntrans_ptr<RanshiEngine>>(m, "RanshiEngine",
-                                                                         "RanshiEngine random engine")
+   py::class_<RanshiEngine, HepRandomEngine>(m, "RanshiEngine", "RanshiEngine random engine")
       .def(py::init<>())
       .def(py::init<long>())
       .def(py::init<int, int>());

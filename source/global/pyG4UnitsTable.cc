@@ -18,8 +18,8 @@ void export_G4UnitsTable(py::module &m)
 
    py::bind_vector<G4UnitsContainer>(m, "G4UnitsContainer");
 
-   py::class_<G4UnitDefinition, std::unique_ptr<G4UnitDefinition, py::nodelete>>(m, "G4UnitDefinition",
-                                                                                 "Unit Definition")
+   py::class_<G4UnitDefinition, py::nodelete>(m, "G4UnitDefinition", "Unit Definition")
+
       .def(py::init<const G4String &, const G4String &, const G4String &, G4double>())
 
       .def("GetName", &G4UnitDefinition::GetName)
@@ -34,7 +34,8 @@ void export_G4UnitsTable(py::module &m)
       .def_static("GetValueOf", &G4UnitDefinition::GetValueOf)
       .def_static("GetCategory", &G4UnitDefinition::GetCategory);
 
-   py::class_<G4UnitsCategory, std::unique_ptr<G4UnitsCategory>>(m, "G4UnitsCategory", "Units Category")
+   py::class_<G4UnitsCategory>(m, "G4UnitsCategory", "Units Category")
+
       .def(py::init<const G4String &>())
 
       .def("GetName", &G4UnitsCategory::GetName)
@@ -45,31 +46,29 @@ void export_G4UnitsTable(py::module &m)
       .def("UpdateSymbMxLen", &G4UnitsCategory::UpdateSymbMxLen)
       .def("PrintCategory", &G4UnitsCategory::PrintCategory);
 
-   py::class_<G4BestUnit, std::unique_ptr<G4BestUnit>>(m, "G4BestUnit", "present best unit")
+   py::class_<G4BestUnit>(m, "G4BestUnit", "present best unit")
       .def(py::init<G4double, const G4String &>())
       .def(py::init<const G4ThreeVector &, const G4String &>())
 
       .def("GetCategory", &G4BestUnit::GetCategory)
       .def("GetIndexOfCategory", &G4BestUnit::GetIndexOfCategory)
-      .def(
-         "__str__",
-         [](const G4BestUnit &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator())
+      .def("__str__",
+           [](const G4BestUnit &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator())
 
-      .def(
-         "__format__",
-         [](const G4BestUnit &self, const py::str &spec) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            std::size_t idx      = 0;
-            std::string bestUnit = ss.str();
-            double      value    = std::stod(bestUnit, &idx);
-            py::object  format   = py::module::import("builtins").attr("format");
-            return format(value, spec) + py::str(bestUnit.c_str() + idx);
-         },
-         py::is_operator());
+      .def("__format__",
+           [](const G4BestUnit &self, const py::str &spec) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              std::size_t idx      = 0;
+              std::string bestUnit = ss.str();
+              double      value    = std::stod(bestUnit, &idx);
+              py::object  format   = py::module::import("builtins").attr("format");
+              return format(value, spec) + py::str(bestUnit.c_str() + idx);
+           },
+           py::is_operator());
 }

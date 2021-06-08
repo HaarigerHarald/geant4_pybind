@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 void export_G4Step(py::module &m)
 {
-   py::class_<G4Step, std::unique_ptr<G4Step>>(m, "G4Step", "step class")
+   py::class_<G4Step>(m, "G4Step", "step class")
       .def(py::init<>())
       .def(py::init<const G4Step &>())
 

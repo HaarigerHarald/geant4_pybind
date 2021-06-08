@@ -64,7 +64,7 @@ void export_G4VUIshell(py::module &m)
       .value("WHITE", WHITE)
       .export_values();
 
-   py::class_<G4VUIshell, PyG4VUIshell, std::unique_ptr<G4VUIshell>>(m, "G4VUIshell")
+   py::class_<G4VUIshell, PyG4VUIshell>(m, "G4VUIshell")
       .def(py::init<G4String>())
       .def(py::init<>())
 

@@ -5,13 +5,12 @@
 #include <G4AttDef.hh>
 #include <G4AttValue.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
 namespace py = pybind11;
 
-class TRAMPOLINE_NAME(G4TrajectoryPoint) : public G4TrajectoryPoint {
+class PyG4TrajectoryPoint : public G4TrajectoryPoint {
 
 public:
    const G4ThreeVector GetPosition() const override
@@ -72,8 +71,7 @@ public:
 
 void export_G4TrajectoryPoint(py::module &m)
 {
-   py::class_<G4TrajectoryPoint, TRAMPOLINE_NAME(G4TrajectoryPoint), std::unique_ptr<G4TrajectoryPoint>>(
-      m, "G4TrajectoryPoint")
+   py::class_<G4TrajectoryPoint, PyG4TrajectoryPoint>(m, "G4TrajectoryPoint")
       .def(py::init<>())
 
       .def("GetPosition", &G4TrajectoryPoint::GetPosition)

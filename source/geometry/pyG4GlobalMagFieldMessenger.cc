@@ -20,8 +20,7 @@ public:
 
 void export_G4GlobalMagFieldMessenger(py::module &m)
 {
-   py::class_<G4GlobalMagFieldMessenger, PyG4GlobalMagFieldMessenger, G4UImessenger,
-              std::unique_ptr<G4GlobalMagFieldMessenger>>(m, "G4GlobalMagFieldMessenger")
+   py::class_<G4GlobalMagFieldMessenger, PyG4GlobalMagFieldMessenger, G4UImessenger>(m, "G4GlobalMagFieldMessenger")
 
       .def(py::init<const G4ThreeVector &>(), py::arg("value") = G4ThreeVector())
       .def("SetNewValue", &G4GlobalMagFieldMessenger::SetNewValue)

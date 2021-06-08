@@ -52,13 +52,7 @@
 #include <G4PSTrackLength3D.hh>
 #include <G4PSVolumeFlux.hh>
 #include <G4PSVolumeFlux3D.hh>
-#include <G4SDChargedFilter.hh>
-#include <G4SDKineticEnergyFilter.hh>
-#include <G4SDNeutralFilter.hh>
-#include <G4SDParticleFilter.hh>
-#include <G4SDParticleWithEnergyFilter.hh>
 
-#include "holder.hh"
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -66,7 +60,7 @@ namespace py = pybind11;
 
 void export_G4Scorer(py::module &m)
 {
-   py::class_<G4THitsMap<double>, G4VHitsCollection, owntrans_ptr<G4THitsMap<double>>>(m, "G4DoubleHitsMap")
+   py::class_<G4THitsMap<double>, G4VHitsCollection>(m, "G4DoubleHitsMap")
       .def(py::init<>())
       .def(py::init<G4String, G4String>())
       .def(py::self == py::self)
@@ -74,23 +68,21 @@ void export_G4Scorer(py::module &m)
       .def("DrawAllHits", &G4THitsMap<double>::DrawAllHits)
       .def("PrintAllHits", &G4THitsMap<double>::PrintAllHits)
 
-      .def(
-         "__getitem__", [](G4THitsMap<double> &self, std::size_t n) { return self[n]; }, py::is_operator(),
-         py::return_value_policy::reference_internal)
+      .def("__getitem__", [](G4THitsMap<double> &self, std::size_t n) { return self[n]; }, py::is_operator(),
+           py::return_value_policy::reference_internal)
 
       .def("entries", &G4THitsMap<double>::entries)
       .def("GetHit", &G4THitsMap<double>::GetHit, py::return_value_policy::reference_internal)
       .def("GetSize", &G4THitsMap<double>::GetSize)
 
-      .def(
-         "__iter__", [](const G4THitsMap<double> &s) { return py::make_iterator(s.begin(), s.end()); },
-         py::keep_alive<0, 1>(), py::is_operator());
+      .def("__iter__", [](const G4THitsMap<double> &s) { return py::make_iterator(s.begin(), s.end()); },
+           py::keep_alive<0, 1>(), py::is_operator());
 
-   py::class_<G4PSCellCharge, G4VPrimitiveScorer, owntrans_ptr<G4PSCellCharge>>(m, "G4PSCellCharge")
+   py::class_<G4PSCellCharge, G4VPrimitiveScorer>(m, "G4PSCellCharge")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def(py::init<G4String, const G4String &, G4int>(), py::arg("name"), py::arg("unit"), py::arg("depth") = 0);
 
-   py::class_<G4PSCellCharge3D, G4PSCellCharge, owntrans_ptr<G4PSCellCharge3D>>(m, "G4PSCellCharge3D")
+   py::class_<G4PSCellCharge3D, G4PSCellCharge>(m, "G4PSCellCharge3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
 
@@ -98,11 +90,11 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSCellFlux, G4VPrimitivePlotter, owntrans_ptr<G4PSCellFlux>>(m, "G4PSCellFlux")
+   py::class_<G4PSCellFlux, G4VPrimitivePlotter>(m, "G4PSCellFlux")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def(py::init<G4String, const G4String &, G4int>(), py::arg("name"), py::arg("unit"), py::arg("depth") = 0);
 
-   py::class_<G4PSCellFlux3D, G4PSCellFlux, owntrans_ptr<G4PSCellFlux3D>>(m, "G4PSCellFlux3D")
+   py::class_<G4PSCellFlux3D, G4PSCellFlux>(m, "G4PSCellFlux3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
 
@@ -110,8 +102,7 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSCellFluxForCylinder3D, G4PSCellFlux, owntrans_ptr<G4PSCellFluxForCylinder3D>>(
-      m, "G4PSCellFluxForCylinder3D")
+   py::class_<G4PSCellFluxForCylinder3D, G4PSCellFlux>(m, "G4PSCellFluxForCylinder3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
 
@@ -133,8 +124,7 @@ void export_G4Scorer(py::module &m)
          self.SetNumberOfSegments(nSeg);
       });
 
-   py::class_<G4PSCylinderSurfaceCurrent, G4VPrimitivePlotter, owntrans_ptr<G4PSCylinderSurfaceCurrent>>(
-      m, "G4PSCylinderSurfaceCurrent")
+   py::class_<G4PSCylinderSurfaceCurrent, G4VPrimitivePlotter>(m, "G4PSCylinderSurfaceCurrent")
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction"), py::arg("depth") = 0)
 
       .def(py::init<G4String, G4int, const G4String &, G4int>(), py::arg("name"), py::arg("direction"), py::arg("unit"),
@@ -149,8 +139,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSCylinderSurfaceCurrent::PrintAll)
       .def("SetUnit", &G4PSCylinderSurfaceCurrent::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSCylinderSurfaceCurrent3D, G4PSCylinderSurfaceCurrent, owntrans_ptr<G4PSCylinderSurfaceCurrent3D>>(
-      m, "G4PSCylinderSurfaceCurrent3D")
+   py::class_<G4PSCylinderSurfaceCurrent3D, G4PSCylinderSurfaceCurrent>(m, "G4PSCylinderSurfaceCurrent3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("direction"),
            py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1,
            py::arg("depk") = 0)
@@ -159,8 +148,7 @@ void export_G4Scorer(py::module &m)
            py::arg("direction"), py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1,
            py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSCylinderSurfaceFlux, G4VPrimitivePlotter, owntrans_ptr<G4PSCylinderSurfaceFlux>>(
-      m, "G4PSCylinderSurfaceFlux")
+   py::class_<G4PSCylinderSurfaceFlux, G4VPrimitivePlotter>(m, "G4PSCylinderSurfaceFlux")
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction"), py::arg("depth") = 0)
 
       .def(py::init<G4String, G4int, const G4String &, G4int>(), py::arg("name"), py::arg("direction"), py::arg("unit"),
@@ -175,8 +163,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSCylinderSurfaceFlux::PrintAll)
       .def("SetUnit", &G4PSCylinderSurfaceFlux::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSCylinderSurfaceFlux3D, G4PSCylinderSurfaceFlux, owntrans_ptr<G4PSCylinderSurfaceFlux3D>>(
-      m, "G4PSCylinderSurfaceFlux3D")
+   py::class_<G4PSCylinderSurfaceFlux3D, G4PSCylinderSurfaceFlux>(m, "G4PSCylinderSurfaceFlux3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("direction"),
            py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1,
            py::arg("depk") = 0)
@@ -197,7 +184,7 @@ void export_G4Scorer(py::module &m)
       .value("fCurrent_Out", fCurrent_Out)
       .export_values();
 
-   py::class_<G4PSDoseDeposit, G4VPrimitivePlotter, owntrans_ptr<G4PSDoseDeposit>>(m, "G4PSDoseDeposit")
+   py::class_<G4PSDoseDeposit, G4VPrimitivePlotter>(m, "G4PSDoseDeposit")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def(py::init<G4String, const G4String &, G4int>(), py::arg("name"), py::arg("unit"), py::arg("depth") = 0)
       .def("Initialize", &G4PSDoseDeposit::Initialize)
@@ -207,7 +194,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSDoseDeposit::PrintAll)
       .def("SetUnit", &G4PSDoseDeposit::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSDoseDeposit3D, G4PSDoseDeposit, owntrans_ptr<G4PSDoseDeposit3D>>(m, "G4PSDoseDeposit3D")
+   py::class_<G4PSDoseDeposit3D, G4PSDoseDeposit>(m, "G4PSDoseDeposit3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
 
@@ -215,8 +202,7 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSDoseDepositForCylinder3D, G4PSDoseDeposit3D, owntrans_ptr<G4PSDoseDepositForCylinder3D>>(
-      m, "G4PSDoseDepositForCylinder3D")
+   py::class_<G4PSDoseDepositForCylinder3D, G4PSDoseDeposit3D>(m, "G4PSDoseDepositForCylinder3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
 
@@ -238,7 +224,7 @@ void export_G4Scorer(py::module &m)
          self.SetNumberOfSegments(nSeg);
       });
 
-   py::class_<G4PSEnergyDeposit, G4VPrimitivePlotter, owntrans_ptr<G4PSEnergyDeposit>>(m, "G4PSEnergyDeposit")
+   py::class_<G4PSEnergyDeposit, G4VPrimitivePlotter>(m, "G4PSEnergyDeposit")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def(py::init<G4String, const G4String &, G4int>(), py::arg("name"), py::arg("unit"), py::arg("depth") = 0)
       .def("Initialize", &G4PSEnergyDeposit::Initialize)
@@ -248,7 +234,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSEnergyDeposit::PrintAll)
       .def("SetUnit", &G4PSEnergyDeposit::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSEnergyDeposit3D, G4PSEnergyDeposit, owntrans_ptr<G4PSEnergyDeposit3D>>(m, "G4PSEnergyDeposit3D")
+   py::class_<G4PSEnergyDeposit3D, G4PSEnergyDeposit>(m, "G4PSEnergyDeposit3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
 
@@ -256,8 +242,7 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSFlatSurfaceCurrent, G4VPrimitivePlotter, owntrans_ptr<G4PSFlatSurfaceCurrent>>(
-      m, "G4PSFlatSurfaceCurrent")
+   py::class_<G4PSFlatSurfaceCurrent, G4VPrimitivePlotter>(m, "G4PSFlatSurfaceCurrent")
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction"), py::arg("depth") = 0)
 
       .def(py::init<G4String, G4int, const G4String &, G4int>(), py::arg("name"), py::arg("direction"), py::arg("unit"),
@@ -272,8 +257,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSFlatSurfaceCurrent::PrintAll)
       .def("SetUnit", &G4PSFlatSurfaceCurrent::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSFlatSurfaceCurrent3D, G4PSFlatSurfaceCurrent, owntrans_ptr<G4PSFlatSurfaceCurrent3D>>(
-      m, "G4PSFlatSurfaceCurrent3D")
+   py::class_<G4PSFlatSurfaceCurrent3D, G4PSFlatSurfaceCurrent>(m, "G4PSFlatSurfaceCurrent3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("direction"),
            py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1,
            py::arg("depk") = 0)
@@ -282,7 +266,7 @@ void export_G4Scorer(py::module &m)
            py::arg("direction"), py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1,
            py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSFlatSurfaceFlux, G4VPrimitivePlotter, owntrans_ptr<G4PSFlatSurfaceFlux>>(m, "G4PSFlatSurfaceFlux")
+   py::class_<G4PSFlatSurfaceFlux, G4VPrimitivePlotter>(m, "G4PSFlatSurfaceFlux")
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction"), py::arg("depth") = 0)
 
       .def(py::init<G4String, G4int, const G4String &, G4int>(), py::arg("name"), py::arg("direction"), py::arg("unit"),
@@ -297,8 +281,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSFlatSurfaceFlux::PrintAll)
       .def("SetUnit", &G4PSFlatSurfaceFlux::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSFlatSurfaceFlux3D, G4PSFlatSurfaceFlux, owntrans_ptr<G4PSFlatSurfaceFlux3D>>(m,
-                                                                                               "G4PSFlatSurfaceFlux3D")
+   py::class_<G4PSFlatSurfaceFlux3D, G4PSFlatSurfaceFlux>(m, "G4PSFlatSurfaceFlux3D")
 
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("direction"),
            py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1,
@@ -308,8 +291,7 @@ void export_G4Scorer(py::module &m)
            py::arg("direction"), py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1,
            py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSMinKinEAtGeneration, G4VPrimitivePlotter, owntrans_ptr<G4PSMinKinEAtGeneration>>(
-      m, "G4PSMinKinEAtGeneration")
+   py::class_<G4PSMinKinEAtGeneration, G4VPrimitivePlotter>(m, "G4PSMinKinEAtGeneration")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def(py::init<G4String, const G4String &, G4int>(), py::arg("name"), py::arg("unit"), py::arg("depth") = 0)
       .def("Initialize", &G4PSMinKinEAtGeneration::Initialize)
@@ -319,8 +301,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSMinKinEAtGeneration::PrintAll)
       .def("SetUnit", &G4PSMinKinEAtGeneration::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSMinKinEAtGeneration3D, G4PSMinKinEAtGeneration, owntrans_ptr<G4PSMinKinEAtGeneration3D>>(
-      m, "G4PSMinKinEAtGeneration3D")
+   py::class_<G4PSMinKinEAtGeneration3D, G4PSMinKinEAtGeneration>(m, "G4PSMinKinEAtGeneration3D")
 
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
@@ -329,7 +310,7 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSNofCollision, G4VPrimitiveScorer, owntrans_ptr<G4PSNofCollision>>(m, "G4PSNofCollision")
+   py::class_<G4PSNofCollision, G4VPrimitiveScorer>(m, "G4PSNofCollision")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def("Weighted", &G4PSNofCollision::Weighted, py::arg("flg") = true)
       .def("Initialize", &G4PSNofCollision::Initialize)
@@ -339,11 +320,11 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSNofCollision::PrintAll)
       .def("SetUnit", &G4PSNofCollision::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSNofCollision3D, G4PSNofCollision, owntrans_ptr<G4PSNofCollision3D>>(m, "G4PSNofCollision3D")
+   py::class_<G4PSNofCollision3D, G4PSNofCollision>(m, "G4PSNofCollision3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSNofSecondary, G4VPrimitivePlotter, owntrans_ptr<G4PSNofSecondary>>(m, "G4PSNofSecondary")
+   py::class_<G4PSNofSecondary, G4VPrimitivePlotter>(m, "G4PSNofSecondary")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
 
       .def("SetParticle", &G4PSNofSecondary::SetParticle, py::arg("particleName"))
@@ -356,11 +337,11 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSNofSecondary::PrintAll)
       .def("SetUnit", &G4PSNofSecondary::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSNofSecondary3D, G4PSNofSecondary, owntrans_ptr<G4PSNofSecondary3D>>(m, "G4PSNofSecondary3D")
+   py::class_<G4PSNofSecondary3D, G4PSNofSecondary>(m, "G4PSNofSecondary3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSNofStep, G4VPrimitivePlotter, owntrans_ptr<G4PSNofStep>>(m, "G4PSNofStep")
+   py::class_<G4PSNofStep, G4VPrimitivePlotter>(m, "G4PSNofStep")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def("SetBoundaryFlag", &G4PSNofStep::SetBoundaryFlag, py::arg("flg") = true)
       .def("Initialize", &G4PSNofStep::Initialize)
@@ -370,12 +351,11 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSNofStep::PrintAll)
       .def("SetUnit", &G4PSNofStep::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSNofStep3D, G4PSNofStep, owntrans_ptr<G4PSNofStep3D>>(m, "G4PSNofStep3D")
+   py::class_<G4PSNofStep3D, G4PSNofStep>(m, "G4PSNofStep3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSPassageCellCurrent, G4VPrimitivePlotter, owntrans_ptr<G4PSPassageCellCurrent>>(
-      m, "G4PSPassageCellCurrent")
+   py::class_<G4PSPassageCellCurrent, G4VPrimitivePlotter>(m, "G4PSPassageCellCurrent")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
 
       .def("Weighted", &G4PSPassageCellCurrent::Weighted, py::arg("flg") = true)
@@ -386,12 +366,11 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSPassageCellCurrent::PrintAll)
       .def("SetUnit", &G4PSPassageCellCurrent::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSPassageCellCurrent3D, G4PSPassageCellCurrent, owntrans_ptr<G4PSPassageCellCurrent3D>>(
-      m, "G4PSPassageCellCurrent3D")
+   py::class_<G4PSPassageCellCurrent3D, G4PSPassageCellCurrent>(m, "G4PSPassageCellCurrent3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSPassageCellFlux, G4VPrimitivePlotter, owntrans_ptr<G4PSPassageCellFlux>>(m, "G4PSPassageCellFlux")
+   py::class_<G4PSPassageCellFlux, G4VPrimitivePlotter>(m, "G4PSPassageCellFlux")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def(py::init<G4String, const G4String &, G4int>(), py::arg("name"), py::arg("unit"), py::arg("depth") = 0)
 
@@ -403,16 +382,14 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSPassageCellFlux::PrintAll)
       .def("SetUnit", &G4PSPassageCellFlux::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSPassageCellFlux3D, G4PSPassageCellFlux, owntrans_ptr<G4PSPassageCellFlux3D>>(m,
-                                                                                               "G4PSPassageCellFlux3D")
+   py::class_<G4PSPassageCellFlux3D, G4PSPassageCellFlux>(m, "G4PSPassageCellFlux3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
       .def(py::init<G4String, const G4String &, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"),
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSPassageCellFluxForCylinder3D, G4PSPassageCellFlux3D, owntrans_ptr<G4PSPassageCellFluxForCylinder3D>>(
-      m, "G4PSPassageCellFluxForCylinder3D")
+   py::class_<G4PSPassageCellFluxForCylinder3D, G4PSPassageCellFlux3D>(m, "G4PSPassageCellFluxForCylinder3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
 
@@ -434,8 +411,7 @@ void export_G4Scorer(py::module &m)
          self.SetNumberOfSegments(nSeg);
       });
 
-   py::class_<G4PSPassageTrackLength, G4VPrimitivePlotter, owntrans_ptr<G4PSPassageTrackLength>>(
-      m, "G4PSPassageTrackLength")
+   py::class_<G4PSPassageTrackLength, G4VPrimitivePlotter>(m, "G4PSPassageTrackLength")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def(py::init<G4String, const G4String &, G4int>(), py::arg("name"), py::arg("unit"), py::arg("depth") = 0)
       .def("Weighted", &G4PSPassageTrackLength::Weighted, py::arg("flg") = true)
@@ -446,8 +422,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSPassageTrackLength::PrintAll)
       .def("SetUnit", &G4PSPassageTrackLength::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSPassageTrackLength3D, G4PSPassageTrackLength, owntrans_ptr<G4PSPassageTrackLength3D>>(
-      m, "G4PSPassageTrackLength3D")
+   py::class_<G4PSPassageTrackLength3D, G4PSPassageTrackLength>(m, "G4PSPassageTrackLength3D")
 
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
@@ -455,7 +430,7 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSPopulation, G4VPrimitiveScorer, owntrans_ptr<G4PSPopulation>>(m, "G4PSPopulation")
+   py::class_<G4PSPopulation, G4VPrimitiveScorer>(m, "G4PSPopulation")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def("Weighted", &G4PSPopulation::Weighted, py::arg("flg") = true)
       .def("Initialize", &G4PSPopulation::Initialize)
@@ -465,12 +440,11 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSPopulation::PrintAll)
       .def("SetUnit", &G4PSPopulation::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSPopulation3D, G4PSPopulation, owntrans_ptr<G4PSPopulation3D>>(m, "G4PSPopulation3D")
+   py::class_<G4PSPopulation3D, G4PSPopulation>(m, "G4PSPopulation3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSSphereSurfaceCurrent, G4VPrimitiveScorer, owntrans_ptr<G4PSSphereSurfaceCurrent>>(
-      m, "G4PSSphereSurfaceCurrent")
+   py::class_<G4PSSphereSurfaceCurrent, G4VPrimitiveScorer>(m, "G4PSSphereSurfaceCurrent")
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction"), py::arg("depth") = 0)
       .def(py::init<G4String, G4int, const G4String &, G4int>(), py::arg("name"), py::arg("direction"), py::arg("unit"),
            py::arg("depth") = 0)
@@ -484,8 +458,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSSphereSurfaceCurrent::PrintAll)
       .def("SetUnit", &G4PSSphereSurfaceCurrent::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSSphereSurfaceCurrent3D, G4PSSphereSurfaceCurrent, owntrans_ptr<G4PSSphereSurfaceCurrent3D>>(
-      m, "G4PSSphereSurfaceCurrent3D")
+   py::class_<G4PSSphereSurfaceCurrent3D, G4PSSphereSurfaceCurrent>(m, "G4PSSphereSurfaceCurrent3D")
 
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("direction"),
            py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1,
@@ -495,8 +468,7 @@ void export_G4Scorer(py::module &m)
            py::arg("direction"), py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1,
            py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSSphereSurfaceFlux, G4VPrimitiveScorer, owntrans_ptr<G4PSSphereSurfaceFlux>>(m,
-                                                                                              "G4PSSphereSurfaceFlux")
+   py::class_<G4PSSphereSurfaceFlux, G4VPrimitiveScorer>(m, "G4PSSphereSurfaceFlux")
 
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction"), py::arg("depth") = 0)
       .def(py::init<G4String, G4int, const G4String &, G4int>(), py::arg("name"), py::arg("direction"), py::arg("unit"),
@@ -511,8 +483,7 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSSphereSurfaceFlux::PrintAll)
       .def("SetUnit", &G4PSSphereSurfaceFlux::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSSphereSurfaceFlux3D, G4PSSphereSurfaceFlux, owntrans_ptr<G4PSSphereSurfaceFlux3D>>(
-      m, "G4PSSphereSurfaceFlux3D")
+   py::class_<G4PSSphereSurfaceFlux3D, G4PSSphereSurfaceFlux>(m, "G4PSSphereSurfaceFlux3D")
 
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("direction"),
            py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1,
@@ -522,7 +493,7 @@ void export_G4Scorer(py::module &m)
            py::arg("direction"), py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1,
            py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSStepChecker, G4VPrimitiveScorer, owntrans_ptr<G4PSStepChecker>>(m, "G4PSStepChecker")
+   py::class_<G4PSStepChecker, G4VPrimitiveScorer>(m, "G4PSStepChecker")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def("Initialize", &G4PSStepChecker::Initialize)
       .def("EndOfEvent", &G4PSStepChecker::EndOfEvent)
@@ -530,11 +501,11 @@ void export_G4Scorer(py::module &m)
       .def("DrawAll", &G4PSStepChecker::DrawAll)
       .def("PrintAll", &G4PSStepChecker::PrintAll);
 
-   py::class_<G4PSStepChecker3D, G4PSStepChecker, owntrans_ptr<G4PSStepChecker3D>>(m, "G4PSStepChecker3D")
+   py::class_<G4PSStepChecker3D, G4PSStepChecker>(m, "G4PSStepChecker3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSTermination, G4VPrimitiveScorer, owntrans_ptr<G4PSTermination>>(m, "G4PSTermination")
+   py::class_<G4PSTermination, G4VPrimitiveScorer>(m, "G4PSTermination")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def("Weighted", &G4PSTermination::Weighted, py::arg("flg") = true)
       .def("Initialize", &G4PSTermination::Initialize)
@@ -543,11 +514,11 @@ void export_G4Scorer(py::module &m)
       .def("DrawAll", &G4PSTermination::DrawAll)
       .def("PrintAll", &G4PSTermination::PrintAll);
 
-   py::class_<G4PSTermination3D, G4PSTermination, owntrans_ptr<G4PSTermination3D>>(m, "G4PSTermination3D")
+   py::class_<G4PSTermination3D, G4PSTermination>(m, "G4PSTermination3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSTrackCounter, G4VPrimitivePlotter, owntrans_ptr<G4PSTrackCounter>>(m, "G4PSTrackCounter")
+   py::class_<G4PSTrackCounter, G4VPrimitivePlotter>(m, "G4PSTrackCounter")
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction"), py::arg("depth") = 0)
       .def("Weighted", &G4PSTrackCounter::Weighted, py::arg("flg") = true)
       .def("Initialize", &G4PSTrackCounter::Initialize)
@@ -557,12 +528,12 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSTrackCounter::PrintAll)
       .def("SetUnit", &G4PSTrackCounter::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSTrackCounter3D, G4PSTrackCounter, owntrans_ptr<G4PSTrackCounter3D>>(m, "G4PSTrackCounter3D")
+   py::class_<G4PSTrackCounter3D, G4PSTrackCounter>(m, "G4PSTrackCounter3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("direction"),
            py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1,
            py::arg("depk") = 0);
 
-   py::class_<G4PSTrackLength, G4VPrimitiveScorer, owntrans_ptr<G4PSTrackLength>>(m, "G4PSTrackLength")
+   py::class_<G4PSTrackLength, G4VPrimitiveScorer>(m, "G4PSTrackLength")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)
       .def(py::init<G4String, const G4String &, G4int>(), py::arg("name"), py::arg("unit"), py::arg("depth") = 0)
       .def("Weighted", &G4PSTrackLength::Weighted, py::arg("flg") = true)
@@ -575,14 +546,14 @@ void export_G4Scorer(py::module &m)
       .def("PrintAll", &G4PSTrackLength::PrintAll)
       .def("SetUnit", &G4PSTrackLength::SetUnit, py::arg("unit"));
 
-   py::class_<G4PSTrackLength3D, G4PSTrackLength, owntrans_ptr<G4PSTrackLength3D>>(m, "G4PSTrackLength3D")
+   py::class_<G4PSTrackLength3D, G4PSTrackLength>(m, "G4PSTrackLength3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"), py::arg("ni") = 1,
            py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2, py::arg("depj") = 1, py::arg("depk") = 0)
       .def(py::init<G4String, const G4String &, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"),
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);
 
-   py::class_<G4PSVolumeFlux, G4VPrimitivePlotter, owntrans_ptr<G4PSVolumeFlux>>(m, "G4PSVolumeFlux")
+   py::class_<G4PSVolumeFlux, G4VPrimitivePlotter>(m, "G4PSVolumeFlux")
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction") = 1, py::arg("depth") = 0)
       .def("SetDivAre", &G4PSVolumeFlux::SetDivAre, py::arg("val"))
       .def("SetDivCos", &G4PSVolumeFlux::SetDivCos, py::arg("val"))
@@ -592,7 +563,7 @@ void export_G4Scorer(py::module &m)
       .def("DrawAll", &G4PSVolumeFlux::DrawAll)
       .def("PrintAll", &G4PSVolumeFlux::PrintAll);
 
-   py::class_<G4PSVolumeFlux3D, G4PSVolumeFlux, owntrans_ptr<G4PSVolumeFlux3D>>(m, "G4PSVolumeFlux3D")
+   py::class_<G4PSVolumeFlux3D, G4PSVolumeFlux>(m, "G4PSVolumeFlux3D")
       .def(py::init<G4String, G4int, G4int, G4int, G4int, G4int, G4int, G4int>(), py::arg("name"),
            py::arg("direction") = 1, py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0);

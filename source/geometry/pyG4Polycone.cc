@@ -12,7 +12,7 @@ namespace py = pybind11;
 
 void export_G4Polycone(py::module &m)
 {
-   py::class_<G4Polycone, G4VSolid, std::unique_ptr<G4Polycone, py::nodelete>>(m, "G4Polycone", "Polycone solid class")
+   py::class_<G4Polycone, G4VSolid, py::nodelete>(m, "G4Polycone", "Polycone solid class")
 
       .def(py::init<>([](const G4String &name, G4double phiStart, G4double phiTotal, G4int numZPlanes,
                          const py::list &zPlane, const py::list &rInner, const py::list &rOuter) {
@@ -47,12 +47,11 @@ void export_G4Polycone(py::module &m)
       .def("IsOpen", &G4Polycone::IsOpen)
       .def("GetNumRZCorner", &G4Polycone::GetNumRZCorner)
 
-      .def(
-         "__str__",
-         [](const G4Polycone &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator());
+      .def("__str__",
+           [](const G4Polycone &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator());
 }

@@ -13,7 +13,7 @@ namespace py = pybind11;
 
 void export_G4Trap(py::module &m)
 {
-   py::class_<G4Trap, G4VSolid, std::unique_ptr<G4Trap, py::nodelete>>(m, "G4Trap", "Generic trapezoild soild class")
+   py::class_<G4Trap, G4VSolid, py::nodelete>(m, "G4Trap", "Generic trapezoild soild class")
 
       .def(py::init<const G4String &>())
       .def(py::init<const G4String &, G4double, G4double, G4double, G4double>())
@@ -35,12 +35,11 @@ void export_G4Trap(py::module &m)
       .def("GetSymAxis", &G4Trap::GetSymAxis)
       .def("SetAllParameters", &G4Trap::SetAllParameters)
 
-      .def(
-         "__str__",
-         [](const G4Trap &self) {
-            std::stringstream ss;
-            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-            return ss.str();
-         },
-         py::is_operator());
+      .def("__str__",
+           [](const G4Trap &self) {
+              std::stringstream ss;
+              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+              return ss.str();
+           },
+           py::is_operator());
 }
