@@ -10,13 +10,13 @@
 
 namespace py = pybind11;
 
-class PublicG4MultiFunctionalDetector : public G4MultiFunctionalDetector, public py::trampoline_self_life_support {
+class PublicG4MultiFunctionalDetector : public G4MultiFunctionalDetector {
 public:
    using G4MultiFunctionalDetector::ProcessHits;
 };
 
 // Trampolin class
-class PyG4MultiFunctionalDetector : public G4MultiFunctionalDetector {
+class PyG4MultiFunctionalDetector : public G4MultiFunctionalDetector, public py::trampoline_self_life_support {
 public:
    using G4MultiFunctionalDetector::G4MultiFunctionalDetector;
 
