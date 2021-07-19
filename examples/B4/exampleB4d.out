@@ -1672,5 +1672,3 @@ CoulombScat:  for pi-, integral:1  SubType=1 BuildTable=1
 0 events have been kept for refreshing and/or reviewing.
   "/vis/reviewKeptEvents" to review them one by one.
   "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
-Graphics systems deleted.
-Visualization Manager deleting...
