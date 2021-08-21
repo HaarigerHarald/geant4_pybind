@@ -101,7 +101,7 @@ jobs:
         shell: bash
         run: echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
 
-      - uses: joerick/cibuildwheel@v1.11.0
+      - uses: pypa/cibuildwheel@v2.1.1
         env:
           CIBW_BUILD: cp3*
           CIBW_ARCHS: native
@@ -120,7 +120,7 @@ jobs:
         with:
           submodules: true
 
-      - uses: joerick/cibuildwheel@v1.11.0
+      - uses: pypa/cibuildwheel@v2.1.1
         env:
           CIBW_ENVIRONMENT_LINUX: "CXXFLAGS='-fPIC' CFLAGS='-fPIC'"
           CIBW_BEFORE_ALL_LINUX: >
