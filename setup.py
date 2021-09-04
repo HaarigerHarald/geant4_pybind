@@ -66,6 +66,13 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", "."] + build_args, cwd=self.build_temp
         )
 
+        # Automatically generate stubs
+        subprocess.check_call(
+            [sys.executable, "doc/generate_stubs.py", ext.name,
+                os.path.realpath(self.get_ext_fullpath(ext.name))],
+            cwd=os.path.dirname(os.path.abspath(__file__))
+        )
+
 
 with open("README.md", "r") as readme:
     long_desc = readme.read()
@@ -76,7 +83,7 @@ with open("pybind11/LICENSE", "r") as license_file:
 
 try:
     with urllib.request.urlopen(
-                "https://raw.githubusercontent.com/Geant4/geant4/v10.7.1/LICENSE") as resp:
+            "https://raw.githubusercontent.com/Geant4/geant4/v10.7.1/LICENSE") as resp:
         licenses += resp.read().decode("utf-8")
 except:
     pass

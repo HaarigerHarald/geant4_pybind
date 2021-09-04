@@ -1,4 +1,4 @@
-include README.md LICENSE pybind11/LICENSE
+include README.md LICENSE pybind11/LICENSE doc/*.py
 exclude LICENSE-3RD-PARTY
 graft pybind11/include
 graft pybind11/tools

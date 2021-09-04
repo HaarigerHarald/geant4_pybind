@@ -151,7 +151,7 @@ class type_caster_for_class_<disown_ptr<T const>> : public smart_holder_type_cas
 template <>
 struct type_caster<G4String> {
 public:
-   PYBIND11_TYPE_CASTER(G4String, _("G4String"));
+   PYBIND11_TYPE_CASTER(G4String, _(PYBIND11_STRING_NAME));
 
    bool load(handle src, bool)
    {
