@@ -23,7 +23,7 @@ class B5CellParameterisation(G4VPVParameterisation):
         self.fXCell = [0] * kNofEmCells
         self.fYCell = [0] * kNofEmCells
         for copyNo in range(0, kNofEmCells):
-            column = copyNo / kNofEmRows
+            column = int(copyNo / kNofEmRows)
             row = copyNo % kNofEmRows
             self.fXCell[copyNo] = (column-9)*15*cm - 7.5*cm
             self.fYCell[copyNo] = (row-1)*15*cm - 7.5*cm
@@ -95,6 +95,7 @@ class B5DetectorConstruction(G4VUserDetectorConstruction):
         x = -5*m * math.sin(self.fArmAngle)
         z = 5*m * math.cos(self.fArmAngle)
         self.fSecondArmPhys.SetTranslation(G4ThreeVector(x, 0, z))
+        self.fSecondArmPhys.SetRotation(self.fArmRotation)
 
         # tell G4RunManager that we change the geometry
         G4RunManager.GetRunManager().GeometryHasBeenModified()
@@ -947,7 +948,7 @@ class B5EventAction(G4UserEventAction):
             if hc == None:
                 return
 
-            for i in range(0, 2):
+            for i in range(0, hc.GetSize()):
                 edep = hc[i].fEdep
 
                 if edep > 0:

@@ -32,3 +32,5 @@ test_example('B4', 'exampleB4a.py', 'exampleB4.in', 'exampleB4a.out', ['-m'])
 test_example('B4', 'exampleB4b.py', 'exampleB4.in', 'exampleB4b.out', ['-m'])
 test_example('B4', 'exampleB4c.py', 'exampleB4.in', 'exampleB4c.out', ['-m'])
 test_example('B4', 'exampleB4d.py', 'exampleB4.in', 'exampleB4d.out', ['-m'])
+
+test_example('B5', 'exampleB5.py', 'exampleB5.in', 'exampleB5.out')
