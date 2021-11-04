@@ -1,5 +1,5 @@
 
-file(GLOB SOURCE 
+file(GLOB_RECURSE SOURCE 
   analysis/*.cc
   digits_hits/*.cc
   event/*.cc

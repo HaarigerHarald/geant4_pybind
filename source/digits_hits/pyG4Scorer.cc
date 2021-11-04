@@ -68,15 +68,17 @@ void export_G4Scorer(py::module &m)
       .def("DrawAllHits", &G4THitsMap<double>::DrawAllHits)
       .def("PrintAllHits", &G4THitsMap<double>::PrintAllHits)
 
-      .def("__getitem__", [](G4THitsMap<double> &self, std::size_t n) { return self[n]; }, py::is_operator(),
-           py::return_value_policy::reference_internal)
+      .def(
+         "__getitem__", [](const G4THitsMap<double> &self, std::size_t n) { return self[n]; }, py::is_operator(),
+         py::return_value_policy::reference_internal)
 
       .def("entries", &G4THitsMap<double>::entries)
       .def("GetHit", &G4THitsMap<double>::GetHit, py::return_value_policy::reference_internal)
       .def("GetSize", &G4THitsMap<double>::GetSize)
 
-      .def("__iter__", [](const G4THitsMap<double> &s) { return py::make_iterator(s.begin(), s.end()); },
-           py::keep_alive<0, 1>(), py::is_operator());
+      .def(
+         "__iter__", [](const G4THitsMap<double> &s) { return py::make_iterator(s.begin(), s.end()); },
+         py::keep_alive<0, 1>(), py::is_operator());
 
    py::class_<G4PSCellCharge, G4VPrimitiveScorer>(m, "G4PSCellCharge")
       .def(py::init<G4String, G4int>(), py::arg("name"), py::arg("depth") = 0)

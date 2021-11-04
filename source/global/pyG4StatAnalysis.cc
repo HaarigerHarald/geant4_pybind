@@ -41,7 +41,8 @@ void export_G4StatAnalysis(py::module &m)
       .def("GetR2Int", &G4StatAnalysis::GetR2Int)
       .def("GetR2Eff", &G4StatAnalysis::GetR2Eff)
 
-      .def("__call__", [](const G4StatAnalysis &self) { return self.operator G4double(); }, py::is_operator())
+      .def(
+         "__call__", [](const G4StatAnalysis &self) { return self.operator G4double(); }, py::is_operator())
 
       .def("Reset", &G4StatAnalysis::Reset)
       .def("Add", &G4StatAnalysis::Add, py::arg("_val"), py::arg("_weight") = 1.0)
@@ -52,14 +53,15 @@ void export_G4StatAnalysis(py::module &m)
       .def(py::self += py::self)
       .def(py::self -= py::self)
 
-      .def("PrintInfo",
-           [](const G4StatAnalysis &self, py::object file, std::string &tab) {
-              std::stringstream ss;
-              ss.precision(std::numeric_limits<G4double>::digits10 + 1);
-              self.PrintInfo(ss, tab);
-              py::print(ss, file = file);
-           },
-           py::arg("file"), py::arg("tab") = "")
+      .def(
+         "PrintInfo",
+         [](const G4StatAnalysis &self, py::object file, std::string &tab) {
+            std::stringstream ss;
+            ss.precision(std::numeric_limits<G4double>::digits10 + 1);
+            self.PrintInfo(ss, tab);
+            py::print(ss, file = file);
+         },
+         py::arg("file"), py::arg("tab") = "")
 
       .def("GetCpuTime", &G4StatAnalysis::GetCpuTime)
       .def_static("GetCpuClock", &G4StatAnalysis::GetCpuClock)
@@ -68,13 +70,14 @@ void export_G4StatAnalysis(py::module &m)
       .def(py::self + py::self)
       .def(py::self - py::self)
 
-      .def("__str__",
-           [](const G4StatAnalysis &self) {
-              std::stringstream ss;
-              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-              return ss.str();
-           },
-           py::is_operator());
+      .def(
+         "__str__",
+         [](const G4StatAnalysis &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator());
 
    // py::implicitly_convertible<G4StatAnalysis, G4double>();
 }

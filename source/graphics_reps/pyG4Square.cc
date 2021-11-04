@@ -15,11 +15,12 @@ void export_G4Square(py::module &m)
       .def(py::init<const G4VMarker &>())
       .def(py::init<const G4Point3D &>(), py::arg("position"))
 
-      .def("__str__",
-           [](const G4Square &self) {
-              std::stringstream ss;
-              ss << self;
-              return ss.str();
-           },
-           py::is_operator());
+      .def(
+         "__str__",
+         [](const G4Square &self) {
+            std::stringstream ss;
+            ss << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

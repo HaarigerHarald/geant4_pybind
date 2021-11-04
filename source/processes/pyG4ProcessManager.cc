@@ -44,53 +44,57 @@ void export_G4ProcessManager(py::module &m)
 
       .def("GetProcessListLength", &G4ProcessManager::GetProcessListLength)
       .def("GetProcessIndex", &G4ProcessManager::GetProcessIndex)
-      .def("GetProcessVector",
-           [](const G4ProcessManager &self, G4ProcessVectorDoItIndex idx, G4ProcessVectorTypeIndex typ = typeGPIL) {
-              py::list         procList;
-              G4ProcessVector *procVec = self.GetProcessVector(idx, typ);
-              size_t           nproc   = procVec->size();
-              for (size_t i = 0; i < nproc; i++) {
-                 procList.append((*procVec)[i]);
-              }
-              return procList;
-           },
-           py::arg("idx"), py::arg("typ") = typeGPIL)
+      .def(
+         "GetProcessVector",
+         [](const G4ProcessManager &self, G4ProcessVectorDoItIndex idx, G4ProcessVectorTypeIndex typ = typeGPIL) {
+            py::list         procList;
+            G4ProcessVector *procVec = self.GetProcessVector(idx, typ);
+            size_t           nproc   = procVec->size();
+            for (size_t i = 0; i < nproc; i++) {
+               procList.append((*procVec)[i]);
+            }
+            return procList;
+         },
+         py::arg("idx"), py::arg("typ") = typeGPIL)
 
-      .def("GetAtRestProcessVector",
-           [](const G4ProcessManager &self, G4ProcessVectorTypeIndex typ = typeGPIL) {
-              py::list         procList;
-              G4ProcessVector *procVec = self.GetAtRestProcessVector(typ);
-              size_t           nproc   = procVec->size();
-              for (size_t i = 0; i < nproc; i++) {
-                 procList.append((*procVec)[i]);
-              }
-              return procList;
-           },
-           py::arg("typ") = typeGPIL)
+      .def(
+         "GetAtRestProcessVector",
+         [](const G4ProcessManager &self, G4ProcessVectorTypeIndex typ = typeGPIL) {
+            py::list         procList;
+            G4ProcessVector *procVec = self.GetAtRestProcessVector(typ);
+            size_t           nproc   = procVec->size();
+            for (size_t i = 0; i < nproc; i++) {
+               procList.append((*procVec)[i]);
+            }
+            return procList;
+         },
+         py::arg("typ") = typeGPIL)
 
-      .def("GetAlongStepProcessVector",
-           [](const G4ProcessManager &self, G4ProcessVectorTypeIndex typ = typeGPIL) {
-              py::list         procList;
-              G4ProcessVector *procVec = self.GetAlongStepProcessVector(typ);
-              size_t           nproc   = procVec->size();
-              for (size_t i = 0; i < nproc; i++) {
-                 procList.append((*procVec)[i]);
-              }
-              return procList;
-           },
-           py::arg("typ") = typeGPIL)
+      .def(
+         "GetAlongStepProcessVector",
+         [](const G4ProcessManager &self, G4ProcessVectorTypeIndex typ = typeGPIL) {
+            py::list         procList;
+            G4ProcessVector *procVec = self.GetAlongStepProcessVector(typ);
+            size_t           nproc   = procVec->size();
+            for (size_t i = 0; i < nproc; i++) {
+               procList.append((*procVec)[i]);
+            }
+            return procList;
+         },
+         py::arg("typ") = typeGPIL)
 
-      .def("GetPostStepProcessVector",
-           [](const G4ProcessManager &self, G4ProcessVectorTypeIndex typ = typeGPIL) {
-              py::list         procList;
-              G4ProcessVector *procVec = self.GetPostStepProcessVector(typ);
-              size_t           nproc   = procVec->size();
-              for (size_t i = 0; i < nproc; i++) {
-                 procList.append((*procVec)[i]);
-              }
-              return procList;
-           },
-           py::arg("typ") = typeGPIL)
+      .def(
+         "GetPostStepProcessVector",
+         [](const G4ProcessManager &self, G4ProcessVectorTypeIndex typ = typeGPIL) {
+            py::list         procList;
+            G4ProcessVector *procVec = self.GetPostStepProcessVector(typ);
+            size_t           nproc   = procVec->size();
+            for (size_t i = 0; i < nproc; i++) {
+               procList.append((*procVec)[i]);
+            }
+            return procList;
+         },
+         py::arg("typ") = typeGPIL)
 
       .def("GetProcessVectorIndex", &G4ProcessManager::GetProcessVectorIndex, py::arg("process"), py::arg("idx"),
            py::arg("typ") = typeGPIL)

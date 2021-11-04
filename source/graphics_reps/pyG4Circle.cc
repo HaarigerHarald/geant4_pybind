@@ -15,11 +15,12 @@ void export_G4Circle(py::module &m)
       .def(py::init<const G4VMarker &>())
       .def(py::init<const G4Point3D &>())
 
-      .def("__str__",
-           [](const G4Circle &self) {
-              std::stringstream ss;
-              ss << self;
-              return ss.str();
-           },
-           py::is_operator());
+      .def(
+         "__str__",
+         [](const G4Circle &self) {
+            std::stringstream ss;
+            ss << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

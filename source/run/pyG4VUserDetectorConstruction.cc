@@ -26,20 +26,7 @@ public:
 
    G4VPhysicalVolume *Construct() override
    {
-      py::gil_scoped_acquire gil;
-      py::function override = py::get_override(static_cast<const G4VUserDetectorConstruction *>(this), "Construct");
-      if (override) {
-         py::object o = override();
-         py::handle pySelf =
-            py::cast(static_cast<const G4VUserDetectorConstruction *>(this), py::return_value_policy::reference);
-
-         if (pySelf && o && !pySelf.is_none() && !o.is_none()) {
-            py::detail::add_patient(pySelf.ptr(), o.ptr());
-         }
-         return py::detail::cast_safe<G4VPhysicalVolume *>(std::move(o));
-      }
-
-      py::pybind11_fail("Tried to call pure virtual function \"G4VUserDetectorConstruction::Construct\"");
+      PYBIND11_OVERRIDE_PURE(G4VPhysicalVolume *, G4VUserDetectorConstruction, Construct, );
    }
 
    void ConstructSDandField() override { PYBIND11_OVERRIDE(void, G4VUserDetectorConstruction, ConstructSDandField, ); }

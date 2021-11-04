@@ -31,7 +31,6 @@ void export_G4StatAnalysis(py::module &);
 
 void export_modG4global(py::module &m)
 {
-   export_globals(m);
    export_geomdefs(m);
    export_G4StateManager(m);
    export_G4ApplicationState(m);
@@ -40,8 +39,8 @@ void export_modG4global(py::module &m)
    export_G4RotationMatrix(m);
    export_G4Transform3D(m);
    export_G4UnitsTable(m);
-   export_Randomize(m);
    export_RandomEngines(m);
+   export_Randomize(m);
    export_G4RandomDirection(m);
    export_G4UserLimits(m);
    export_G4Timer(m);
@@ -53,4 +52,5 @@ void export_modG4global(py::module &m)
    export_G4SystemOfUnits(m);
    export_G4PhysicalConstants(m);
    export_G4StatAnalysis(m);
+   export_globals(m);
 }

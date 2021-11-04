@@ -5,6 +5,15 @@
 #include <G4coutDestination.hh>
 #include <G4strstreambuf.hh>
 #include <G4UImanager.hh>
+#include <G4LogicalVolumeStore.hh>
+#include <G4LogicalVolume.hh>
+#include <G4PhysicalVolumeStore.hh>
+#include <G4VPhysicalVolume.hh>
+#include <G4RegionStore.hh>
+#include <G4Region.hh>
+#include <G4SolidStore.hh>
+#include <G4Material.hh>
+#include <G4RunManager.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -73,6 +82,22 @@ PYBIND11_MODULE(geant4_pybind, m)
    static G4PyCoutDestination pycout = G4PyCoutDestination();
    G4coutbuf.SetDestination(&pycout);
    G4cerrbuf.SetDestination(&pycout);
+
+   m.add_object("_cleanup", py::capsule([]() {
+                   G4UImanager *UImgr = G4UImanager::GetUIpointer();
+                   UImgr->SetCoutDestination(0);
+                   delete G4RunManager::GetRunManager();
+
+                   // Delete everything before the interpreter shuts down to properly clean up python objects
+                   G4LogicalVolumeStore::Clean();
+                   G4LogicalVolume::Clean();
+                   G4RegionStore::Clean();
+                   G4Region::Clean();
+                   G4PhysicalVolumeStore::Clean();
+                   G4VPhysicalVolume::Clean();
+                   G4SolidStore::Clean();
+                   G4Material::GetMaterialTable()->clear();
+                }));
 
    py::exec(
 #include "datainit.py"

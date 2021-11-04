@@ -116,13 +116,14 @@ void export_G4Material(py::module &m)
       .def_static("GetMaterial", py::overload_cast<size_t, G4double>(&G4Material::GetMaterial),
                   py::return_value_policy::reference)
 
-      .def("__str__",
-           [](const G4Material &self) {
-              std::stringstream ss;
-              ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
-              return ss.str();
-           },
-           py::is_operator())
+      .def(
+         "__str__",
+         [](const G4Material &self) {
+            std::stringstream ss;
+            ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self;
+            return ss.str();
+         },
+         py::is_operator())
 
       .def("Print", [](const G4Material &self) { G4cout << self; });
 }

@@ -32,11 +32,12 @@ void export_G4Text(py::module &m)
       .def("SetLayout", &G4Text::SetLayout)
       .def("SetOffset", &G4Text::SetOffset, py::arg("dx"), py::arg("dy"))
 
-      .def("__str__",
-           [](const G4Text &self) {
-              std::stringstream ss;
-              ss << self;
-              return ss.str();
-           },
-           py::is_operator());
+      .def(
+         "__str__",
+         [](const G4Text &self) {
+            std::stringstream ss;
+            ss << self;
+            return ss.str();
+         },
+         py::is_operator());
 }

@@ -37,13 +37,14 @@ void export_G4RunManager(py::module &m)
       .def("GetPrintProgress", &G4RunManager::GetPrintProgress)
 
       .def("Initialize", &G4RunManager::Initialize)
-      .def("BeamOn",
-           [](G4RunManager &self, G4int n_event, const char *macroFile = 0, G4int n_select = -1) {
-              py::gil_scoped_release gil;
-              self.BeamOn(n_event, macroFile, n_select);
-           },
-           py::arg("n_event"), py::arg("macroFile") = static_cast<const char *>(nullptr), py::arg("n_select") = -1,
-           "Starts event loop.")
+      .def(
+         "BeamOn",
+         [](G4RunManager &self, G4int n_event, const char *macroFile = 0, G4int n_select = -1) {
+            py::gil_scoped_release gil;
+            self.BeamOn(n_event, macroFile, n_select);
+         },
+         py::arg("n_event"), py::arg("macroFile") = static_cast<const char *>(nullptr), py::arg("n_select") = -1,
+         "Starts event loop.")
 
       .def("SetUserInitialization",
            [](G4RunManager &self, py::disown_ptr<G4VUserDetectorConstruction> detector) {
@@ -144,10 +145,4 @@ void export_G4RunManager(py::module &m)
       .def("SetRunIDCounter", &G4RunManager::SetRunIDCounter)
       .def("GetVersionString", &G4RunManager::GetVersionString, py::return_value_policy::reference)
       .def("GetRandomNumberStoreDir", &G4RunManager::GetRandomNumberStoreDir, py::return_value_policy::reference);
-
-   m.add_object("_cleanup", py::capsule([]() {
-                   G4UImanager *UImgr = G4UImanager::GetUIpointer();
-                   UImgr->SetCoutDestination(0);
-                   delete G4RunManager::GetRunManager();
-                }));
 }

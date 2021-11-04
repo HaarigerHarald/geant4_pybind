@@ -12,6 +12,8 @@ namespace py = pybind11;
 
 void export_G4Isotope(py::module &m)
 {
+   py::bind_vector<G4IsotopeTable>(m, "G4IsotopeTable");
+
    py::class_<G4Isotope>(m, "G4Isotope", "isotope class")
 
       .def(py::init<const G4String &, G4int, G4int>())
@@ -38,6 +40,4 @@ void export_G4Isotope(py::module &m)
 
       .def(py::self == py::self)
       .def(py::self != py::self);
-
-   py::bind_vector<G4IsotopeTable>(m, "G4IsotopeTable");
 }
