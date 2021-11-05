@@ -173,7 +173,9 @@ public:
 
    void ComputeDimensions(G4Polyhedra &phedra, const G4int copyNo, const G4VPhysicalVolume *physVol) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationPolyhedraRho, ComputeDimensions, phedra, copyNo, physVol);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationPolyhedraRho, "ComputeDimensions", std::addressof(phedra), copyNo,
+                             physVol);
+      G4ParameterisationPolyhedraRho::ComputeDimensions(phedra, copyNo, physVol);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override
@@ -217,7 +219,9 @@ public:
 
    void ComputeDimensions(G4Polyhedra &phedra, const G4int copyNo, const G4VPhysicalVolume *physVol) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationPolyhedraPhi, ComputeDimensions, phedra, copyNo, physVol);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationPolyhedraPhi, "ComputeDimensions", std::addressof(phedra), copyNo,
+                             physVol);
+      G4ParameterisationPolyhedraPhi::ComputeDimensions(phedra, copyNo, physVol);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override
@@ -260,7 +264,9 @@ public:
 
    void ComputeDimensions(G4Polyhedra &phedra, const G4int copyNo, const G4VPhysicalVolume *physVol) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationPolyhedraZ, ComputeDimensions, phedra, copyNo, physVol);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationPolyhedraZ, "ComputeDimensions", std::addressof(phedra), copyNo,
+                             physVol);
+      G4ParameterisationPolyhedraZ::ComputeDimensions(phedra, copyNo, physVol);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override

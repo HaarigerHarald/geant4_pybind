@@ -164,12 +164,8 @@ public:
 
    void ComputeDimensions(G4Trd &trd, const G4int copyNo, const G4VPhysicalVolume *pv) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationTrdX, ComputeDimensions, trd, copyNo, pv);
-   }
-
-   void ComputeDimensions(G4Trap &trd, const G4int copyNo, const G4VPhysicalVolume *pv) const override
-   {
-      PYBIND11_OVERRIDE(void, G4ParameterisationTrdX, ComputeDimensions, trd, copyNo, pv);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationTrdX, "ComputeDimensions", std::addressof(trd), copyNo, pv);
+      G4ParameterisationTrdX::ComputeDimensions(trd, copyNo, pv);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override
@@ -209,7 +205,8 @@ public:
 
    void ComputeDimensions(G4Trd &trd, const G4int copyNo, const G4VPhysicalVolume *pv) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationTrdY, ComputeDimensions, trd, copyNo, pv);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationTrdY, "ComputeDimensions", std::addressof(trd), copyNo, pv);
+      G4ParameterisationTrdY::ComputeDimensions(trd, copyNo, pv);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override
@@ -244,7 +241,8 @@ public:
 
    void ComputeDimensions(G4Trd &trd, const G4int copyNo, const G4VPhysicalVolume *pv) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationTrdZ, ComputeDimensions, trd, copyNo, pv);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationTrdZ, "ComputeDimensions", std::addressof(trd), copyNo, pv);
+      G4ParameterisationTrdZ::ComputeDimensions(trd, copyNo, pv);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override

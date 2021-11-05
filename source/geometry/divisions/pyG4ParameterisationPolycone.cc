@@ -172,7 +172,9 @@ public:
 
    void ComputeDimensions(G4Polycone &pcone, const G4int copyNo, const G4VPhysicalVolume *physVol) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationPolyconeRho, ComputeDimensions, pcone, copyNo, physVol);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationPolyconeRho, "ComputeDimensions", std::addressof(pcone), copyNo,
+                             physVol);
+      G4ParameterisationPolyconeRho::ComputeDimensions(pcone, copyNo, physVol);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override
@@ -210,7 +212,9 @@ public:
 
    void ComputeDimensions(G4Polycone &pcone, const G4int copyNo, const G4VPhysicalVolume *physVol) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationPolyconePhi, ComputeDimensions, pcone, copyNo, physVol);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationPolyconePhi, "ComputeDimensions", std::addressof(pcone), copyNo,
+                             physVol);
+      G4ParameterisationPolyconePhi::ComputeDimensions(pcone, copyNo, physVol);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override
@@ -258,7 +262,9 @@ public:
 
    void ComputeDimensions(G4Polycone &pcone, const G4int copyNo, const G4VPhysicalVolume *physVol) const override
    {
-      PYBIND11_OVERRIDE(void, G4ParameterisationPolyconeZ, ComputeDimensions, pcone, copyNo, physVol);
+      PYBIND11_OVERRIDE_IMPL(void, G4ParameterisationPolyconeZ, "ComputeDimensions", std::addressof(pcone), copyNo,
+                             physVol);
+      G4ParameterisationPolyconeZ::ComputeDimensions(pcone, copyNo, physVol);
    }
 
    G4VSolid *ComputeSolid(const G4int arg0, G4VPhysicalVolume *arg1) override
