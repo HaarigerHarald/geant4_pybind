@@ -5,6 +5,7 @@
 #include <G4UIdirectory.hh>
 
 #include <array>
+#include <limits>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -86,9 +87,12 @@ public:
 enum PropertyType { type_bool, type_int, type_double };
 
 struct PropertyWrapper {
-   G4bool   boolVal;
-   G4int    intVal;
-   G4double doubleVal;
+
+   union {
+      G4bool   boolVal;
+      G4int    intVal;
+      G4double doubleVal;
+   };
 
    PropertyType type;
 
@@ -118,6 +122,7 @@ void export_G4GenericMessenger(py::module &m)
          }
          py::pybind11_fail("Property must be bool, int or float!");
       }))
+
       .def_property(
          "value",
          [](PropertyWrapper &self) -> py::object {
@@ -138,7 +143,64 @@ void export_G4GenericMessenger(py::module &m)
             } else if (self.type == type_double) {
                self.doubleVal = variable.cast<G4double>();
             }
-         });
+         })
+
+      .def(
+         "__str__",
+         [](const PropertyWrapper &self) {
+            std::stringstream ss;
+            if (self.type == type_bool) {
+               ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self.boolVal;
+            } else if (self.type == type_int) {
+               ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self.intVal;
+            } else if (self.type == type_double) {
+               ss << std::setprecision(std::numeric_limits<G4double>::digits10 + 1) << self.doubleVal;
+            }
+            return ss.str();
+         },
+         py::is_operator())
+
+      .def(
+         "__int__",
+         [](const PropertyWrapper &self) {
+            if (self.type == type_bool) {
+               return py::int_((long)self.boolVal);
+            } else if (self.type == type_int) {
+               return py::int_((long)self.intVal);
+            } else if (self.type == type_double) {
+               return py::int_((long)self.doubleVal);
+            }
+            py::pybind11_fail("Property must be bool, int or float!");
+         },
+         py::is_operator())
+
+      .def(
+         "__float__",
+         [](const PropertyWrapper &self) {
+            if (self.type == type_bool) {
+               return py::float_((double)self.boolVal);
+            } else if (self.type == type_int) {
+               return py::float_((double)self.intVal);
+            } else if (self.type == type_double) {
+               return py::float_(self.doubleVal);
+            }
+            py::pybind11_fail("Property must be bool, int or float!");
+         },
+         py::is_operator())
+
+      .def(
+         "__bool__",
+         [](const PropertyWrapper &self) {
+            if (self.type == type_bool) {
+               return py::bool_(self.boolVal);
+            } else if (self.type == type_int) {
+               return py::bool_(self.intVal);
+            } else if (self.type == type_double) {
+               return py::bool_(self.doubleVal);
+            }
+            py::pybind11_fail("Property must be bool, int or float!");
+         },
+         py::is_operator());
 
    py::class_<G4GenericMessenger::Command> gmCommand(genericMessenger, "Command");
 
