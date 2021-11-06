@@ -144,5 +144,12 @@ void export_G4RunManager(py::module &m)
       .def("GetRunManagerType", &G4RunManager::GetRunManagerType)
       .def("SetRunIDCounter", &G4RunManager::SetRunIDCounter)
       .def("GetVersionString", &G4RunManager::GetVersionString, py::return_value_policy::reference)
-      .def("GetRandomNumberStoreDir", &G4RunManager::GetRandomNumberStoreDir, py::return_value_policy::reference);
+      .def("GetRandomNumberStoreDir", &G4RunManager::GetRandomNumberStoreDir, py::return_value_policy::reference)
+      .def(
+         "__enter__", [](G4RunManager *self) { return self; }, py::is_operator())
+
+      .def(
+         "__exit__",
+         [](G4RunManager *self, py::object exc_type, py::object exc_value, py::object exc_tb) { delete self; },
+         py::is_operator());
 }
