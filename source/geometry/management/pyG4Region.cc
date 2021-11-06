@@ -57,7 +57,7 @@ void export_G4Region(py::module &m)
 
             return py::make_iterator(begin, end);
          },
-         py::keep_alive<0, 1>(), py::is_operator())
+         py::keep_alive<0, 1>())
 
       .def(
          "GetMaterialIterator",
@@ -67,7 +67,7 @@ void export_G4Region(py::module &m)
 
             return py::make_iterator(begin, end);
          },
-         py::keep_alive<0, 1>(), py::is_operator())
+         py::keep_alive<0, 1>())
 
       .def("GetNumberOfMaterials", &G4Region::GetNumberOfMaterials)
       .def("GetNumberOfRootVolumes", &G4Region::GetNumberOfRootVolumes)
