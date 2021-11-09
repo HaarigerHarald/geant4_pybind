@@ -67,20 +67,15 @@ void export_G4DELPHIMagField(py::module &m)
       .def("__deepcopy__", [](const PyG4DELPHIMagField &self, py::dict) { return PyG4DELPHIMagField(self); })
       .def(
          "GetFieldValue",
-         [](G4DELPHIMagField &self, py::list pyPoint, py::list pyField) {
+         [](G4DELPHIMagField &self, const std::vector<G4double> &pyPoint, py::list pyField) {
             if (pyPoint.size() != 4) {
-               py::pybind11_fail("\"G4DELPHIMagField::GetFieldValue\" yTrack must have 4 components");
+               py::pybind11_fail("\"G4CachedMagneticField::GetFieldValue\" Point must have 4 components");
             } else if (pyField.size() != 6) {
-               py::pybind11_fail("\"G4DELPHIMagField::GetFieldValue\" B must have 6 components");
+               py::pybind11_fail("\"G4CachedMagneticField::GetFieldValue\" Bfield must have 6 components");
             } else {
-               G4double point[4];
                G4double field[6] = {0};
 
-               for (size_t i = 0; i < 4; i++) {
-                  point[i] = pyPoint[i].cast<G4double>();
-               }
-
-               self.GetFieldValue(point, field);
+               self.GetFieldValue(pyPoint.data(), field);
 
                for (size_t i = 0; i < 6; i++) {
                   pyField[i] = field[i];

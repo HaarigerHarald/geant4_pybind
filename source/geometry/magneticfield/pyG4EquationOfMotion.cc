@@ -40,20 +40,15 @@ void export_G4EquationOfMotion(py::module &m)
 
       .def(
          "GetFieldValue",
-         [](G4EquationOfMotion &self, py::list pyPoint, py::list pyField) {
+         [](G4EquationOfMotion &self, const std::vector<G4double> &pyPoint, py::list pyField) {
             if (pyPoint.size() != 4) {
                py::pybind11_fail("\"G4EquationOfMotion::GetFieldValue\" Point must have 4 components");
             } else if (pyField.size() != 6) {
                py::pybind11_fail("\"G4EquationOfMotion::GetFieldValue\" Field must have 6 components");
             } else {
-               G4double point[4];
                G4double field[6] = {0};
 
-               for (size_t i = 0; i < 4; i++) {
-                  point[i] = pyPoint[i].cast<G4double>();
-               }
-
-               self.GetFieldValue(point, field);
+               self.GetFieldValue(pyPoint.data(), field);
 
                for (size_t i = 0; i < 6; i++) {
                   pyField[i] = field[i];
