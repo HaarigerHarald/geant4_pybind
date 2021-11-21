@@ -11,7 +11,6 @@ import tarfile
 import urllib.request
 import tempfile
 import sys
-from os.path import expanduser
 
 
 def directory_contains(dir, subdir):
@@ -22,6 +21,7 @@ def directory_contains(dir, subdir):
 
 
 progress = 0
+envs_to_set = dict()
 
 
 def show_progress(block_num, block_size, total_size):
@@ -71,6 +71,7 @@ def ask_for_download(data_directory):
 
 
 def init_datasets():
+    global envs_to_set
     data_directory = os.path.join(os.path.expanduser("~"), ".geant4_pybind")
     download_allowed = False
 
@@ -83,7 +84,7 @@ def init_datasets():
     datasets = [["G4ABLADATA", "G4ABLA3.1", "http://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz"],
 
                 ["G4ENSDFSTATEDATA", "G4ENSDFSTATE2.3",
-                 "http://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.3.tar.gz"],
+                "http://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.3.tar.gz"],
 
                 ["G4INCLDATA", "G4INCL1.0", "http://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz"],
 
@@ -116,7 +117,7 @@ def init_datasets():
                 else:
                     return
 
-            os.environ[dataset[0]] = os.path.join(data_directory, dataset[1])
+            envs_to_set[dataset[0]] = os.path.join(data_directory, dataset[1])
 
 
 if 'generate_stubs.py' not in sys.modules['__main__'].__file__:

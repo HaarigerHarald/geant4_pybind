@@ -13,6 +13,11 @@ env:
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
 
+  XERCES_C_GIT_REF: 8ac9637b4a54e0b0a52e59b0299aaa974e8fc453
+  XERCES_C_SOURCE_DIR: xerces-c_source
+  XERCES_C_BUILD_DIR: xerces-c_build
+  XERCES_C_INSTALL_DIR: xerces-c_install
+
 
 jobs:
   run_tests:
@@ -35,7 +40,14 @@ jobs:
         id: g4cache
         with:
           path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
-          key: ${{ env.GEANT4_GIT_TAG }}v2
+          key: ${{ env.GEANT4_GIT_TAG }}-${{ env.XERCES_C_GIT_REF }}
+
+      - name: Cache xerces-c install
+        uses: actions/cache@v2
+        id: xerces-cache
+        with:
+          path: ${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}
+          key: ${{ env.XERCES_C_GIT_REF }}
 
       - uses: actions/checkout@v2
         if: steps.g4cache.outputs.cache-hit != 'true'
@@ -44,8 +56,49 @@ jobs:
           ref: ${{ env.GEANT4_GIT_TAG }}
           path: ${{ env.GEANT4_SOURCE_DIR }}
 
+      - uses: actions/checkout@v2
+        if: steps.xerces-cache.outputs.cache-hit != 'true'
+        with:
+          repository: apache/xerces-c
+          ref: ${{ env.XERCES_C_GIT_REF }}
+          path: ${{ env.XERCES_C_SOURCE_DIR }}
+
       - uses: lukka/get-cmake@latest
-        if: steps.g4cache.outputs.cache-hit != 'true'
+        if: steps.g4cache.outputs.cache-hit != 'true' || steps.xerces-cache.outputs.cache-hit != 'true'
+
+      - name: CMake configure xerces-c Unix
+        if: steps.xerces-cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
+        run: >
+            cmake -E env CXXFLAGS="-fPIC"
+            cmake -E env CFLAGS="-fPIC" 
+            cmake
+            -Dtranscoder=iconv
+            -DBUILD_SHARED_LIBS=OFF
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
+            -S "${{ github.workspace }}/${{ env.XERCES_C_SOURCE_DIR }}"
+            -B "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
+
+      - name: CMake configure xerces-c Windows
+        if: steps.xerces-cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        run: > 
+            cmake
+            -DBUILD_SHARED_LIBS=OFF
+            -DCMAKE_CXX_FLAGS_RELEASE="/MT"
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
+            -S "${{ github.workspace }}/${{ env.XERCES_C_SOURCE_DIR }}"
+            -B "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
+ 
+      - name: CMake build xerces-c
+        if: steps.xerces-cache.outputs.cache-hit != 'true'
+        run: cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release
+
+      - name: CMake install xerces-c
+        if: steps.xerces-cache.outputs.cache-hit != 'true'
+        run: >
+            cmake
+            --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
+            --config Release
+            --target install
 
       - name: CMake configure Geant4 Unix
         if: steps.g4cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
@@ -58,6 +111,8 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF
             -DGEANT4_INSTALL_EXAMPLES=OFF
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
+            -DGEANT4_USE_GDML=ON
+            -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
             -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
             -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
@@ -69,6 +124,9 @@ jobs:
             -DBUILD_STATIC_LIBS=ON
             -DBUILD_SHARED_LIBS=OFF
             -DGEANT4_INSTALL_EXAMPLES=OFF
+            -DGEANT4_USE_GDML=ON
+            -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+            -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
             -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
             -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
@@ -89,7 +147,9 @@ jobs:
         shell: bash
         run: |
             echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+            echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
             echo "HOME=${{ github.workspace }}" >> $GITHUB_ENV
+            echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
 
       - uses: actions/checkout@v2
         with:

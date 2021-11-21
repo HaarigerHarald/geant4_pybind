@@ -15,6 +15,8 @@
 #include <G4Material.hh>
 #include <G4RunManager.hh>
 
+#include <cstdlib>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -99,7 +101,14 @@ PYBIND11_MODULE(geant4_pybind, m)
                    G4Material::GetMaterialTable()->clear();
                 }));
 
+   py::dict globals = py::globals();
    py::exec(
 #include "datainit.py"
-   );
+      , globals);
+
+   py::dict envs = globals["envs_to_set"];
+   for (auto env : envs) {
+      std::string envVariable = env.first.cast<std::string>() + "=" + env.second.cast<std::string>();
+      putenv(envVariable.data());
+   }
 }

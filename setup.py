@@ -36,6 +36,9 @@ class CMakeBuild(build_ext):
             "-DCMAKE_BUILD_TYPE={}".format(cfg)
         ]
 
+        if "CMAKE_ARGS" in os.environ:
+            cmake_args += [item for item in os.environ["CMAKE_ARGS"].split(" ") if item]
+
         build_args = []
 
         if self.compiler.compiler_type != "msvc":
@@ -79,14 +82,11 @@ with open("README.md", "r") as readme:
 
 # Amalgamate 3rd party licenses
 with open("pybind11/LICENSE", "r") as license_file:
-    licenses = license_file.read() + "\n\n\n"
+    licenses = license_file.read()
 
-try:
-    with urllib.request.urlopen(
-            "https://raw.githubusercontent.com/Geant4/geant4/v10.7.1/LICENSE") as resp:
-        licenses += resp.read().decode("utf-8")
-except:
-    pass
+if os.path.isfile('EXTRA_LICENSES'):
+    with open("EXTRA_LICENSES", "r") as license_file:
+        licenses += "\n\n\n" + license_file.read()
 
 with open("LICENSE-3RD-PARTY", "w") as license_file:
     license_file.write(licenses)

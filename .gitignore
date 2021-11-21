@@ -21,3 +21,5 @@ tests/*.xml
 
 # Generated 3rd party LICENSE file 
 LICENSE-3RD-PARTY
+EXTRA_LICENSES
+MANIFEST.in
