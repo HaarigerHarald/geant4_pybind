@@ -16,6 +16,7 @@
 #include <G4RunManager.hh>
 
 #include <cstdlib>
+#include <vector>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -107,8 +108,9 @@ PYBIND11_MODULE(geant4_pybind, m)
       , globals);
 
    py::dict envs = globals["envs_to_set"];
+   static std::vector<std::string> variables;
    for (auto env : envs) {
-      std::string envVariable = env.first.cast<std::string>() + "=" + env.second.cast<std::string>();
-      putenv(&envVariable[0]);
+      variables.emplace_back(env.first.cast<std::string>() + "=" + env.second.cast<std::string>());
+      putenv(&variables.back()[0]);
    }
 }
