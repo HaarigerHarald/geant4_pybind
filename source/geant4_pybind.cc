@@ -109,6 +109,6 @@ PYBIND11_MODULE(geant4_pybind, m)
    py::dict envs = globals["envs_to_set"];
    for (auto env : envs) {
       std::string envVariable = env.first.cast<std::string>() + "=" + env.second.cast<std::string>();
-      putenv(envVariable.data());
+      putenv(&envVariable[0]);
    }
 }
