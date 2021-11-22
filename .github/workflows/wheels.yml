@@ -50,7 +50,7 @@ jobs:
         id: g4cache
         with:
           path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
-          key: ${{ env.GEANT4_GIT_TAG }}
+          key: ${{ env.GEANT4_GIT_TAG }}-${{ env.XERCES_C_GIT_REF }}
 
       - name: Cache xerces-c install
         uses: actions/cache@v2
