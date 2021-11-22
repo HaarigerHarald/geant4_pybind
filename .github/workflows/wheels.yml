@@ -177,7 +177,6 @@ jobs:
 
       - uses: pypa/cibuildwheel@v2.2.2
         env:
-          CIBW_BUILD: cp3*
           CIBW_ARCHS: native
 
       - uses: actions/upload-artifact@v2
@@ -207,41 +206,40 @@ jobs:
         env:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >
-              python -m pip install cmake && \
-                \
-                git clone https://github.com/apache/xerces-c \
-                "{package}/${{ env.XERCES_C_SOURCE_DIR }}" && \
-                cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" && \
-                git checkout ${{ env.XERCES_C_GIT_REF }} && \
-                mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" && \
-                cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" && \
-                cmake \
-                -Dnetwork-accessor=socket \
-                -Dtranscoder=iconv \
-                -DBUILD_SHARED_LIBS=OFF \
-                "{package}/${{ env.XERCES_C_SOURCE_DIR }}" && \
-                make -j8 && \
-                make install && \
-                \
-                yum install -y libXt-devel libXmu-devel && \
-                git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1 \
-                https://github.com/Geant4/geant4 \
-                "{package}/${{ env.GEANT4_SOURCE_DIR }}" && \
-                mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" && \
-                cd "{package}/${{ env.GEANT4_BUILD_DIR }}" && \
-                cmake \
-                -DCMAKE_BUILD_TYPE=Release \
-                -DBUILD_STATIC_LIBS=ON \
-                -DBUILD_SHARED_LIBS=OFF \
-                -DGEANT4_INSTALL_EXAMPLES=OFF \
-                -DGEANT4_USE_SYSTEM_EXPAT=OFF \
-                -DGEANT4_USE_GDML=ON \
-                -DGEANT4_USE_OPENGL_X11=ON \
-                "{package}/${{ env.GEANT4_SOURCE_DIR }}" && \
-                make -j8 && \
-                make install
+              python -m pip install cmake &&
+              git clone https://github.com/apache/xerces-c
+              "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+              cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+              git checkout ${{ env.XERCES_C_GIT_REF }} &&
+              mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
+              cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
+              cmake
+              -Dnetwork-accessor=socket
+              -Dtranscoder=iconv
+              -DBUILD_SHARED_LIBS=OFF
+              "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+              make -j8 &&
+              make install &&
+              yum install -y libXt-devel libXmu-devel ||
+              apt-get install -y libxt-dev libxmu-dev &&
+              git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
+              https://github.com/Geant4/geant4
+              "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
+              mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
+              cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
+              cmake
+              -DCMAKE_BUILD_TYPE=Release
+              -DBUILD_STATIC_LIBS=ON
+              -DBUILD_SHARED_LIBS=OFF
+              -DGEANT4_INSTALL_EXAMPLES=OFF
+              -DGEANT4_USE_SYSTEM_EXPAT=OFF
+              -DGEANT4_USE_GDML=ON
+              -DGEANT4_USE_OPENGL_X11=ON
+              "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
+              make -j8 &&
+              make install
 
-          CIBW_BUILD: cp3*
+          CIBW_SKIP: "*-musllinux*"
           CIBW_ARCHS: native
 
       - uses: actions/upload-artifact@v2
