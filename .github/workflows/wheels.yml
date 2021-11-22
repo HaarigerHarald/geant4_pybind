@@ -212,6 +212,7 @@ jobs:
                 \
                 git clone https://github.com/apache/xerces-c \
                 "{package}/${{ env.XERCES_C_SOURCE_DIR }}" && \
+                cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" && \
                 git checkout ${{ env.XERCES_C_GIT_REF }} && \
                 mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" && \
                 cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" && \
