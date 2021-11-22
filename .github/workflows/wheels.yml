@@ -155,13 +155,6 @@ jobs:
             --config Release
             --target install
 
-      - name: Setup environment variables
-        shell: bash
-        run: |
-            echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
-            echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
-            echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
-
       - uses: actions/checkout@v2
         with:
           submodules: true
@@ -177,6 +170,15 @@ jobs:
       
       - uses: pypa/cibuildwheel@v2.2.2
         env:
+          CIBW_ENVIRONMENT_MACOS: >
+            PATH="$PATH:${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin"
+            PATH="$PATH:${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin"
+
+          CIBW_ENVIRONMENT_WINDOWS: >
+            PATH="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin;$PATH"
+            PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin;$PATH"
+            CMAKE_ARGS="-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
+
           CIBW_BUILD: cp3*
           CIBW_ARCHS: native
 
