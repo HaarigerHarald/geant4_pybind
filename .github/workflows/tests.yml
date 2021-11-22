@@ -72,7 +72,7 @@ jobs:
             cmake -E env CXXFLAGS="-fPIC"
             cmake -E env CFLAGS="-fPIC" 
             cmake
-            -Dnetwork=OFF
+            -Dnetwork-accessor=socket
             -Dtranscoder=iconv
             -DBUILD_SHARED_LIBS=OFF
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
@@ -83,7 +83,6 @@ jobs:
         if: steps.xerces-cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
         run: > 
             cmake
-            -Dnetwork=OFF
             -DBUILD_SHARED_LIBS=OFF
             -DCMAKE_CXX_FLAGS_RELEASE="/MT"
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
