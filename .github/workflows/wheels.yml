@@ -45,6 +45,10 @@ jobs:
         os: [windows-latest, macos-latest]
  
     steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
       - name: Cache Geant4 install
         uses: actions/cache@v2
         id: g4cache
@@ -155,9 +159,12 @@ jobs:
             --config Release
             --target install
 
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
+      - name: Setup environment variables
+        shell: bash
+        run: |
+            echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+            echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+            echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
 
       - name: Extra Licenses
         shell: bash
@@ -167,18 +174,9 @@ jobs:
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
             echo -e "\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
-      
+
       - uses: pypa/cibuildwheel@v2.2.2
         env:
-          CIBW_ENVIRONMENT_MACOS: >
-            PATH="$PATH:${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin"
-            PATH="$PATH:${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin"
-
-          CIBW_ENVIRONMENT_WINDOWS: >
-            PATH="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin;$PATH"
-            PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin;$PATH"
-            CMAKE_ARGS="-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
-
           CIBW_BUILD: cp3*
           CIBW_ARCHS: native
 
@@ -207,7 +205,7 @@ jobs:
 
       - uses: pypa/cibuildwheel@v2.2.2
         env:
-          CIBW_ENVIRONMENT_LINUX: "CXXFLAGS='-fPIC' CFLAGS='-fPIC'"
+          CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >
               python -m pip install cmake && \
                 \
