@@ -12,6 +12,12 @@ env:
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
 
+  XERCES_C_GIT_REF: 8ac9637b4a54e0b0a52e59b0299aaa974e8fc453
+  XERCES_C_SOURCE_DIR: xerces-c_source
+  XERCES_C_BUILD_DIR: xerces-c_build
+  XERCES_C_INSTALL_DIR: xerces-c_install
+
+
 jobs:
 
   build_sdist:
@@ -39,16 +45,19 @@ jobs:
         os: [windows-latest, macos-latest]
  
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-
       - name: Cache Geant4 install
         uses: actions/cache@v2
         id: g4cache
         with:
           path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
-          key: ${{ env.GEANT4_GIT_TAG }}v2
+          key: ${{ env.GEANT4_GIT_TAG }}
+
+      - name: Cache xerces-c install
+        uses: actions/cache@v2
+        id: xerces-cache
+        with:
+          path: ${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}
+          key: ${{ env.XERCES_C_GIT_REF }}
 
       - uses: actions/checkout@v2
         if: steps.g4cache.outputs.cache-hit != 'true'
@@ -57,8 +66,51 @@ jobs:
           ref: ${{ env.GEANT4_GIT_TAG }}
           path: ${{ env.GEANT4_SOURCE_DIR }}
 
+      - uses: actions/checkout@v2
+        if: steps.xerces-cache.outputs.cache-hit != 'true'
+        with:
+          repository: apache/xerces-c
+          ref: ${{ env.XERCES_C_GIT_REF }}
+          path: ${{ env.XERCES_C_SOURCE_DIR }}
+
       - uses: lukka/get-cmake@latest
-        if: steps.g4cache.outputs.cache-hit != 'true'
+        if: steps.g4cache.outputs.cache-hit != 'true' || steps.xerces-cache.outputs.cache-hit != 'true'
+
+      - name: CMake configure xerces-c Unix
+        if: steps.xerces-cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
+        run: >
+            cmake -E env CXXFLAGS="-fPIC"
+            cmake -E env CFLAGS="-fPIC" 
+            cmake
+            -Dnetwork=OFF
+            -Dtranscoder=iconv
+            -DBUILD_SHARED_LIBS=OFF
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
+            -S "${{ github.workspace }}/${{ env.XERCES_C_SOURCE_DIR }}"
+            -B "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
+
+      - name: CMake configure xerces-c Windows
+        if: steps.xerces-cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        run: > 
+            cmake
+            -Dnetwork=OFF
+            -DBUILD_SHARED_LIBS=OFF
+            -DCMAKE_CXX_FLAGS_RELEASE="/MT"
+            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
+            -S "${{ github.workspace }}/${{ env.XERCES_C_SOURCE_DIR }}"
+            -B "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
+ 
+      - name: CMake build xerces-c
+        if: steps.xerces-cache.outputs.cache-hit != 'true'
+        run: cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release
+
+      - name: CMake install xerces-c
+        if: steps.xerces-cache.outputs.cache-hit != 'true'
+        run: >
+            cmake
+            --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
+            --config Release
+            --target install
 
       - name: CMake configure Geant4 Unix
         if: steps.g4cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
@@ -71,6 +123,8 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF
             -DGEANT4_INSTALL_EXAMPLES=OFF
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
+            -DGEANT4_USE_GDML=ON
+            -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
             -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
             -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
@@ -82,6 +136,10 @@ jobs:
             -DBUILD_STATIC_LIBS=ON
             -DBUILD_SHARED_LIBS=OFF
             -DGEANT4_INSTALL_EXAMPLES=OFF
+            -DGEANT4_USE_GDML=ON
+            -DGEANT4_USE_OPENGL_WIN32=ON
+            -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+            -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
             -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
             -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
@@ -98,10 +156,26 @@ jobs:
             --config Release
             --target install
 
-      - name: Add Geant4 to the PATH
+      - name: Setup environment variables
         shell: bash
-        run: echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+        run: |
+            echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+            echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+            echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
 
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Extra Licenses
+        shell: bash
+        run: |
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
+            echo -e "\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
+      
       - uses: pypa/cibuildwheel@v2.1.1
         env:
           CIBW_BUILD: cp3*
@@ -121,11 +195,34 @@ jobs:
         with:
           submodules: true
 
+      - name: Extra Licenses
+        shell: bash
+        run: |
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
+            echo -e "\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
+
       - uses: pypa/cibuildwheel@v2.1.1
         env:
           CIBW_ENVIRONMENT_LINUX: "CXXFLAGS='-fPIC' CFLAGS='-fPIC'"
           CIBW_BEFORE_ALL_LINUX: >
               python -m pip install cmake && \
+                \
+                git clone https://github.com/apache/xerces-c \
+                "{package}/${{ env.XERCES_C_SOURCE_DIR }}" && \
+                git checkout ${{ env.XERCES_C_GIT_REF }} && \
+                mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" && \
+                cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" && \
+                cmake \
+                -Dnetwork=OFF \
+                -Dtranscoder=iconv \
+                -DBUILD_SHARED_LIBS=OFF \
+                "{package}/${{ env.XERCES_C_SOURCE_DIR }}" && \
+                make -j8 && \
+                make install && \
+                \
                 git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1 \
                 https://github.com/Geant4/geant4 \
                 "{package}/${{ env.GEANT4_SOURCE_DIR }}" && \
@@ -137,6 +234,8 @@ jobs:
                 -DBUILD_SHARED_LIBS=OFF \
                 -DGEANT4_INSTALL_EXAMPLES=OFF \
                 -DGEANT4_USE_SYSTEM_EXPAT=OFF \
+                -DGEANT4_USE_GDML=ON \
+                -DGEANT4_USE_OPENGL_X11=ON \
                 "{package}/${{ env.GEANT4_SOURCE_DIR }}" && \
                 make -j8 && \
                 make install

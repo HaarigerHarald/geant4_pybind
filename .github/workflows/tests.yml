@@ -127,6 +127,7 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF
             -DGEANT4_INSTALL_EXAMPLES=OFF
             -DGEANT4_USE_GDML=ON
+            -DGEANT4_USE_OPENGL_WIN32=ON
             -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
             -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
