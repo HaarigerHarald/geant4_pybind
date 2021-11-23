@@ -221,7 +221,8 @@ jobs:
               make -j8 &&
               make install &&
               yum install -y libXt-devel libXmu-devel ||
-              apt-get install -y libxt-dev libxmu-dev &&
+              apt-get install -y libxt-dev libxmu-dev ||
+              apk add libxt-dev libxmu-dev &&
               git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
               https://github.com/Geant4/geant4
               "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
