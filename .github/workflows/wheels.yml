@@ -171,6 +171,14 @@ jobs:
         run: |
             curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
             echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/clhep/COPYING.LESSER" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/expat/COPYING" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/g4tools/tools.license" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/ptl/LICENSE" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
             echo -e "\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
@@ -197,6 +205,14 @@ jobs:
         shell: bash
         run: |
             curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/clhep/COPYING.LESSER" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/expat/COPYING" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/g4tools/tools.license" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/ptl/LICENSE" >> EXTRA_LICENSES
             echo -e "\n\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
             echo -e "\n\n" >> EXTRA_LICENSES
