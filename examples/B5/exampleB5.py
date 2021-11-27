@@ -22,7 +22,7 @@ class B5CellParameterisation(G4VPVParameterisation):
         super().__init__()
         self.fXCell = [0] * kNofEmCells
         self.fYCell = [0] * kNofEmCells
-        for copyNo in range(0, kNofEmCells):
+        for copyNo in range(kNofEmCells):
             column = int(copyNo / kNofEmRows)
             row = copyNo % kNofEmRows
             self.fXCell[copyNo] = (column-9)*15*cm - 7.5*cm
@@ -189,7 +189,7 @@ class B5DetectorConstruction(G4VUserDetectorConstruction):
         self.fHodoscope1Logical = G4LogicalVolume(
             hodoscope1Solid, scintillator, "hodoscope1Logical")
 
-        for i in range(0, kNofHodoscopes1):
+        for i in range(kNofHodoscopes1):
             x1 = (i-int(kNofHodoscopes1/2))*10*cm
             G4PVPlacement(None, G4ThreeVector(x1, 0, -1.5*m), self.fHodoscope1Logical,
                           "hodoscope1Physical", firstArmLogical,
@@ -198,7 +198,7 @@ class B5DetectorConstruction(G4VUserDetectorConstruction):
         # drift chambers in first arm
         chamber1Solid = G4Box("chamber1Box", 1*m, 30*cm, 1*cm)
         chamber1Logical = G4LogicalVolume(chamber1Solid, argonGas, "chamber1Logical")
-        for i in range(0, kNofChambers):
+        for i in range(kNofChambers):
             z1 = (i-int(kNofChambers/2))*0.5*m
             G4PVPlacement(None, G4ThreeVector(0, 0, z1), chamber1Logical,
                           "chamber1Physical", firstArmLogical, False, i, checkOverlaps)
@@ -214,7 +214,7 @@ class B5DetectorConstruction(G4VUserDetectorConstruction):
         self.fHodoscope2Logical = G4LogicalVolume(
             hodoscope2Solid, scintillator, "hodoscope2Logical")
 
-        for i in range(0, kNofHodoscopes2):
+        for i in range(kNofHodoscopes2):
             x2 = (i-int(kNofHodoscopes2/2))*10*cm
             G4PVPlacement(None, G4ThreeVector(x2, 0, 0), self.fHodoscope2Logical,
                           "hodoscope2Physical", secondArmLogical, False, i, checkOverlaps)
@@ -223,7 +223,7 @@ class B5DetectorConstruction(G4VUserDetectorConstruction):
         chamber2Solid = G4Box("chamber2Box", 1.5*m, 30*cm, 1*cm)
         chamber2Logical = G4LogicalVolume(chamber2Solid, argonGas, "chamber2Logical")
 
-        for i in range(0, kNofChambers):
+        for i in range(kNofChambers):
             z2 = (i-int(kNofChambers/2))*0.5*m - 1.5*m
             G4PVPlacement(None, G4ThreeVector(0, 0, z2), chamber2Logical,
                           "chamber2Physical", secondArmLogical, False, i, checkOverlaps)
@@ -552,7 +552,7 @@ class B5EmCalorimeterSD(G4VSensitiveDetector):
         hce.AddHitsCollection(self.fHCID, self.fHitsCollection)
 
         # fill calorimeter hits with zero energy deposition
-        for i in range(0, kNofEmCells):
+        for i in range(kNofEmCells):
             self.fHitsCollection.insert(B5EmCalorimeterHit(i))
 
     def ProcessHits(self, step, touchableHist):
@@ -640,8 +640,8 @@ class B5HadCalorimeterSD(G4VSensitiveDetector):
         hce.AddHitsCollection(self.fHCID, self.fHitsCollection)
 
         # fill calorimeter hits with zero energy deposition
-        for column in range(0, kNofHadColumns):
-            for row in range(0, kNofHadRows):
+        for column in range(kNofHadColumns):
+            for row in range(kNofHadRows):
                 self.fHitsCollection.insert(B5HadCalorimeterHit())
 
     def ProcessHits(self, step, touchableHist):
@@ -748,8 +748,8 @@ class B5HodoscopeSD(G4VSensitiveDetector):
 
         # check if this finger already has a hit
         ix = -1
-        for i in range(0, self.fHitsCollection.GetSize()):
-            if self.fHitsCollection[i].fId == copyNo:
+        for i, hit in enumerate(self.fHitsCollection):
+            if hit.fId == copyNo:
                 ix = i
                 break
 
@@ -893,7 +893,7 @@ class B5EventAction(G4UserEventAction):
             # histograms names
             histoName = [["Chamber1", "Chamber2"], ["Chamber1 XY", "Chamber2 XY"]]
 
-            for iDet in range(0, 2):
+            for iDet in range(2):
                 # hit collections IDs
                 self.fHodHCID[iDet] = sdManager.GetCollectionID(hHCName[iDet])
                 self.fDriftHCID[iDet] = sdManager.GetCollectionID(dHCName[iDet])
@@ -923,7 +923,7 @@ class B5EventAction(G4UserEventAction):
         analysisManager = G4AnalysisManager.Instance()
 
         # Drift chambers hits
-        for iDet in range(0, 2):
+        for iDet in range(2):
             hc = self.GetHC(event, self.fDriftHCID[iDet])
 
             if hc == None:
@@ -943,13 +943,13 @@ class B5EventAction(G4UserEventAction):
         totalCalHit = [0, 0]
         totalCalEdep = [0, 0]
 
-        for iDet in range(0, 2):
+        for iDet in range(2):
             hc = self.GetHC(event, self.fCalHCID[iDet])
             if hc == None:
                 return
 
-            for i in range(0, hc.GetSize()):
-                edep = hc[i].fEdep
+            for i, hit in enumerate(hc):
+                edep = hit.fEdep
 
                 if edep > 0:
                     totalCalHit[iDet] += 1
@@ -961,7 +961,7 @@ class B5EventAction(G4UserEventAction):
             analysisManager.FillNtupleDColumn(iDet + 2, totalCalEdep[iDet])
 
         # Hodoscopes hits
-        for iDet in range(0, 2):
+        for iDet in range(2):
             hc = self.GetHC(event, self.fHodHCID[iDet])
             if hc == None:
                 return
@@ -987,7 +987,7 @@ class B5EventAction(G4UserEventAction):
               primary.GetMomentum())
 
         # Hodoscopes
-        for iDet in range(0, 2):
+        for iDet in range(2):
             hc = self.GetHC(event, self.fHodHCID[iDet])
             if hc == None:
                 return
@@ -997,20 +997,20 @@ class B5EventAction(G4UserEventAction):
                 hit.Print()
 
         # Drift chambers
-        for iDet in range(0, 2):
+        for iDet in range(2):
             hc = self.GetHC(event, self.fDriftHCID[iDet])
             if hc == None:
                 return
 
             print("Drift Chamber", iDet + 1, "has",  hc.GetSize(), "hits.")
-            for layer in range(0, kNofChambers):
+            for layer in range(kNofChambers):
                 for hit in hc:
                     if hit.fLayerID == layer:
                         hit.Print()
 
         # Calorimeters
         calName = ["EM", "Hadron"]
-        for iDet in range(0, 2):
+        for iDet in range(2):
             print(calName[iDet], "Calorimeter has", totalCalHit[iDet],
                   "hits.", "Total Edep is", totalCalEdep[iDet]/MeV, "(MeV)")
 

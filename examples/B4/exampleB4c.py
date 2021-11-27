@@ -269,7 +269,7 @@ class B4cCalorimeterSD(G4VSensitiveDetector):
 
         # Create hits
         # fNofCells for cells + one more for total sums
-        for i in range(0, self.fNofCells + 1):
+        for i in range(self.fNofCells + 1):
             self.fHitsCollection.insert(B4cCalorHit())
 
     def ProcessHits(self, step, history):
@@ -311,7 +311,7 @@ class B4cCalorimeterSD(G4VSensitiveDetector):
             print("")
             print("-------->Hits Collection: in this event they are", nofHits, end="")
             print(" hits in the tracker chambers: ")
-            for i in range(0, nofHits):
+            for i in range(nofHits):
                 self.fHitsCollection[i].Print()
 
 
