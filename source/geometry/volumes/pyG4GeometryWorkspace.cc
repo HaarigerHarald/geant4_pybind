@@ -53,7 +53,5 @@ void export_G4GeometryWorkspace(py::module &m)
       .def("ReleaseWorkspace", &G4GeometryWorkspace::ReleaseWorkspace)
       .def("DestroyWorkspace", &G4GeometryWorkspace::DestroyWorkspace)
       .def("InitialiseWorkspace", &G4GeometryWorkspace::InitialiseWorkspace)
-      .def("SetVerbose", &G4GeometryWorkspace::SetVerbose, py::arg("v"))
-      .def("GetVerbose", &G4GeometryWorkspace::GetVerbose)
       .def_static("GetPool", &G4GeometryWorkspace::GetPool, py::return_value_policy::reference);
 }

@@ -1,6 +1,6 @@
 
 **************************************************************
- Geant4 version Name: geant4-10-07-patch-02    (11-June-2021)
+ Geant4 version Name: geant4-10-07-patch-03    (19-November-2021)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -823,7 +823,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 --> Event 900 starts.
 --------------------End of Global Run-----------------------
  The run consists of 1000 proton(s) of 210 MeV
- Cumulated dose per run, in scoring volume : 4.98303 nanoGy  rms = 147.06750 picoGy 
+ Cumulated dose per run, in scoring volume : 5.19003 nanoGy  rms = 146.41396 picoGy 
 ------------------------------------------------------------
 
 0 events have been kept for refreshing and/or reviewing.

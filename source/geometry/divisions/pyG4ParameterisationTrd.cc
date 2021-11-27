@@ -292,7 +292,6 @@ void export_G4ParameterisationTrd(py::module &m)
       .def("__deepcopy__",
            [](const PyG4ParameterisationTrdX &self, py::dict) { return PyG4ParameterisationTrdX(self); })
 
-      .def("CheckParametersValidity", &G4ParameterisationTrdX::CheckParametersValidity)
       .def("GetMaxParameter", &G4ParameterisationTrdX::GetMaxParameter)
       .def("ComputeTransformation", &G4ParameterisationTrdX::ComputeTransformation, py::arg("copyNo"),
            py::arg("physVol"))
@@ -319,7 +318,6 @@ void export_G4ParameterisationTrd(py::module &m)
       .def("__deepcopy__",
            [](const PyG4ParameterisationTrdY &self, py::dict) { return PyG4ParameterisationTrdY(self); })
 
-      .def("CheckParametersValidity", &G4ParameterisationTrdY::CheckParametersValidity)
       .def("GetMaxParameter", &G4ParameterisationTrdY::GetMaxParameter)
       .def("ComputeTransformation", &G4ParameterisationTrdY::ComputeTransformation, py::arg("copyNo"),
            py::arg("physVol"))
