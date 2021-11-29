@@ -14,8 +14,6 @@ It's available on PyPI for all major platforms as a fully self-contained (i.e. s
 
     pip install geant4-pybind
 
-*Note*: Windows users may need to install the [visual C++ redistributable package](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0) if it's not already installed.
-
 ## Building
 
 **Unix (Linux, OS X) prerequisits**
