@@ -12,7 +12,7 @@ It currently includes all g4py bindings plus a large portion of very commonly us
 
 It's available on PyPI for all major platforms as a fully self-contained (i.e. statically linked) wheel.
 
-    pip install geant4-pybind
+    pip3 install geant4-pybind
 
 ## Building
 
@@ -39,7 +39,7 @@ It's available on PyPI for all major platforms as a fully self-contained (i.e. s
 
 ```bash
 git clone --recursive https://github.com/HaarigerHarald/geant4_pybind
-pip install ./geant4_pybind
+pip3 install ./geant4_pybind
 ```
 
 **Windows notes**
