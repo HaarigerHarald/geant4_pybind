@@ -93,7 +93,7 @@ with open("LICENSE-3RD-PARTY", "w") as license_file:
 
 setup(
     name="geant4_pybind",
-    version="0.1.0b4",
+    version="0.1.0b5",
     author="Benjamin H.",
     author_email="haarigerharald@gmx.at",
     description="Alternative python bindings for Geant4 via pybind11",
