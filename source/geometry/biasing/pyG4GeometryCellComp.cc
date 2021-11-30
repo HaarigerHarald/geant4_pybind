@@ -16,7 +16,6 @@ void export_G4GeometryCellComp(py::module &m)
 
       .def(py::init<>())
       .def("__copy__", [](const G4GeometryCellComp &self) { return G4GeometryCellComp(self); })
-      .def("__deepcopy__", [](const G4GeometryCellComp &self, py::dict) { return G4GeometryCellComp(self); });
-
-   py::implicitly_convertible<G4GeometryCellComp, G4GeometryCell>();
+      .def("__deepcopy__", [](const G4GeometryCellComp &self, py::dict) { return G4GeometryCellComp(self); })
+      .def("__call__", &G4GeometryCellComp::operator(), py::arg("g1"), py::arg("g2"), py::is_operator());
 }
