@@ -22,3 +22,8 @@ set(PYBIND11_PYTHON_VERSION 3.5)
 add_subdirectory(pybind11)
 
 add_subdirectory(source)
+
+include(CTest)
+if(BUILD_TESTING)
+  add_subdirectory(tests)
+endif()
