@@ -23,7 +23,7 @@ public:
 
    void Construct() override { PYBIND11_OVERRIDE_PURE(void, G4VUserParallelWorld, Construct, ); }
 
-   void ConstructSD() { PYBIND11_OVERRIDE_PURE(void, G4VUserParallelWorld, ConstructSD, ); }
+   void ConstructSD() override { PYBIND11_OVERRIDE_PURE(void, G4VUserParallelWorld, ConstructSD, ); }
 };
 
 void export_G4VUserParallelWorld(py::module &m)
