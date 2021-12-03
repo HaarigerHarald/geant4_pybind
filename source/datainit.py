@@ -120,7 +120,6 @@ def init_datasets():
             envs_to_set[dataset[0]] = os.path.join(data_directory, dataset[1])
 
 
-if 'generate_stubs.py' not in sys.modules['__main__'].__file__:
-    init_datasets()
+init_datasets()
 
 # )"

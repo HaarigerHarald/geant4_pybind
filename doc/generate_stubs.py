@@ -6,6 +6,8 @@ from pybind11_stubgen import *
 module_name = sys.argv[1]
 extdir = os.path.dirname(sys.argv[2])
 
+AUTO_STUB_GENERATION = True
+
 spec = importlib.util.spec_from_file_location(module_name, sys.argv[2])
 module = importlib.util.module_from_spec(spec)
 

@@ -102,15 +102,20 @@ PYBIND11_MODULE(geant4_pybind, m)
                    G4Material::GetMaterialTable()->clear();
                 }));
 
-   py::dict globals = py::globals();
-   py::exec(
-#include "datainit.py"
-      , globals);
+   py::dict globals = py::module_::import("__main__").attr("__dict__");
+   if (!globals.contains("AUTO_STUB_GENERATION")) {
 
-   py::dict envs = globals["envs_to_set"];
-   static std::vector<std::string> variables;
-   for (auto env : envs) {
-      variables.emplace_back(env.first.cast<std::string>() + "=" + env.second.cast<std::string>());
-      putenv(&variables.back()[0]);
+      py::dict frameGlobals = py::globals();
+      py::exec(
+#include "datainit.py"
+         , frameGlobals);
+
+      py::dict envs = frameGlobals["envs_to_set"];
+
+      static std::vector<std::string> variables;
+      for (auto env : envs) {
+         variables.emplace_back(env.first.cast<std::string>() + "=" + env.second.cast<std::string>());
+         putenv(&variables.back()[0]);
+      }
    }
 }
