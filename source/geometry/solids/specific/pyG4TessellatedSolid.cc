@@ -156,9 +156,8 @@ void export_G4TessellatedSolid(py::module &m)
 
       .def("__copy__", [](const G4VertexComparator &self) { return G4VertexComparator(self); })
       .def("__deepcopy__", [](const G4VertexComparator &self, py::dict) { return G4VertexComparator(self); })
-      .def(py::init<>());
-
-   py::implicitly_convertible<G4VertexComparator, G4VertexInfo>();
+      .def(py::init<>())
+      .def("__call__", &G4VertexComparator::operator(), py::arg("l"), py::arg("r"), py::is_operator());
 
    py::class_<G4TessellatedSolid, PyG4TessellatedSolid, G4VSolid, py::nodelete>(m, "G4TessellatedSolid")
 
