@@ -13,11 +13,11 @@ def test_example(dir, py_file, macro_file, out_file, extra_params=[]):
     params = [sys.executable, py_file]
     params += extra_params
     params += [macro_file]
-    output = subprocess.run(params, stdout=subprocess.PIPE)
+    output = subprocess.check_output(params)
 
     with open(out_file, 'r') as file:
-        if output.stdout.decode('utf-8').find(file.read()) == -1:
-            raise Exception(output.stdout.decode('utf-8'))
+        if output.decode('utf-8').find(file.read()) == -1:
+            raise Exception(output.decode('utf-8'))
 
 
 test_example('B1', 'exampleB1.py', 'exampleB1.in', 'exampleB1.out')
