@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8...3.18)
+cmake_minimum_required(VERSION 3.8...3.22)
 project(geant4_pybind)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -17,9 +17,13 @@ endif()
 
 find_package(Geant4 10.7 REQUIRED)
 find_package(Geant4 OPTIONAL_COMPONENTS gdml ui_tcsh motif vis_raytracer_x11 vis_opengl_x11 vis_opengl_win32 qt)
-include_directories(${Geant4_INCLUDE_DIRS})
 
 set(PYBIND11_PYTHON_VERSION 3.5)
 add_subdirectory(pybind11)
 
 add_subdirectory(source)
+
+include(CTest)
+if(BUILD_TESTING)
+  add_subdirectory(tests)
+endif()
