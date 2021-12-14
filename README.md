@@ -4,9 +4,9 @@
 [![Wheel](https://img.shields.io/pypi/wheel/geant4-pybind)](https://pypi.org/project/geant4-pybind)
 [![PyPI](https://img.shields.io/pypi/v/geant4-pybind)](https://pypi.org/project/geant4-pybind)
 
-Alternative Python bindings for [Geant4](https://geant4.web.cern.ch/) via [pybind11](https://github.com/pybind/pybind11). It is loosely based on g4py, but retains an API closer to the standard C++ API and does not require Boost.Python.
+Alternative Python bindings for [Geant4](https://geant4.web.cern.ch/) via [pybind11](https://github.com/pybind/pybind11). It is loosely based on g4py, but retains an API closer to the standard C++ API and does not depend on Boost.Python.
 
-It currently includes all g4py bindings plus a large portion of very commonly used classes and functions that aren't currently present in g4py. However, it is still far off from replicating the full Geant4 API and is thus (currently) only applicable for simple simulations.
+It currently includes all g4py bindings plus a large portion of very commonly used classes and functions that aren't currently present in g4py. However, it is still off from replicating the full Geant4 API and is thus (currently) only applicable for simple simulations.
 
 ## Installation
 
@@ -18,22 +18,21 @@ It's available on PyPI for all major platforms as a fully self-contained (i.e. s
 
 **Unix (Linux, OS X) prerequisits**
 
-* A Geant4 installation, version 10.7+ ([make sure it is also added to the path](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-unix))
-* A C++14 compiler (preferably the one Geant4 was compiled with)
-* CMake
+* A Geant4 installation version 11.0+, compiled with CMake option `GEANT4_BUILD_TLS_MODEL=global-dynamic` ([make sure it is also added to the path](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-unix))
+* A C++17 compiler (preferably the one Geant4 was compiled with)
 * Python3
 * pip
 * git
 
 **Windows prerequisits**
 
-  * A Geant4 installation, version 10.7+ ([make sure it is also added to the PATH](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-windows))
-  * [Visual Studio 2019](https://visualstudio.microsoft.com/en/vs) for C++ development, with CMake
+  * A Geant4 installation version 11.0+, compiled with CMake option `GEANT4_BUILD_TLS_MODEL=global-dynamic` ([make sure it is also added to the PATH](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-windows))
+  * [Visual Studio 2019](https://visualstudio.microsoft.com/en/vs) for C++ development
   * Python3
   * pip
   * [git](https://git-scm.com/download/win)
 
-*Note*: If you haven't downloaded the required datasets yet don't worry, you can let geant4_pybind handle them.
+*Note*: If you haven't downloaded the required datasets yet you can let geant4_pybind handle them.
 
 **Installation**
 
@@ -68,15 +67,13 @@ ui = G4UIExecutive(len(sys.argv), sys.argv)
 ui.SessionStart()
 ```
 
-**Full examples**
+**Simulation examples**
 
-Check out the [examples](https://github.com/HaarigerHarald/geant4_pybind/tree/main/examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straight forward as the API is almost identical to the C++ one. One notable exception are template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4RootAnalysisManager>` becomes `G4RootScoreNtupleWriter`).
+Check out the [examples](https://github.com/HaarigerHarald/geant4_pybind/tree/main/examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straight forward as the API is almost identical to the C++ one. One notable exception are template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4GenericAnalysisManager>` becomes `G4GenericScoreNtupleWriter`).
 
 ## Bugs?
 
-Yes!
-
-Though the bigger problem is probably that there is still quite a bit missing.
+Yes! Please create an issue if you encounter one.
 
 ## License
 

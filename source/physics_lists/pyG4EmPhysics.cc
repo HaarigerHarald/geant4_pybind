@@ -19,7 +19,6 @@
 #include <G4EmDNAPhysics_stationary.hh>
 #include <G4EmDNAPhysics.hh>
 #include <G4EmDNAPhysicsActivator.hh>
-#include <G4EmLEPTSPhysics.hh>
 #include <G4EmLivermorePhysics.hh>
 #include <G4EmLivermorePolarizedPhysics.hh>
 #include <G4EmLowEPPhysics.hh>
@@ -67,7 +66,6 @@ void export_G4EmPhysics(py::module &m)
    ADD_EM_PHYSICS(G4EmDNAPhysics_stationary);
    ADD_EM_PHYSICS(G4EmDNAPhysics);
    ADD_EM_PHYSICS(G4EmDNAPhysicsActivator);
-   ADD_EM_PHYSICS(G4EmLEPTSPhysics);
    ADD_EM_PHYSICS(G4EmLivermorePhysics);
    ADD_EM_PHYSICS(G4EmLivermorePolarizedPhysics);
    ADD_EM_PHYSICS(G4EmLowEPPhysics);

@@ -100,14 +100,6 @@ public:
    void ResetState() override { PYBIND11_OVERRIDE(void, G4MultiNavigator, ResetState, ); }
 
    void SetupHierarchy() override { PYBIND11_OVERRIDE(void, G4MultiNavigator, SetupHierarchy, ); }
-
-   G4bool RecheckDistanceToCurrentBoundary(const G4ThreeVector &pGlobalPoint, const G4ThreeVector &pDirection,
-                                           const G4double CurrentProposedStepLength, G4double *prDistance,
-                                           G4double *prNewSafety) const override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4MultiNavigator, RecheckDistanceToCurrentBoundary, pGlobalPoint, pDirection,
-                        CurrentProposedStepLength, prDistance, prNewSafety);
-   }
 };
 
 void export_G4MultiNavigator(py::module &m)

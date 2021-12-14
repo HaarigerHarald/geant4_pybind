@@ -172,13 +172,5 @@ void export_G4Sphere(py::module &m)
       .def("StreamInfo", &G4Sphere::StreamInfo, py::arg("os"))
       .def("GetExtent", &G4Sphere::GetExtent)
       .def("DescribeYourselfTo", &G4Sphere::DescribeYourselfTo, py::arg("scene"))
-      .def("CreatePolyhedron", &G4Sphere::CreatePolyhedron, py::return_value_policy::reference)
-      .def("GetRmin", &G4Sphere::GetRmin)
-      .def("GetRmax", &G4Sphere::GetRmax)
-      .def("GetSPhi", &G4Sphere::GetSPhi)
-      .def("GetDPhi", &G4Sphere::GetDPhi)
-      .def("GetSTheta", &G4Sphere::GetSTheta)
-      .def("GetDTheta", &G4Sphere::GetDTheta)
-      .def("GetInsideRadius", &G4Sphere::GetInsideRadius)
-      .def("SetInsideRadius", &G4Sphere::SetInsideRadius, py::arg("newRmin"));
+      .def("CreatePolyhedron", &G4Sphere::CreatePolyhedron, py::return_value_policy::reference);
 }

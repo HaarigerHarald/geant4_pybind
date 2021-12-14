@@ -16,17 +16,13 @@ void export_G4UImanager(py::module &m)
 
       .def("GetCurrentValues", &G4UImanager::GetCurrentValues)
       .def("ExecuteMacroFile", &G4UImanager::ExecuteMacroFile)
-      .def("ApplyCommand",
-           [](G4UImanager &self, const char *command) {
-              py::gil_scoped_release gil;
-              self.ApplyCommand(command);
-           })
+      .def(
+         "ApplyCommand", [](G4UImanager &self, const char *command) { self.ApplyCommand(command); },
+         py::call_guard<py::gil_scoped_release>())
 
-      .def("ApplyCommand",
-           [](G4UImanager &self, const G4String &command) {
-              py::gil_scoped_release gil;
-              self.ApplyCommand(command);
-           })
+      .def(
+         "ApplyCommand", [](G4UImanager &self, const G4String &command) { self.ApplyCommand(command); },
+         py::call_guard<py::gil_scoped_release>())
 
       .def("CreateHTML", &G4UImanager::CreateHTML, py::arg("dir") = "/")
       .def("SetMacroSearchPath", &G4UImanager::SetMacroSearchPath)

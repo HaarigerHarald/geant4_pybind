@@ -76,8 +76,7 @@ public:
 
 void export_G4ReplicatedSlice(py::module &m)
 {
-   py::class_<RotationSharedG4ReplicatedSlice, PyG4ReplicatedSlice, G4VPhysicalVolume, py::nodelete>(
-      m, "G4ReplicatedSlice")
+   py::class_<RotationSharedG4ReplicatedSlice, PyG4ReplicatedSlice, G4PVReplica, py::nodelete>(m, "G4ReplicatedSlice")
 
       .def(py::init<const G4String &, G4LogicalVolume *, G4LogicalVolume *, const EAxis, const G4int, const G4double,
                     const G4double, const G4double>(),

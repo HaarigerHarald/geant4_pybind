@@ -1,9 +1,5 @@
-set(_configure_depends_arg )
-if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.12.0")
-  set(_configure_depends_arg "CONFIGURE_DEPENDS")
-endif()
 
-file(GLOB_RECURSE SOURCE ${_configure_depends_arg}
+file(GLOB_RECURSE SOURCE CONFIGURE_DEPENDS
   analysis/*.cc
   digits_hits/*.cc
   event/*.cc
@@ -18,6 +14,7 @@ file(GLOB_RECURSE SOURCE ${_configure_depends_arg}
   physics_lists/*.cc
   processes/*.cc
   run/*.cc
+  tasking/*.cc
   track/*.cc
   tracking/*.cc
   visualization/*.cc

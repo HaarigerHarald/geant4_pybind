@@ -55,10 +55,6 @@ void export_G4SafetyHelper(py::module &m)
       .def("ComputeSafety", &G4SafetyHelper::ComputeSafety, py::arg("pGlobalPoint"), py::arg("maxRadius") = DBL_MAX)
       .def("Locate", &G4SafetyHelper::Locate, py::arg("pGlobalPoint"), py::arg("direction"))
       .def("ReLocateWithinVolume", &G4SafetyHelper::ReLocateWithinVolume, py::arg("pGlobalPoint"))
-      .def("RecheckDistanceToCurrentBoundary", &G4SafetyHelper::RecheckDistanceToCurrentBoundary,
-           py::arg("pGlobalPoint"), py::arg("pDirection"), py::arg("pCurrentProposedStepLength"), py::arg("prDistance"),
-           py::arg("prNewSafety") = static_cast<G4double *>(nullptr))
-
       .def("EnableParallelNavigation", &G4SafetyHelper::EnableParallelNavigation, py::arg("parallel"))
       .def("InitialiseNavigator", &G4SafetyHelper::InitialiseNavigator)
       .def("SetVerboseLevel", &G4SafetyHelper::SetVerboseLevel, py::arg("lev"))

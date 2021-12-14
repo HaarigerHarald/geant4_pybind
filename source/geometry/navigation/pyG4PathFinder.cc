@@ -63,11 +63,6 @@ void export_G4PathFinder(py::module &m)
       .def("EndTrack", &G4PathFinder::EndTrack)
       .def("CreateTouchableHandle", &G4PathFinder::CreateTouchableHandle, py::arg("navId"))
       .def("GetLocatedVolume", &G4PathFinder::GetLocatedVolume, py::arg("navId"), py::return_value_policy::reference)
-
-      .def("RecheckDistanceToCurrentBoundary", &G4PathFinder::RecheckDistanceToCurrentBoundary, py::arg("pGlobalPoint"),
-           py::arg("pDirection"), py::arg("pCurrentProposedStepLength"), py::arg("prDistance"),
-           py::arg("prNewSafety") = static_cast<G4double *>(nullptr))
-
       //.def("IsParticleLooping", &G4PathFinder::IsParticleLooping)
       .def("GetCurrentSafety", &G4PathFinder::GetCurrentSafety)
       .def("GetMinimumStep", &G4PathFinder::GetMinimumStep)

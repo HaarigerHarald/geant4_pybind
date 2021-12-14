@@ -229,8 +229,14 @@ void export_G4GenericMessenger(py::module &m)
       .def("SetUnit", &G4GenericMessenger::Command::SetUnit)
       .def("SetUnitCategory", &G4GenericMessenger::Command::SetUnitCategory)
       .def("SetDefaultUnit", &G4GenericMessenger::Command::SetDefaultUnit)
-      .def("SetParameterName", &G4GenericMessenger::Command::SetParameterName, py::arg("name"), py::arg("omittable"),
-           py::arg("currentAsDefault") = false)
+      .def("SetParameterName",
+           py::overload_cast<const G4String &, G4bool, G4bool>(&G4GenericMessenger::Command::SetParameterName),
+           py::arg("name"), py::arg("omittable"), py::arg("currentAsDefault") = false)
+
+      .def("SetParameterName",
+           py::overload_cast<const G4String &, const G4String &, const G4String &, G4bool, G4bool>(
+              &G4GenericMessenger::Command::SetParameterName),
+           py::arg("name"), py::arg("arg1"), py::arg("arg2"), py::arg("omittable"), py::arg("currentAsDefault") = false)
 
       .def("SetParameterName", &G4GenericMessenger::Command::SetDefaultValue)
       .def("SetDefaultValue", &G4GenericMessenger::Command::SetDefaultValue)

@@ -169,10 +169,5 @@ void export_G4CutTubs(py::module &m)
       .def("Clone", &G4CutTubs::Clone, py::return_value_policy::reference)
       .def("StreamInfo", &G4CutTubs::StreamInfo, py::arg("os"))
       .def("DescribeYourselfTo", &G4CutTubs::DescribeYourselfTo, py::arg("scene"))
-      .def("CreatePolyhedron", &G4CutTubs::CreatePolyhedron, py::return_value_policy::reference)
-      .def("GetRMin", &G4CutTubs::GetRMin)
-      .def("GetRMax", &G4CutTubs::GetRMax)
-      .def("GetDz", &G4CutTubs::GetDz)
-      .def("GetSPhi", &G4CutTubs::GetSPhi)
-      .def("GetDPhi", &G4CutTubs::GetDPhi);
+      .def("CreatePolyhedron", &G4CutTubs::CreatePolyhedron, py::return_value_policy::reference);
 }

@@ -55,6 +55,7 @@ void export_modG4particles(py::module &);
 void export_modG4physics_list(py::module &);
 void export_modG4processes(py::module &);
 void export_modG4run(py::module &);
+void export_modG4tasking(py::module &);
 void export_modG4track(py::module &);
 void export_modG4tracking(py::module &);
 void export_modG4visualization(py::module &);
@@ -75,6 +76,7 @@ PYBIND11_MODULE(geant4_pybind, m)
    export_modG4tracking(m);
    export_modG4event(m);
    export_modG4run(m);
+   export_modG4tasking(m);
    export_modG4physics_list(m);
    export_modG4interface(m);
    export_modG4visualization(m);
@@ -86,21 +88,24 @@ PYBIND11_MODULE(geant4_pybind, m)
    G4coutbuf.SetDestination(&pycout);
    G4cerrbuf.SetDestination(&pycout);
 
-   m.add_object("_cleanup", py::capsule([]() {
-                   G4UImanager *UImgr = G4UImanager::GetUIpointer();
-                   UImgr->SetCoutDestination(0);
-                   delete G4RunManager::GetRunManager();
+   py::module_ atexit = py::module_::import("atexit");
+   atexit.attr("register")(py::cpp_function([]() {
+      py::gil_scoped_release gil_release;
+      delete G4RunManager::GetRunManager();
 
-                   // Delete everything before the interpreter shuts down to properly clean up python objects
-                   G4LogicalVolumeStore::Clean();
-                   G4LogicalVolume::Clean();
-                   G4RegionStore::Clean();
-                   G4Region::Clean();
-                   G4PhysicalVolumeStore::Clean();
-                   G4VPhysicalVolume::Clean();
-                   G4SolidStore::Clean();
-                   G4Material::GetMaterialTable()->clear();
-                }));
+      // Delete everything before the interpreter shuts down to properly clean up python objects
+      G4LogicalVolumeStore::Clean();
+      G4LogicalVolume::Clean();
+      G4RegionStore::Clean();
+      G4Region::Clean();
+      G4PhysicalVolumeStore::Clean();
+      G4VPhysicalVolume::Clean();
+      G4SolidStore::Clean();
+      G4Material::GetMaterialTable()->clear();
+
+      G4UImanager *UImgr = G4UImanager::GetUIpointer();
+      UImgr->SetCoutDestination(0);
+   }));
 
    py::dict globals = py::module_::import("__main__").attr("__dict__");
    if (!globals.contains("AUTO_STUB_GENERATION")) {

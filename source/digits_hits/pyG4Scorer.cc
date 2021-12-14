@@ -112,7 +112,9 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0)
 
-      .def("SetCylinderSize", &G4PSCellFluxForCylinder3D::SetCylinderSize, py::arg("dr"), py::arg("dz"))
+      .def("SetCylinderSize", &G4PSCellFluxForCylinder3D::SetCylinderSize, py::arg("cylSize"), py::arg("startAng"),
+           py::arg("angSpan"))
+
       .def("SetNumberOfSegments",
            [](G4PSCellFluxForCylinder3D &self, G4int z, G4int phi, G4int r) {
               G4int nSeg[] = {z, phi, r};
@@ -212,7 +214,9 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0)
 
-      .def("SetCylinderSize", &G4PSDoseDepositForCylinder3D::SetCylinderSize, py::arg("dr"), py::arg("dz"))
+      .def("SetCylinderSize", &G4PSDoseDepositForCylinder3D::SetCylinderSize, py::arg("cylSize"), py::arg("startAng"),
+           py::arg("angSpan"))
+
       .def("SetNumberOfSegments",
            [](G4PSDoseDepositForCylinder3D &self, G4int z, G4int phi, G4int r) {
               G4int nSeg[] = {z, phi, r};
@@ -399,7 +403,9 @@ void export_G4Scorer(py::module &m)
            py::arg("unit"), py::arg("ni") = 1, py::arg("nj") = 1, py::arg("nk") = 1, py::arg("depi") = 2,
            py::arg("depj") = 1, py::arg("depk") = 0)
 
-      .def("SetCylinderSize", &G4PSPassageCellFluxForCylinder3D::SetCylinderSize, py::arg("dr"), py::arg("dz"))
+      .def("SetCylinderSize", &G4PSPassageCellFluxForCylinder3D::SetCylinderSize, py::arg("cylSize"),
+           py::arg("startAng"), py::arg("angSpan"))
+
       .def("SetNumberOfSegments",
            [](G4PSPassageCellFluxForCylinder3D &self, G4int z, G4int phi, G4int r) {
               G4int nSeg[] = {z, phi, r};

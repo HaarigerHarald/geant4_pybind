@@ -82,14 +82,6 @@ public:
       PYBIND11_OVERRIDE(void, G4ErrorPropagationNavigator, LocateGlobalPointWithinVolume, position);
    }
 
-   G4bool RecheckDistanceToCurrentBoundary(const G4ThreeVector &pGlobalPoint, const G4ThreeVector &pDirection,
-                                           const G4double CurrentProposedStepLength, G4double *prDistance,
-                                           G4double *prNewSafety) const override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4ErrorPropagationNavigator, RecheckDistanceToCurrentBoundary, pGlobalPoint, pDirection,
-                        CurrentProposedStepLength, prDistance, prNewSafety);
-   }
-
    G4TouchableHistoryHandle CreateTouchableHistoryHandle() const override
    {
       PYBIND11_OVERRIDE(G4TouchableHistoryHandle, G4ErrorPropagationNavigator, CreateTouchableHistoryHandle, );

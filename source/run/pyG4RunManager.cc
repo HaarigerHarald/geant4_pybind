@@ -40,11 +40,10 @@ void export_G4RunManager(py::module &m)
       .def(
          "BeamOn",
          [](G4RunManager &self, G4int n_event, const char *macroFile = 0, G4int n_select = -1) {
-            py::gil_scoped_release gil;
             self.BeamOn(n_event, macroFile, n_select);
          },
          py::arg("n_event"), py::arg("macroFile") = static_cast<const char *>(nullptr), py::arg("n_select") = -1,
-         "Starts event loop.")
+         py::call_guard<py::gil_scoped_release>(), "Starts event loop.")
 
       .def("SetUserInitialization",
            [](G4RunManager &self, py::disown_ptr<G4VUserDetectorConstruction> detector) {
@@ -151,5 +150,5 @@ void export_G4RunManager(py::module &m)
       .def(
          "__exit__",
          [](G4RunManager *self, py::object exc_type, py::object exc_value, py::object exc_tb) { delete self; },
-         py::is_operator());
+         py::is_operator(), py::call_guard<py::gil_scoped_release>());
 }

@@ -12,7 +12,6 @@
 #include <G4Polyhedron.hh>
 #include <G4Polymarker.hh>
 #include <G4Polyline.hh>
-#include <G4Scale.hh>
 #include <G4Square.hh>
 #include <G4VHit.hh>
 #include <G4VTrajectory.hh>
@@ -61,9 +60,6 @@ void export_G4VisManager(py::module &m)
 
       .def("Draw", py::overload_cast<const G4Polymarker &, const G4Transform3D &>(&G4VisManager::Draw),
            py::arg("polymarker"), py::arg("objectTransformation") = G4Transform3D())
-
-      .def("Draw", py::overload_cast<const G4Scale &, const G4Transform3D &>(&G4VisManager::Draw), py::arg("scale"),
-           py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw", py::overload_cast<const G4Square &, const G4Transform3D &>(&G4VisManager::Draw), py::arg("square"),
            py::arg("objectTransformation") = G4Transform3D())

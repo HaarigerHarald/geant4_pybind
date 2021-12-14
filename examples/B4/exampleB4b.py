@@ -412,7 +412,7 @@ if len(macro) == 0:
 # G4Random.setTheEngine(MTwistEngine())
 
 # Construct the default run manager
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
 
 # Set mandatory initialization classes
 detConstruction = B4DetectorConstruction()

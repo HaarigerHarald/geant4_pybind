@@ -14,11 +14,10 @@ void export_G4VUserDetectorConstruction(py::module &);
 void export_G4VUserPhysicsList(py::module &);
 void export_G4VModularPhysicsList(py::module &);
 void export_G4VPhysicsConstructor(py::module &);
-void export_G4VUserTaskQueue(py::module &);
-void export_G4RunManagerFactory(py::module &);
 void export_G4VUserActionInitialization(py::module &);
 void export_G4RunManager(py::module &);
 void export_G4RunManagerKernel(py::module &);
+void export_G4MTRunManager(py::module &);
 
 void export_modG4run(py::module &m)
 {
@@ -30,9 +29,8 @@ void export_modG4run(py::module &m)
    export_G4VUserPhysicsList(m);
    export_G4VModularPhysicsList(m);
    export_G4VPhysicsConstructor(m);
-   export_G4VUserTaskQueue(m);
-   export_G4RunManagerFactory(m);
    export_G4VUserActionInitialization(m);
    export_G4RunManager(m);
    export_G4RunManagerKernel(m);
+   export_G4MTRunManager(m);
 }

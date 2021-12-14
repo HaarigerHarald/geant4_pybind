@@ -1024,6 +1024,9 @@ class B5RunAction(G4UserRunAction):
         # Create the generic analysis manager
         # The choice of analysis technology is done according to the file extension
         analysisManager = G4AnalysisManager.Instance()
+        analysisManager.SetDefaultFileType("root")
+        # If the filename extension is not provided, the default file type (root)
+        # will be used for all files specified without extension.
         analysisManager.SetVerboseLevel(1)
 
         # Default settings
@@ -1100,7 +1103,7 @@ if len(sys.argv) == 1:
     ui = G4UIExecutive(len(sys.argv), sys.argv)
 
 # Construct the default run manager
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
 
 # Mandatory user initialization classes
 runManager.SetUserInitialization(B5DetectorConstruction())

@@ -205,10 +205,10 @@ void export_modG4geometry(py::module &m)
 
    EXPORT_G4HEADER(G4VPhysicalVolume, m);
    EXPORT_G4HEADER(G4PVDivision, m);
-   EXPORT_G4HEADER(G4ReplicatedSlice, m);
    EXPORT_G4HEADER(G4VExternalPhysicalVolume, m);
    EXPORT_G4HEADER(G4PVPlacement, m);
    EXPORT_G4HEADER(G4PVReplica, m);
+   EXPORT_G4HEADER(G4ReplicatedSlice, m);
    EXPORT_G4HEADER(G4PVParameterised, m);
    EXPORT_G4HEADER(G4PhysicalVolumeStore, m);
 

@@ -4,16 +4,16 @@
 #include <G4RootAnalysisManager.hh>
 #include <G4RootAnalysisReader.hh>
 
-#include "G4CsvAnalysisManager.hh"
-#include "G4CsvAnalysisReader.hh"
+#include <G4CsvAnalysisManager.hh>
+#include <G4CsvAnalysisReader.hh>
 
-#include "G4XmlAnalysisManager.hh"
-#include "G4XmlAnalysisReader.hh"
+#include <G4XmlAnalysisManager.hh>
+#include <G4XmlAnalysisReader.hh>
 
-#include "G4GenericAnalysisManager.hh"
-#include "G4GenericFileManager.hh"
-#include "G4HnInformation.hh"
-#include "G4VNtupleFileManager.hh"
+#include <G4GenericAnalysisManager.hh>
+#include <G4GenericFileManager.hh>
+#include <G4HnInformation.hh>
+#include <G4VNtupleFileManager.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -46,7 +46,6 @@ void export_G4AnalysisManager(py::module &m)
 
    py::class_<G4RootAnalysisManager, G4ToolsAnalysisManager, py::nodelete>(m, "G4RootAnalysisManager")
 
-      .def(py::init<G4bool>(), py::arg("isMaster") = true)
       .def_static("Instance", &G4RootAnalysisManager::Instance, py::return_value_policy::reference)
       .def_static("IsInstance", &G4RootAnalysisManager::IsInstance)
 
@@ -60,19 +59,16 @@ void export_G4AnalysisManager(py::module &m)
 
    py::class_<G4CsvAnalysisManager, G4ToolsAnalysisManager, py::nodelete>(m, "G4CsvAnalysisManager")
 
-      .def(py::init<G4bool>(), py::arg("isMaster") = true)
       .def_static("Instance", &G4CsvAnalysisManager::Instance, py::return_value_policy::reference)
       .def_static("IsInstance", &G4CsvAnalysisManager::IsInstance);
 
    py::class_<G4XmlAnalysisManager, G4ToolsAnalysisManager, py::nodelete>(m, "G4XmlAnalysisManager")
 
-      .def(py::init<G4bool>(), py::arg("isMaster") = true)
       .def_static("Instance", &G4XmlAnalysisManager::Instance, py::return_value_policy::reference)
       .def_static("IsInstance", &G4XmlAnalysisManager::IsInstance);
 
    py::class_<G4GenericAnalysisManager, G4ToolsAnalysisManager, py::nodelete>(m, "G4GenericAnalysisManager")
 
-      .def(py::init<G4bool>(), py::arg("isMaster") = true)
       .def_static("Instance", &G4GenericAnalysisManager::Instance, py::return_value_policy::reference)
       .def_static("IsInstance", &G4GenericAnalysisManager::IsInstance)
 
@@ -85,7 +81,6 @@ void export_G4AnalysisManager(py::module &m)
       .def("SetBasketSize", &G4GenericAnalysisManager::SetBasketSize, py::arg("basketSize"))
       .def("SetBasketEntries", &G4GenericAnalysisManager::SetBasketEntries, py::arg("basketEntries"))
 
-      .def("Merge", &G4GenericAnalysisManager::Merge)
       .def("WriteH1", &G4GenericAnalysisManager::WriteH1, py::arg("id"), py::arg("fileName"))
       .def("WriteH2", &G4GenericAnalysisManager::WriteH2, py::arg("id"), py::arg("fileName"))
       .def("WriteH3", &G4GenericAnalysisManager::WriteH3, py::arg("id"), py::arg("fileName"))

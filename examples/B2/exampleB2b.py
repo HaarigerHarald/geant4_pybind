@@ -456,7 +456,7 @@ if len(sys.argv) == 1:
 # G4Random.setTheEngine(MTwistEngine())
 
 # Construct the default run manager
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
 
 # Set mandatory initialization classes
 runManager.SetUserInitialization(B2bDetectorConstruction())

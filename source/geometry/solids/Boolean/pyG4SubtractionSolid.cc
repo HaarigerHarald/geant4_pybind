@@ -91,8 +91,6 @@ public:
       PYBIND11_OVERRIDE(G4VSolid *, G4SubtractionSolid, GetConstituentSolid, no);
    }
 
-   G4double GetCubicVolume() override { PYBIND11_OVERRIDE(G4double, G4SubtractionSolid, GetCubicVolume, ); }
-
    G4double GetSurfaceArea() override { PYBIND11_OVERRIDE(G4double, G4SubtractionSolid, GetSurfaceArea, ); }
 
    G4Polyhedron *GetPolyhedron() const override

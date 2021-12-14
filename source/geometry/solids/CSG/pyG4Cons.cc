@@ -164,12 +164,5 @@ void export_G4Cons(py::module &m)
       .def("Clone", &G4Cons::Clone, py::return_value_policy::reference)
       .def("StreamInfo", &G4Cons::StreamInfo, py::arg("os"))
       .def("DescribeYourselfTo", &G4Cons::DescribeYourselfTo, py::arg("scene"))
-      .def("CreatePolyhedron", &G4Cons::CreatePolyhedron, py::return_value_policy::reference)
-      .def("GetRmin1", &G4Cons::GetRmin1)
-      .def("GetRmax1", &G4Cons::GetRmax1)
-      .def("GetRmin2", &G4Cons::GetRmin2)
-      .def("GetRmax2", &G4Cons::GetRmax2)
-      .def("GetDz", &G4Cons::GetDz)
-      .def("GetSPhi", &G4Cons::GetSPhi)
-      .def("GetDPhi", &G4Cons::GetDPhi);
+      .def("CreatePolyhedron", &G4Cons::CreatePolyhedron, py::return_value_policy::reference);
 }

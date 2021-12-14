@@ -8,7 +8,7 @@ on:
      - main
 
 env:
-  GEANT4_GIT_TAG: v10.7.3
+  GEANT4_GIT_TAG: v11.0.0
   GEANT4_SOURCE_DIR: geant4_source
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
@@ -113,6 +113,7 @@ jobs:
             -DGEANT4_INSTALL_EXAMPLES=OFF
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
             -DGEANT4_USE_GDML=ON
+            -DGEANT4_BUILD_TLS_MODEL=global-dynamic
             -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
             -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
             -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
@@ -126,6 +127,7 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF
             -DGEANT4_INSTALL_EXAMPLES=OFF
             -DGEANT4_USE_GDML=ON
+            -DGEANT4_BUILD_TLS_MODEL=global-dynamic
             -DGEANT4_USE_OPENGL_WIN32=ON
             -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
             -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"

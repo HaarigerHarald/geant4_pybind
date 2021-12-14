@@ -378,7 +378,7 @@ if len(sys.argv) == 1:
     ui = G4UIExecutive(len(sys.argv), sys.argv)
 
 # Construct the default run manager
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
 
 # Set mandatory initialization classes
 runManager.SetUserInitialization(B3DetectorConstruction())
@@ -399,7 +399,7 @@ UImanager = G4UImanager.GetUIpointer()
 # Activate ROOT score ntuple writer
 # The verbose level can be also set via UI commands
 # /score/ntuple/writerVerbose level
-scoreNtupleWriter = G4RootScoreNtupleWriter()
+scoreNtupleWriter = G4GenericScoreNtupleWriter()
 scoreNtupleWriter.SetVerboseLevel(1)
 
 # Process macro or start UI session

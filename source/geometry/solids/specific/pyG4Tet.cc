@@ -118,7 +118,8 @@ void export_G4Tet(py::module &m)
 
       .def("__copy__", [](const PyG4Tet &self) { return PyG4Tet(self); })
       .def("__deepcopy__", [](const PyG4Tet &self, py::dict) { return PyG4Tet(self); })
-      .def("SetVertices", &G4Tet::SetVertices, py::arg("anchor"), py::arg("p1"), py::arg("p2"), py::arg("p3"))
+      .def("SetVertices", &G4Tet::SetVertices, py::arg("anchor"), py::arg("p1"), py::arg("p2"), py::arg("p3"),
+           py::arg("degeneracyFlag") = static_cast<G4bool *>(nullptr))
 
       .def("GetVertices",
            py::overload_cast<G4ThreeVector &, G4ThreeVector &, G4ThreeVector &, G4ThreeVector &>(&G4Tet::GetVertices,

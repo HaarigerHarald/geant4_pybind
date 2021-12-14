@@ -78,14 +78,6 @@ public:
       PYBIND11_OVERRIDE(G4double, G4Navigator, ComputeSafety, globalpoint, pProposedMaxLength, keepState);
    }
 
-   G4bool RecheckDistanceToCurrentBoundary(const G4ThreeVector &pGlobalPoint, const G4ThreeVector &pDirection,
-                                           const G4double CurrentProposedStepLength, G4double *prDistance,
-                                           G4double *prNewSafety) const override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4Navigator, RecheckDistanceToCurrentBoundary, pGlobalPoint, pDirection,
-                        CurrentProposedStepLength, prDistance, prNewSafety);
-   }
-
    G4TouchableHistoryHandle CreateTouchableHistoryHandle() const override
    {
       PYBIND11_OVERRIDE(G4TouchableHistoryHandle, G4Navigator, CreateTouchableHistoryHandle, );
@@ -146,10 +138,6 @@ void export_G4Navigator(py::module &m)
       .def("SetGeometricallyLimitedStep", &G4Navigator::SetGeometricallyLimitedStep)
       .def("ComputeSafety", &G4Navigator::ComputeSafety, py::arg("globalpoint"),
            py::arg("pProposedMaxLength") = DBL_MAX, py::arg("keepState") = true)
-
-      .def("RecheckDistanceToCurrentBoundary", &G4Navigator::RecheckDistanceToCurrentBoundary, py::arg("pGlobalPoint"),
-           py::arg("pDirection"), py::arg("CurrentProposedStepLength"), py::arg("prDistance"),
-           py::arg("prNewSafety") = static_cast<G4double *>(nullptr))
 
       .def("GetWorldVolume", &G4Navigator::GetWorldVolume, py::return_value_policy::reference)
       .def("SetWorldVolume", &G4Navigator::SetWorldVolume, py::arg("pWorld"))

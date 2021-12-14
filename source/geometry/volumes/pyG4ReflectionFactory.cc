@@ -53,5 +53,5 @@ void export_G4ReflectionFactory(py::module &m)
       .def("IsConstituent", &G4ReflectionFactory::IsConstituent, py::arg("lv"))
       .def("IsReflected", &G4ReflectionFactory::IsReflected, py::arg("lv"))
       .def("GetReflectedVolumesMap", &G4ReflectionFactory::GetReflectedVolumesMap)
-      .def("Reset", &G4ReflectionFactory::Reset);
+      .def("Clean", &G4ReflectionFactory::Clean);
 }
