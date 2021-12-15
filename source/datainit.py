@@ -11,17 +11,18 @@ import tarfile
 import urllib.request
 import tempfile
 import sys
+import shutil
+import stat
+
+progress = 0
+envs_to_set = dict()
 
 
 def directory_contains(dir, subdir):
     for f in os.listdir(dir):
-        if os.path.isdir(os.path.join(dir, f)) and os.path.basename(f) == subdir:
+        if os.path.isdir(os.path.join(dir, f)) and f == subdir:
             return True
     return False
-
-
-progress = 0
-envs_to_set = dict()
 
 
 def show_progress(block_num, block_size, total_size):
@@ -88,15 +89,15 @@ def init_datasets():
 
                 ["G4INCLDATA", "G4INCL1.0", "http://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz"],
 
-                ["G4LEDATA", "G4EMLOW7.13", "http://cern.ch/geant4-data/datasets/G4EMLOW.7.13.tar.gz"],
+                ["G4LEDATA", "G4EMLOW8.0", "http://cern.ch/geant4-data/datasets/G4EMLOW.8.0.tar.gz"],
 
                 ["G4LEVELGAMMADATA", "PhotonEvaporation5.7",
                  "http://cern.ch/geant4-data/datasets/G4PhotonEvaporation.5.7.tar.gz"],
 
                 ["G4NEUTRONHPDATA", "G4NDL4.6", "http://cern.ch/geant4-data/datasets/G4NDL.4.6.tar.gz"],
 
-                ["G4PARTICLEXSDATA", "G4PARTICLEXS3.1.1",
-                 "http://cern.ch/geant4-data/datasets/G4PARTICLEXS.3.1.1.tar.gz"],
+                ["G4PARTICLEXSDATA", "G4PARTICLEXS4.0",
+                 "http://cern.ch/geant4-data/datasets/G4PARTICLEXS.4.0.tar.gz"],
 
                 ["G4PIIDATA", "G4PII1.3",  "http://cern.ch/geant4-data/datasets/G4PII.1.3.tar.gz"],
 
@@ -118,6 +119,18 @@ def init_datasets():
                     return
 
             envs_to_set[dataset[0]] = os.path.join(data_directory, dataset[1])
+
+    if download_allowed:
+        # Clean the data directory
+        for data in os.listdir(data_directory):
+            if data not in [dataset[1] for dataset in datasets]:
+                try:
+                    def onerror(func, path, info):
+                        os.chmod(path, stat.S_IWUSR)
+                        func(path)
+                    shutil.rmtree(os.path.join(data_directory, data), onerror=onerror)
+                except:
+                    pass
 
 
 init_datasets()
