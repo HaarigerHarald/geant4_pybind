@@ -81,11 +81,20 @@ void export_G4AnalysisManager(py::module &m)
       .def("SetBasketSize", &G4GenericAnalysisManager::SetBasketSize, py::arg("basketSize"))
       .def("SetBasketEntries", &G4GenericAnalysisManager::SetBasketEntries, py::arg("basketEntries"))
 
-      .def("WriteH1", &G4GenericAnalysisManager::WriteH1, py::arg("id"), py::arg("fileName"))
-      .def("WriteH2", &G4GenericAnalysisManager::WriteH2, py::arg("id"), py::arg("fileName"))
-      .def("WriteH3", &G4GenericAnalysisManager::WriteH3, py::arg("id"), py::arg("fileName"))
-      .def("WriteP1", &G4GenericAnalysisManager::WriteP1, py::arg("id"), py::arg("fileName"))
-      .def("WriteP2", &G4GenericAnalysisManager::WriteP2, py::arg("id"), py::arg("fileName"))
+      .def("WriteH1", &G4GenericAnalysisManager::WriteH1, py::arg("id"), py::arg("fileName"),
+           py::call_guard<py::gil_scoped_release>())
+
+      .def("WriteH2", &G4GenericAnalysisManager::WriteH2, py::arg("id"), py::arg("fileName"),
+           py::call_guard<py::gil_scoped_release>())
+
+      .def("WriteH3", &G4GenericAnalysisManager::WriteH3, py::arg("id"), py::arg("fileName"),
+           py::call_guard<py::gil_scoped_release>())
+
+      .def("WriteP1", &G4GenericAnalysisManager::WriteP1, py::arg("id"), py::arg("fileName"),
+           py::call_guard<py::gil_scoped_release>())
+
+      .def("WriteP2", &G4GenericAnalysisManager::WriteP2, py::arg("id"), py::arg("fileName"),
+           py::call_guard<py::gil_scoped_release>())
 
       .def("SetDefaultFileType", &G4GenericAnalysisManager::SetDefaultFileType, py::arg("value"))
       .def("GetDefaultFileType", &G4GenericAnalysisManager::GetDefaultFileType);

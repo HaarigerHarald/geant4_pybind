@@ -4,6 +4,7 @@
           !!! G4Backtrace is activated !!!
           ################################
 
+Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
  Geant4 version Name: geant4-11-00 [MT]   (10-December-2021)
@@ -874,7 +875,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 --> Event 900 starts.
 --------------------End of Global Run-----------------------
  The run consists of 1000 gamma(s) of 6 MeV
- Cumulated dose per run, in scoring volume : 34.59717 picoGy  rms = 3.51258 picoGy 
+ Cumulated dose per run, in scoring volume: 34.59717 picoGy  rms = 3.51258 picoGy 
 ------------------------------------------------------------
 
 0 events have been kept for refreshing and/or reviewing.
@@ -893,7 +894,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 --> Event 900 starts.
 --------------------End of Global Run-----------------------
  The run consists of 1000 proton(s) of 210 MeV
- Cumulated dose per run, in scoring volume : 4.88767 nanoGy  rms = 145.54585 picoGy 
+ Cumulated dose per run, in scoring volume: 4.88767 nanoGy  rms = 145.54585 picoGy 
 ------------------------------------------------------------
 
 0 events have been kept for refreshing and/or reviewing.

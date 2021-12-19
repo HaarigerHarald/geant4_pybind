@@ -70,10 +70,12 @@ void export_G4TScoreNtupleWriter(py::module &m)
    py::class_<G4TScoreNtupleWriter<G4GenericAnalysisManager>>(m, "G4GenericScoreNtupleWriter")
 
       .def(py::init<>())
-      .def("Book", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::Book)
-      .def("OpenFile", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::OpenFile)
-      .def("Fill", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::Fill)
-      .def("Write", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::Write)
+      .def("Book", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::Book, py::call_guard<py::gil_scoped_release>())
+      .def("OpenFile", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::OpenFile,
+           py::call_guard<py::gil_scoped_release>())
+
+      .def("Fill", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::Fill, py::call_guard<py::gil_scoped_release>())
+      .def("Write", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::Write, py::call_guard<py::gil_scoped_release>())
 
       .def("SetFileName", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::SetFileName)
       .def("SetVerboseLevel", &G4TScoreNtupleWriter<G4GenericAnalysisManager>::SetVerboseLevel)

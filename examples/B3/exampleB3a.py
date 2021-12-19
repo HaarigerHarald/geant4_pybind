@@ -193,12 +193,20 @@ class B3aRunAction(G4UserRunAction):
         G4UnitDefinition("nanogray", "nanoGy", "Dose", nanogray)
         G4UnitDefinition("picogray", "picoGy", "Dose", picogray)
 
+        self.fGoodEvents = G4Accumulable(0)
+        self.fSumDose = G4Accumulable(0)
+
+        # Register accumulable to the accumulable manager
+        accumulableManager = G4AccumulableManager.Instance()
+        accumulableManager.RegisterAccumulable(self.fGoodEvents)
+        accumulableManager.RegisterAccumulable(self.fSumDose)
+
     def BeginOfRunAction(self, run):
         print("### Run", run.GetRunID(), "start.")
 
         # reset accumulables to their initial values
-        self.fGoodEvents = 0
-        self.fSumDose = 0
+        accumulableManager = G4AccumulableManager.Instance()
+        accumulableManager.Reset()
 
         # inform the runManager to save random number seed
         G4RunManager.GetRunManager().SetRandomNumberStore(False)
@@ -207,6 +215,10 @@ class B3aRunAction(G4UserRunAction):
         nofEvents = run.GetNumberOfEvent()
         if nofEvents == 0:
             return
+
+        # Merge accumulables
+        accumulableManager = G4AccumulableManager.Instance()
+        accumulableManager.Merge()
 
         # Run conditions
         #  note: There is no primary generator action object for "master"
@@ -364,7 +376,7 @@ if len(sys.argv) == 1:
     ui = G4UIExecutive(len(sys.argv), sys.argv)
 
 # Construct the default run manager
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
 
 # Set mandatory initialization classes
 runManager.SetUserInitialization(B3DetectorConstruction())

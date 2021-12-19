@@ -28,9 +28,13 @@ void export_G4VAnalysisManager(py::module &m)
 
       //.def(py::init<const G4String &, G4bool>())
 
-      .def("OpenFile", &G4VAnalysisManager::OpenFile, py::arg("fileName") = "")
-      .def("Write", &G4VAnalysisManager::Write)
-      .def("CloseFile", &G4VAnalysisManager::CloseFile, py::arg("reset") = true)
+      .def("OpenFile", &G4VAnalysisManager::OpenFile, py::arg("fileName") = "",
+           py::call_guard<py::gil_scoped_release>())
+
+      .def("Write", &G4VAnalysisManager::Write, py::call_guard<py::gil_scoped_release>())
+      .def("CloseFile", &G4VAnalysisManager::CloseFile, py::arg("reset") = true,
+           py::call_guard<py::gil_scoped_release>())
+
       .def("Merge", &G4VAnalysisManager::Merge) // TODO
       .def("Plot", &G4VAnalysisManager::Plot)
       .def("IsOpenFile", &G4VAnalysisManager::IsOpenFile)
@@ -240,19 +244,20 @@ void export_G4VAnalysisManager(py::module &m)
       //       py::overload_cast<const G4String &, std::vector<double> &>(&G4VAnalysisManager::CreateNtupleDColumn),
       //       py::arg("name"), py::arg("vector"))
 
-      .def("FinishNtuple", py::overload_cast<>(&G4VAnalysisManager::FinishNtuple))
+      .def("FinishNtuple", py::overload_cast<>(&G4VAnalysisManager::FinishNtuple),
+           py::call_guard<py::gil_scoped_release>())
 
       .def("CreateNtupleIColumn", py::overload_cast<G4int, const G4String &>(&G4VAnalysisManager::CreateNtupleIColumn),
-           py::arg("ntupleId"), py::arg("name"))
+           py::arg("ntupleId"), py::arg("name"), py::call_guard<py::gil_scoped_release>())
 
       .def("CreateNtupleFColumn", py::overload_cast<G4int, const G4String &>(&G4VAnalysisManager::CreateNtupleFColumn),
-           py::arg("ntupleId"), py::arg("name"))
+           py::arg("ntupleId"), py::arg("name"), py::call_guard<py::gil_scoped_release>())
 
       .def("CreateNtupleDColumn", py::overload_cast<G4int, const G4String &>(&G4VAnalysisManager::CreateNtupleDColumn),
-           py::arg("ntupleId"), py::arg("name"))
+           py::arg("ntupleId"), py::arg("name"), py::call_guard<py::gil_scoped_release>())
 
       .def("CreateNtupleSColumn", py::overload_cast<G4int, const G4String &>(&G4VAnalysisManager::CreateNtupleSColumn),
-           py::arg("ntupleId"), py::arg("name"))
+           py::arg("ntupleId"), py::arg("name"), py::call_guard<py::gil_scoped_release>())
 
       // TODO maybe reference to std::vector reference to py lists do not work
       //  .def("CreateNtupleIColumn",
@@ -267,7 +272,8 @@ void export_G4VAnalysisManager(py::module &m)
       //       py::overload_cast<G4int, const G4String &, std::vector<double>
       //       &>(&G4VAnalysisManager::CreateNtupleDColumn), py::arg("ntupleId"), py::arg("name"), py::arg("vector"))
 
-      .def("FinishNtuple", py::overload_cast<G4int>(&G4VAnalysisManager::FinishNtuple))
+      .def("FinishNtuple", py::overload_cast<G4int>(&G4VAnalysisManager::FinishNtuple),
+           py::call_guard<py::gil_scoped_release>())
 
       .def("SetNtupleMerging", &G4VAnalysisManager::SetNtupleMerging, py::arg("mergeNtuples"),
            py::arg("nofReducedNtupleFiles") = 0)
@@ -286,47 +292,51 @@ void export_G4VAnalysisManager(py::module &m)
       .def("SetFirstNtupleId", &G4VAnalysisManager::SetFirstNtupleId, py::arg("firstId"))
       .def("SetFirstNtupleColumnId", &G4VAnalysisManager::SetFirstNtupleColumnId, py::arg("firstId"))
 
-      .def("FillH1", &G4VAnalysisManager::FillH1, py::arg("id"), py::arg("value"), py::arg("weight") = 1.0)
+      .def("FillH1", &G4VAnalysisManager::FillH1, py::arg("id"), py::arg("value"), py::arg("weight") = 1.0,
+           py::call_guard<py::gil_scoped_release>())
+
       .def("FillH2", &G4VAnalysisManager::FillH2, py::arg("id"), py::arg("xvalue"), py::arg("yvalue"),
-           py::arg("weight") = 1.0)
+           py::arg("weight") = 1.0, py::call_guard<py::gil_scoped_release>())
 
       .def("FillH3", &G4VAnalysisManager::FillH3, py::arg("id"), py::arg("xvalue"), py::arg("yvalue"),
-           py::arg("zvalue"), py::arg("weight") = 1.0)
+           py::arg("zvalue"), py::arg("weight") = 1.0, py::call_guard<py::gil_scoped_release>())
 
       .def("FillP1", &G4VAnalysisManager::FillP1, py::arg("id"), py::arg("xvalue"), py::arg("yvalue"),
-           py::arg("weight") = 1.0)
+           py::arg("weight") = 1.0, py::call_guard<py::gil_scoped_release>())
 
       .def("FillP2", &G4VAnalysisManager::FillP2, py::arg("id"), py::arg("xvalue"), py::arg("yvalue"),
-           py::arg("zvalue"), py::arg("weight") = 1.0)
+           py::arg("zvalue"), py::arg("weight") = 1.0, py::call_guard<py::gil_scoped_release>())
 
       .def("FillNtupleIColumn", py::overload_cast<G4int, G4int>(&G4VAnalysisManager::FillNtupleIColumn), py::arg("id"),
-           py::arg("value"))
+           py::arg("value"), py::call_guard<py::gil_scoped_release>())
 
       .def("FillNtupleFColumn", py::overload_cast<G4int, G4float>(&G4VAnalysisManager::FillNtupleFColumn),
-           py::arg("id"), py::arg("value"))
+           py::arg("id"), py::arg("value"), py::call_guard<py::gil_scoped_release>())
 
       .def("FillNtupleDColumn", py::overload_cast<G4int, G4double>(&G4VAnalysisManager::FillNtupleDColumn),
-           py::arg("id"), py::arg("value"))
+           py::arg("id"), py::arg("value"), py::call_guard<py::gil_scoped_release>())
 
       .def("FillNtupleSColumn", py::overload_cast<G4int, const G4String &>(&G4VAnalysisManager::FillNtupleSColumn),
-           py::arg("id"), py::arg("value"))
+           py::arg("id"), py::arg("value"), py::call_guard<py::gil_scoped_release>())
 
-      .def("AddNtupleRow", py::overload_cast<>(&G4VAnalysisManager::AddNtupleRow))
+      .def("AddNtupleRow", py::overload_cast<>(&G4VAnalysisManager::AddNtupleRow),
+           py::call_guard<py::gil_scoped_release>())
 
       .def("FillNtupleIColumn", py::overload_cast<G4int, G4int, G4int>(&G4VAnalysisManager::FillNtupleIColumn),
-           py::arg("ntupleId"), py::arg("columnId"), py::arg("value"))
+           py::arg("ntupleId"), py::arg("columnId"), py::arg("value"), py::call_guard<py::gil_scoped_release>())
 
       .def("FillNtupleFColumn", py::overload_cast<G4int, G4int, G4float>(&G4VAnalysisManager::FillNtupleFColumn),
-           py::arg("ntupleId"), py::arg("columnId"), py::arg("value"))
+           py::arg("ntupleId"), py::arg("columnId"), py::arg("value"), py::call_guard<py::gil_scoped_release>())
 
       .def("FillNtupleDColumn", py::overload_cast<G4int, G4int, G4double>(&G4VAnalysisManager::FillNtupleDColumn),
-           py::arg("ntupleId"), py::arg("columnId"), py::arg("value"))
+           py::arg("ntupleId"), py::arg("columnId"), py::arg("value"), py::call_guard<py::gil_scoped_release>())
 
       .def("FillNtupleSColumn",
            py::overload_cast<G4int, G4int, const G4String &>(&G4VAnalysisManager::FillNtupleSColumn),
-           py::arg("ntupleId"), py::arg("columnId"), py::arg("value"))
+           py::arg("ntupleId"), py::arg("columnId"), py::arg("value"), py::call_guard<py::gil_scoped_release>())
 
-      .def("AddNtupleRow", py::overload_cast<G4int>(&G4VAnalysisManager::AddNtupleRow), py::arg("ntupleId"))
+      .def("AddNtupleRow", py::overload_cast<G4int>(&G4VAnalysisManager::AddNtupleRow), py::arg("ntupleId"),
+           py::call_guard<py::gil_scoped_release>())
 
       .def("SetActivation", &G4VAnalysisManager::SetActivation, py::arg("activation"))
       .def("GetActivation", &G4VAnalysisManager::GetActivation)

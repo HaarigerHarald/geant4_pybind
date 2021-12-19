@@ -1103,7 +1103,7 @@ if len(sys.argv) == 1:
     ui = G4UIExecutive(len(sys.argv), sys.argv)
 
 # Construct the default run manager
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
 
 # Mandatory user initialization classes
 runManager.SetUserInitialization(B5DetectorConstruction())

@@ -131,18 +131,33 @@ class B1RunAction(G4UserRunAction):
         G4UnitDefinition("nanogray", "nanoGy", "Dose", nanogray)
         G4UnitDefinition("picogray", "picoGy", "Dose", picogray)
 
+        self.edep = G4Accumulable(0)
+        self.edep2 = G4Accumulable(0)
+
+        accumulableManager = G4AccumulableManager.Instance()
+        accumulableManager.RegisterAccumulable(self.edep)
+        accumulableManager.RegisterAccumulable(self.edep2)
+
     def BeginOfRunAction(self, aRun):
         G4RunManager.GetRunManager().SetRandomNumberStore(False)
-        self.edep = 0
-        self.edep2 = 0
+
+        accumulableManager = G4AccumulableManager.Instance()
+        accumulableManager.Reset()
 
     def EndOfRunAction(self, aRun):
         nofEvents = aRun.GetNumberOfEvent()
         if nofEvents == 0:
             return
 
+        # Merge accumulables
+        accumulableManager = G4AccumulableManager.Instance()
+        accumulableManager.Merge()
+
+        edep = self.edep.GetValue()
+        edep2 = self.edep2.GetValue()
+
         # Compute dose = total energy deposit in a run and its variance
-        rms = self.edep2 - self.edep*self.edep/nofEvents
+        rms = edep2 - edep*edep/nofEvents
         if rms > 0:
             rms = math.sqrt(rms)
         else:
@@ -150,7 +165,7 @@ class B1RunAction(G4UserRunAction):
 
         detectorConstruction = G4RunManager.GetRunManager().GetUserDetectorConstruction()
         mass = detectorConstruction.fScoringVolume.GetMass()
-        dose = self.edep/mass
+        dose = edep/mass
         rmsDose = rms/mass
 
         generatorAction = G4RunManager.GetRunManager().GetUserPrimaryGeneratorAction()
@@ -168,7 +183,7 @@ class B1RunAction(G4UserRunAction):
             print("--------------------End of Local Run------------------------")
 
         print(" The run consists of", nofEvents, runCondition)
-        print(" Cumulated dose per run, in scoring volume : ", end="")
+        print(" Cumulated dose per run, in scoring volume: ", end="")
         print("{:.5f} rms = {:.5f}".format(G4BestUnit(dose, "Dose"), G4BestUnit(rmsDose, "Dose")))
         print("------------------------------------------------------------")
         print("")
@@ -287,7 +302,7 @@ if len(sys.argv) == 1:
 # Optionally: choose a different Random engine...
 # G4Random.setTheEngine(MTwistEngine())
 
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
 
 runManager.SetUserInitialization(B1DetectorConstruction())
 

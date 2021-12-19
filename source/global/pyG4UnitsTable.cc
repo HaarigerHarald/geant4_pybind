@@ -4,6 +4,7 @@
 #include <pybind11/operators.h>
 
 #include <G4UnitsTable.hh>
+#include <G4Accumulable.hh>
 
 #include <limits>
 
@@ -47,8 +48,13 @@ void export_G4UnitsTable(py::module &m)
       .def("PrintCategory", &G4UnitsCategory::PrintCategory);
 
    py::class_<G4BestUnit>(m, "G4BestUnit", "present best unit")
-      .def(py::init<G4double, const G4String &>())
-      .def(py::init<const G4ThreeVector &, const G4String &>())
+
+      .def(py::init<G4double, const G4String &>(), py::arg("internalValue"), py::arg("category"))
+      .def(py::init<const G4ThreeVector &, const G4String &>(), py::arg("internalValue"), py::arg("category"))
+      .def(py::init<>([](G4Accumulable<G4double> internalValue, const G4String &category) {
+              return new G4BestUnit(internalValue.GetValue(), category);
+           }),
+           py::arg("internalValue"), py::arg("category"))
 
       .def("GetCategory", &G4BestUnit::GetCategory)
       .def("GetIndexOfCategory", &G4BestUnit::GetIndexOfCategory)
