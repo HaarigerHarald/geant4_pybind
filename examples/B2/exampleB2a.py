@@ -399,7 +399,7 @@ class B2EventAction(G4UserEventAction):
         trajectoryContainer = event.GetTrajectoryContainer()
         n_trajectories = 0
         if trajectoryContainer != None:
-            n_trajectories = trajectoryContainer.GetSize()
+            n_trajectories = trajectoryContainer.entries()
 
         # periodic printing
         eventID = event.GetEventID()

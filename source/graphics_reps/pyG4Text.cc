@@ -19,7 +19,7 @@ void export_G4Text(py::module &m)
       .export_values();
 
    g4Text.def(py::init<const G4String &>(), py::arg("text"))
-      .def(py::init<const G4String &, const G4Point3D &>(), py::arg("text"), py::arg("position"))
+      .def(py::init<const G4String &, const G4ThreeVector &>(), py::arg("text"), py::arg("position"))
       .def(py::init<const G4VMarker &>())
 
       .def("GetText", &G4Text::GetText)

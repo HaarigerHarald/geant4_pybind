@@ -103,11 +103,10 @@ void export_G4LogicalVolume(py::module &m)
       .def("SetMaterialCutsCouple", &G4LogicalVolume::SetMaterialCutsCouple, py::arg("cuts"))
       .def(py::self == py::self)
       .def("GetVisAttributes", &G4LogicalVolume::GetVisAttributes, py::return_value_policy::reference)
-      .def("SetVisAttributes", py::overload_cast<const G4VisAttributes *>(&G4LogicalVolume::SetVisAttributes),
-           py::arg("pVA"))
-
-      .def("SetVisAttributes", py::overload_cast<const G4VisAttributes &>(&G4LogicalVolume::SetVisAttributes),
-           py::arg("VA"))
+      .def(
+         "SetVisAttributes",
+         [](G4LogicalVolume &self, const G4VisAttributes *pVA) { self.SetVisAttributes(new G4VisAttributes(*pVA)); },
+         py::arg("VA"))
 
       .def("GetFastSimulationManager", &G4LogicalVolume::GetFastSimulationManager, py::return_value_policy::reference)
       .def("SetBiasWeight", &G4LogicalVolume::SetBiasWeight, py::arg("w"))

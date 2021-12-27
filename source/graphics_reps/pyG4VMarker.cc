@@ -21,7 +21,7 @@ public:
 
 void export_G4VMarker(py::module &m)
 {
-   py::class_<G4VMarker, PyG4VMarker> marker(m, "G4VMarker");
+   py::class_<G4VMarker, PyG4VMarker, G4Visible> marker(m, "G4VMarker");
 
    py::enum_<G4VMarker::FillStyle>(marker, "FillStyle")
       .value("noFill", G4VMarker::noFill)
@@ -37,7 +37,7 @@ void export_G4VMarker(py::module &m)
 
    marker.def(py::init<>())
       .def(py::init([](const G4VMarker &other) { return new G4VMarker(other); }))
-      .def(py::init<const G4Point3D &>())
+      .def(py::init<const G4ThreeVector &>())
       .def(py::self != py::self)
 
       .def("GetPosition", &G4VMarker::GetPosition)

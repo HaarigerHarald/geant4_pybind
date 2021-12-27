@@ -98,4 +98,6 @@ void export_G4AnalysisManager(py::module &m)
 
       .def("SetDefaultFileType", &G4GenericAnalysisManager::SetDefaultFileType, py::arg("value"))
       .def("GetDefaultFileType", &G4GenericAnalysisManager::GetDefaultFileType);
+
+   m.attr("G4AnalysisManager") = m.attr("G4GenericAnalysisManager");
 }

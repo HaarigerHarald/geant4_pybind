@@ -13,7 +13,7 @@ void export_G4Square(py::module &m)
    py::class_<G4Square, G4VMarker>(m, "G4Square")
       .def(py::init<>())
       .def(py::init<const G4VMarker &>())
-      .def(py::init<const G4Point3D &>(), py::arg("position"))
+      .def(py::init<const G4ThreeVector &>(), py::arg("position"))
 
       .def(
          "__str__",
