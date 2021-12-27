@@ -302,7 +302,7 @@ if len(sys.argv) == 1:
 # Optionally: choose a different Random engine...
 # G4Random.setTheEngine(MTwistEngine())
 
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
 
 runManager.SetUserInitialization(B1DetectorConstruction())
 
