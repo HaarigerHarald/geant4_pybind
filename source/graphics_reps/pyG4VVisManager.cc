@@ -30,73 +30,60 @@ void export_G4VVisManager(py::module &m)
                   py::return_value_policy::reference)
 
       .def("Draw", py::overload_cast<const G4Circle &, const G4Transform3D &>(&G4VVisManager::Draw), py::arg("circle"),
-           py::arg("objectTransformation") = G4Transform3D(), py::call_guard<py::gil_scoped_release>())
+           py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw", py::overload_cast<const G4Polyhedron &, const G4Transform3D &>(&G4VVisManager::Draw),
-           py::arg("polyhedron"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("polyhedron"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw", py::overload_cast<const G4Polyline &, const G4Transform3D &>(&G4VVisManager::Draw),
-           py::arg("polyline"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("polyline"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw", py::overload_cast<const G4Polymarker &, const G4Transform3D &>(&G4VVisManager::Draw),
-           py::arg("polymarker"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("polymarker"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw", py::overload_cast<const G4Square &, const G4Transform3D &>(&G4VVisManager::Draw), py::arg("square"),
-           py::arg("objectTransformation") = G4Transform3D(), py::call_guard<py::gil_scoped_release>())
+           py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw", py::overload_cast<const G4Text &, const G4Transform3D &>(&G4VVisManager::Draw), py::arg("text"),
-           py::arg("objectTransformation") = G4Transform3D(), py::call_guard<py::gil_scoped_release>())
+           py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw2D", py::overload_cast<const G4Circle &, const G4Transform3D &>(&G4VVisManager::Draw2D),
-           py::arg("circle"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("circle"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw2D", py::overload_cast<const G4Polyhedron &, const G4Transform3D &>(&G4VVisManager::Draw2D),
-           py::arg("polyhedron"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("polyhedron"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw2D", py::overload_cast<const G4Polyline &, const G4Transform3D &>(&G4VVisManager::Draw2D),
-           py::arg("polyline"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("polyline"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw2D", py::overload_cast<const G4Polymarker &, const G4Transform3D &>(&G4VVisManager::Draw2D),
-           py::arg("polymarker"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("polymarker"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw2D", py::overload_cast<const G4Square &, const G4Transform3D &>(&G4VVisManager::Draw2D),
-           py::arg("square"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("square"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw2D", py::overload_cast<const G4Text &, const G4Transform3D &>(&G4VVisManager::Draw2D), py::arg("text"),
-           py::arg("objectTransformation") = G4Transform3D(), py::call_guard<py::gil_scoped_release>(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("objectTransformation") = G4Transform3D())
 
-      .def("Draw", py::overload_cast<const G4VTrajectory &>(&G4VVisManager::Draw),
-           py::call_guard<py::gil_scoped_release>())
+      .def("Draw", py::overload_cast<const G4VTrajectory &>(&G4VVisManager::Draw))
 
-      .def("Draw", py::overload_cast<const G4VHit &>(&G4VVisManager::Draw), py::call_guard<py::gil_scoped_release>())
+      .def("Draw", py::overload_cast<const G4VHit &>(&G4VVisManager::Draw))
 
-      .def("Draw", py::overload_cast<const G4VDigi &>(&G4VVisManager::Draw), py::call_guard<py::gil_scoped_release>())
+      .def("Draw", py::overload_cast<const G4VDigi &>(&G4VVisManager::Draw))
 
       .def("Draw",
            py::overload_cast<const G4LogicalVolume &, const G4VisAttributes &, const G4Transform3D &>(
               &G4VVisManager::Draw),
-           py::arg("logVol"), py::arg("visAttr"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("logVol"), py::arg("visAttr"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw",
            py::overload_cast<const G4VPhysicalVolume &, const G4VisAttributes &, const G4Transform3D &>(
               &G4VVisManager::Draw),
-           py::arg("physVol"), py::arg("visAttr"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("physVol"), py::arg("visAttr"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("Draw",
            py::overload_cast<const G4VSolid &, const G4VisAttributes &, const G4Transform3D &>(&G4VVisManager::Draw),
-           py::arg("solid"), py::arg("visAttr"), py::arg("objectTransformation") = G4Transform3D(),
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("solid"), py::arg("visAttr"), py::arg("objectTransformation") = G4Transform3D())
 
       .def("BeginDraw", &G4VVisManager::BeginDraw, py::arg("objectTransformation") = G4Transform3D())
       .def("EndDraw", &G4VVisManager::EndDraw)
