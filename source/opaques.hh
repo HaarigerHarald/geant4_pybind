@@ -39,4 +39,9 @@ PYBIND11_MAKE_OPAQUE(G4StringVector);
 PYBIND11_MAKE_OPAQUE(G4ThreeVectorVector);
 PYBIND11_MAKE_OPAQUE(G4TwoVectorVector);
 
+#ifdef G4_HAS_GDML
+#include <G4GDMLAuxStructType.hh>
+PYBIND11_MAKE_OPAQUE(G4GDMLAuxListType);
+#endif // G4_HAS_GDML
+
 #endif // OPAQUES_HH

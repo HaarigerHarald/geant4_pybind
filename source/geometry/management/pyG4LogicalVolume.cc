@@ -101,7 +101,6 @@ void export_G4LogicalVolume(py::module &m)
       .def("PropagateRegion", &G4LogicalVolume::PropagateRegion)
       .def("GetMaterialCutsCouple", &G4LogicalVolume::GetMaterialCutsCouple, py::return_value_policy::reference)
       .def("SetMaterialCutsCouple", &G4LogicalVolume::SetMaterialCutsCouple, py::arg("cuts"))
-      .def(py::self == py::self)
       .def("GetVisAttributes", &G4LogicalVolume::GetVisAttributes, py::return_value_policy::reference)
       .def(
          "SetVisAttributes",
