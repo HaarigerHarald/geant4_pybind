@@ -188,6 +188,7 @@ jobs:
       - uses: pypa/cibuildwheel@v2.3.1
         env:
           CIBW_ARCHS: native
+          CIBW_BEFORE_BUILD: rm -rf {project}/build
 
       - uses: actions/upload-artifact@v2
         with:
@@ -261,6 +262,7 @@ jobs:
 
           CIBW_SKIP: "*-musllinux*"
           CIBW_ARCHS: native
+          CIBW_BEFORE_BUILD: rm -rf {project}/build
 
       - uses: actions/upload-artifact@v2
         with:
