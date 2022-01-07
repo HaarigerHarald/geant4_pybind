@@ -11,7 +11,7 @@ def test_example(dir, py_file, macro_file, out_file, extra_params=[]):
     params += [macro_file]
     output = subprocess.check_output(params, cwd=os.path.join(examples_dir, dir))
 
-    if out_file != False:
+    if out_file != False and sys.platform == 'linux':
         out_file = os.path.join(os.path.join(examples_dir, dir), out_file)
         with open(out_file, 'r') as file:
             if output.decode('utf-8').find(file.read()) == -1:

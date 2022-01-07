@@ -180,5 +180,4 @@ jobs:
         run: python ${{ github.event.repository.name }}/tests/test_B1.py
 
       - name: Run example tests
-        if: runner.os == 'Linux'
         run: python ${{ github.event.repository.name }}/tests/test_examples.py
