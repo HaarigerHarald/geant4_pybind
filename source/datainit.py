@@ -82,31 +82,31 @@ def init_datasets():
         if "HOME" in os.environ:
             data_directory = os.path.join(os.path.realpath(os.environ["HOME"]), ".geant4_pybind")
 
-    datasets = [["G4ABLADATA", "G4ABLA3.1", "http://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz"],
+    datasets = [["G4ABLADATA", "G4ABLA3.1", "https://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz"],
 
                 ["G4ENSDFSTATEDATA", "G4ENSDFSTATE2.3",
-                "http://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.3.tar.gz"],
+                "https://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.3.tar.gz"],
 
-                ["G4INCLDATA", "G4INCL1.0", "http://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz"],
+                ["G4INCLDATA", "G4INCL1.0", "https://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz"],
 
-                ["G4LEDATA", "G4EMLOW8.0", "http://cern.ch/geant4-data/datasets/G4EMLOW.8.0.tar.gz"],
+                ["G4LEDATA", "G4EMLOW8.0", "https://cern.ch/geant4-data/datasets/G4EMLOW.8.0.tar.gz"],
 
                 ["G4LEVELGAMMADATA", "PhotonEvaporation5.7",
-                 "http://cern.ch/geant4-data/datasets/G4PhotonEvaporation.5.7.tar.gz"],
+                 "https://cern.ch/geant4-data/datasets/G4PhotonEvaporation.5.7.tar.gz"],
 
-                ["G4NEUTRONHPDATA", "G4NDL4.6", "http://cern.ch/geant4-data/datasets/G4NDL.4.6.tar.gz"],
+                ["G4NEUTRONHPDATA", "G4NDL4.6", "https://cern.ch/geant4-data/datasets/G4NDL.4.6.tar.gz"],
 
                 ["G4PARTICLEXSDATA", "G4PARTICLEXS4.0",
-                 "http://cern.ch/geant4-data/datasets/G4PARTICLEXS.4.0.tar.gz"],
+                 "https://cern.ch/geant4-data/datasets/G4PARTICLEXS.4.0.tar.gz"],
 
-                ["G4PIIDATA", "G4PII1.3",  "http://cern.ch/geant4-data/datasets/G4PII.1.3.tar.gz"],
+                ["G4PIIDATA", "G4PII1.3",  "https://cern.ch/geant4-data/datasets/G4PII.1.3.tar.gz"],
 
                 ["G4RADIOACTIVEDATA", "RadioactiveDecay5.6",
-                 "http://cern.ch/geant4-data/datasets/G4RadioactiveDecay.5.6.tar.gz"],
+                 "https://cern.ch/geant4-data/datasets/G4RadioactiveDecay.5.6.tar.gz"],
 
-                ["G4SAIDXSDATA", "G4SAIDDATA2.0", "http://cern.ch/geant4-data/datasets/G4SAIDDATA.2.0.tar.gz"],
+                ["G4SAIDXSDATA", "G4SAIDDATA2.0", "https://cern.ch/geant4-data/datasets/G4SAIDDATA.2.0.tar.gz"],
 
-                ["G4REALSURFACEDATA", "RealSurface2.2", "http://cern.ch/geant4-data/datasets/G4RealSurface.2.2.tar.gz"]]
+                ["G4REALSURFACEDATA", "RealSurface2.2", "https://cern.ch/geant4-data/datasets/G4RealSurface.2.2.tar.gz"]]
 
     for dataset in datasets:
         if not dataset[0] in os.environ:
