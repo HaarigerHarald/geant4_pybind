@@ -13,9 +13,79 @@ import tempfile
 import sys
 import shutil
 import stat
+import hashlib
 
 progress = 0
 envs_to_set = dict()
+
+DATASET_URL = "https://cern.ch/geant4-data/datasets"
+DATASETS = [
+    {"name": "G4NDL",
+     "version": "4.6",
+     "filename": "G4NDL",
+     "envvar": "G4NEUTRONHPDATA",
+     "md5sum": "d07e43499f607e01f2c1ce06d7a09f3e"},
+
+    {"name": "G4EMLOW",
+     "version": "8.0",
+     "filename": "G4EMLOW",
+     "envvar": "G4LEDATA",
+     "md5sum": "6795805f39ac73a71333276756004d99"},
+
+    {"name": "PhotonEvaporation",
+     "version": "5.7",
+     "filename": "G4PhotonEvaporation",
+     "envvar": "G4LEVELGAMMADATA",
+     "md5sum": "81ff27deb23af4aa225423e6b3a06b39"},
+
+    {"name": "RadioactiveDecay",
+     "version": "5.6",
+     "filename": "G4RadioactiveDecay",
+     "envvar": "G4RADIOACTIVEDATA",
+     "md5sum": "acc1dbeb87b6b708b2874ced729a3a8f"},
+
+    {"name": "G4PARTICLEXS",
+     "version": "4.0",
+     "filename": "G4PARTICLEXS",
+     "envvar": "G4PARTICLEXSDATA",
+     "md5sum": "d82a4d171d50f55864e28b6cd6f433c0"},
+
+    {"name": "G4PII",
+     "version": "1.3",
+     "filename": "G4PII",
+     "envvar": "G4PIIDATA",
+     "md5sum": "05f2471dbcdf1a2b17cbff84e8e83b37"},
+
+    {"name": "RealSurface",
+     "version": "2.2",
+     "filename": "G4RealSurface",
+     "envvar": "G4REALSURFACEDATA",
+     "md5sum": "ea8f1cfa8d8aafd64b71fb30b3e8a6d9"},
+
+    {"name": "G4SAIDDATA",
+     "version": "2.0",
+     "filename": "G4SAIDDATA",
+     "envvar": "G4SAIDXSDATA",
+     "md5sum": "d5d4e9541120c274aeed038c621d39da"},
+
+    {"name": "G4ABLA",
+     "version": "3.1",
+     "filename": "G4ABLA",
+     "envvar": "G4ABLADATA",
+     "md5sum": "180f1f5d937733b207f8d5677f76296e"},
+
+    {"name": "G4INCL",
+     "version": "1.0",
+     "filename": "G4INCL",
+     "envvar": "G4INCLDATA",
+     "md5sum": "85fe937b6df46d41814f07175d3f5b51"},
+
+    {"name": "G4ENSDFSTATE",
+     "version": "2.3",
+     "filename": "G4ENSDFSTATE",
+     "envvar": "G4ENSDFSTATEDATA",
+     "md5sum": "6f18fce8f217e7aaeaa3711be9b2c7bf"}
+]
 
 
 def directory_contains(dir, subdir):
@@ -48,13 +118,35 @@ def show_progress(block_num, block_size, total_size):
         progress = 0
 
 
-def download_dataset(url, directory):
+def md5_check(file, md5_exp):
+    with open(file, 'rb') as f:
+        md5_calc = hashlib.md5()
+        chunk = f.read(8192)
+        while chunk:
+            md5_calc.update(chunk)
+            chunk = f.read(8192)
+
+        if md5_calc.hexdigest() == md5_exp:
+            return True
+
+    return False
+
+
+def download_dataset(dataset, directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
+
+    filename = dataset["filename"] + "." + dataset["version"] + ".tar.gz"
+    url = DATASET_URL + "/" + filename
 
     print("Downloading data file:", url)
     temp = tempfile.mktemp()
     urllib.request.urlretrieve(url, temp, show_progress)
+    if not md5_check(temp, dataset["md5sum"]):
+        print("MD5 check failed for", filename)
+        os.remove(temp)
+        return
+
     tar = tarfile.open(temp)
     tar.extractall(directory)
     tar.close()
@@ -82,48 +174,22 @@ def init_datasets():
         if "HOME" in os.environ:
             data_directory = os.path.join(os.path.realpath(os.environ["HOME"]), ".geant4_pybind")
 
-    datasets = [["G4ABLADATA", "G4ABLA3.1", "https://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz"],
-
-                ["G4ENSDFSTATEDATA", "G4ENSDFSTATE2.3",
-                "https://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.3.tar.gz"],
-
-                ["G4INCLDATA", "G4INCL1.0", "https://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz"],
-
-                ["G4LEDATA", "G4EMLOW8.0", "https://cern.ch/geant4-data/datasets/G4EMLOW.8.0.tar.gz"],
-
-                ["G4LEVELGAMMADATA", "PhotonEvaporation5.7",
-                 "https://cern.ch/geant4-data/datasets/G4PhotonEvaporation.5.7.tar.gz"],
-
-                ["G4NEUTRONHPDATA", "G4NDL4.6", "https://cern.ch/geant4-data/datasets/G4NDL.4.6.tar.gz"],
-
-                ["G4PARTICLEXSDATA", "G4PARTICLEXS4.0",
-                 "https://cern.ch/geant4-data/datasets/G4PARTICLEXS.4.0.tar.gz"],
-
-                ["G4PIIDATA", "G4PII1.3",  "https://cern.ch/geant4-data/datasets/G4PII.1.3.tar.gz"],
-
-                ["G4RADIOACTIVEDATA", "RadioactiveDecay5.6",
-                 "https://cern.ch/geant4-data/datasets/G4RadioactiveDecay.5.6.tar.gz"],
-
-                ["G4SAIDXSDATA", "G4SAIDDATA2.0", "https://cern.ch/geant4-data/datasets/G4SAIDDATA.2.0.tar.gz"],
-
-                ["G4REALSURFACEDATA", "RealSurface2.2", "https://cern.ch/geant4-data/datasets/G4RealSurface.2.2.tar.gz"]]
-
-    for dataset in datasets:
-        if not dataset[0] in os.environ:
-            if not os.path.exists(data_directory) or not directory_contains(data_directory, dataset[1]):
+    for dataset in DATASETS:
+        if not dataset["envvar"] in os.environ:
+            dirname = dataset["name"] + dataset["version"]
+            if not os.path.exists(data_directory) or not directory_contains(data_directory, dirname):
                 if download_allowed or ask_for_download(data_directory):
                     download_allowed = True
-                    download_dataset(
-                        dataset[2], data_directory)
+                    download_dataset(dataset, data_directory)
                 else:
                     return
 
-            envs_to_set[dataset[0]] = os.path.join(data_directory, dataset[1])
+            envs_to_set[dataset["envvar"]] = os.path.join(data_directory, dirname)
 
     if download_allowed:
         # Clean the data directory
         for data in os.listdir(data_directory):
-            if data not in [dataset[1] for dataset in datasets]:
+            if data not in [dataset["name"] + dataset["version"] for dataset in DATASETS]:
                 try:
                     def onerror(func, path, info):
                         os.chmod(path, stat.S_IWUSR)
