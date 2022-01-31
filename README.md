@@ -16,7 +16,7 @@ It's available on PyPI for all major platforms as a fully self-contained (i.e. s
 
 ## Building
 
-**Unix (Linux, OS X) prerequisits**
+**Unix (Linux, OS X) prerequisites**
 
 * A Geant4 installation version 11.0+, compiled with CMake option `GEANT4_BUILD_TLS_MODEL=global-dynamic` ([make sure it is also added to the path](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-unix))
 * A C++17 compiler (preferably the one Geant4 was compiled with)
@@ -24,7 +24,7 @@ It's available on PyPI for all major platforms as a fully self-contained (i.e. s
 * pip
 * git
 
-**Windows prerequisits**
+**Windows prerequisites**
 
   * A Geant4 installation version 11.0+, compiled with CMake option `GEANT4_BUILD_TLS_MODEL=global-dynamic` ([make sure it is also added to the PATH](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-windows))
   * [Visual Studio 2019](https://visualstudio.microsoft.com/en/vs) for C++ development
@@ -32,7 +32,7 @@ It's available on PyPI for all major platforms as a fully self-contained (i.e. s
   * pip
   * [git](https://git-scm.com/download/win)
 
-*Note*: If you haven't downloaded the required datasets yet you can let geant4_pybind handle them.
+*Note*: You can let geant4_pybind manage and download the datasets if don't set the necessary environment variables.
 
 **Installation**
 
@@ -69,7 +69,7 @@ ui.SessionStart()
 
 **Simulation examples**
 
-Check out the [examples](https://github.com/HaarigerHarald/geant4_pybind/tree/main/examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straight forward as the API is almost identical to the C++ one. One notable exception are template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4GenericAnalysisManager>` becomes `G4GenericScoreNtupleWriter`).
+Check out the [examples](https://github.com/HaarigerHarald/geant4_pybind/tree/main/examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straightforward as the API is almost identical to the C++ one. One notable exception is template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4GenericAnalysisManager>` becomes `G4GenericScoreNtupleWriter`).
 
 ## Bugs?
 
