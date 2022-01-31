@@ -71,6 +71,10 @@ ui.SessionStart()
 
 Check out the [examples](https://github.com/HaarigerHarald/geant4_pybind/tree/main/examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straightforward as the API is almost identical to the C++ one. One notable exception is template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4GenericAnalysisManager>` becomes `G4GenericScoreNtupleWriter`).
 
+## Design
+
+There is a small [overview](DESIGN.md), outlining the design choices made. It should be helpful to anyone seeking to extend the bindings.
+
 ## Bugs?
 
 Yes! Please create an issue if you encounter one.
