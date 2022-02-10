@@ -2,7 +2,7 @@
 requires = [
     "setuptools>=42",
     "wheel",
-    "cmake>=3.12",
+    "cmake>=3.16",
     "ninja; sys_platform != 'win32'",
     "pybind11-stubgen @ git+https://github.com/HaarigerHarald/pybind11-stubgen#egg=pybind11-stubgen",
 ]
