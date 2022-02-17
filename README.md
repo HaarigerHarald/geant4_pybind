@@ -32,7 +32,7 @@ It's available on PyPI for all major platforms as a fully self-contained (i.e. s
   * pip
   * [git](https://git-scm.com/download/win)
 
-*Note*: You can let geant4_pybind manage and download the datasets if don't set the necessary environment variables.
+*Note*: You can let geant4_pybind manage and download the datasets, if the necessary environment variables haven't been set yet.
 
 **Installation**
 
