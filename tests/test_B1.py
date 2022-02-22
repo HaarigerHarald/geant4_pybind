@@ -299,7 +299,7 @@ class B1ActionInitialization(G4VUserActionInitialization):
         self.SetUserAction(B1SteppingAction(eventAction))
 
 
-runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Default)
+runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.MT)
 
 runManager.SetUserInitialization(B1DetectorConstruction())
 

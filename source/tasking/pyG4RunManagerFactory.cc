@@ -19,7 +19,7 @@ void export_G4RunManagerFactory(py::module &m)
       .value("TaskingOnly", G4RunManagerType::TaskingOnly)
       .value("TBB", G4RunManagerType::TBB)
       .value("TBBOnly", G4RunManagerType::TBBOnly)
-      .value("Default", G4RunManagerType::Default);
+      .value("Default", G4RunManagerType::Serial);
 
    py::class_<G4RunManagerFactory>(m, "G4RunManagerFactory")
       .def_static("CreateRunManager",
