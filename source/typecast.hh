@@ -72,6 +72,9 @@ struct smart_holder_type_caster_disown_load {
 
       if (self_life_support != nullptr) {
          self_life_support->activate_life_support(load_impl.loaded_v_h);
+      } else {
+         load_impl.loaded_v_h.value_ptr() = nullptr;
+         deregister_instance(load_impl.loaded_v_h.inst, value_void_ptr, load_impl.loaded_v_h.type);
       }
 
       return raw_type_ptr;
@@ -87,8 +90,10 @@ private:
    T *convert_type(void *void_ptr) const
    {
       if (void_ptr != nullptr && load_impl.loaded_v_h_cpptype != nullptr && !load_impl.reinterpret_cast_deemed_ok &&
-          load_impl.implicit_cast != nullptr) {
-         void_ptr = load_impl.implicit_cast(void_ptr);
+          !load_impl.implicit_casts.empty()) {
+         for (auto implicit_cast : load_impl.implicit_casts) {
+            void_ptr = implicit_cast(void_ptr);
+         }
       }
       return static_cast<T *>(void_ptr);
    }
@@ -98,7 +103,7 @@ template <typename T>
 struct smart_holder_type_caster<disown_ptr<T>> : smart_holder_type_caster_disown_load<T>,
                                                  smart_holder_type_caster_class_hooks {
 
-   static constexpr auto name = _<T>();
+   static constexpr auto name = const_name<T>();
 
    static handle cast(disown_ptr<T> &&, return_value_policy, handle)
    {
@@ -119,7 +124,7 @@ struct smart_holder_type_caster<disown_ptr<T>> : smart_holder_type_caster_disown
 template <typename T>
 struct smart_holder_type_caster<disown_ptr<T const>> : smart_holder_type_caster_class_hooks {
 
-   static constexpr auto name = _<T>();
+   static constexpr auto name = const_name<T>();
 
    static handle cast(disown_ptr<T const> &&, return_value_policy, handle)
    {
