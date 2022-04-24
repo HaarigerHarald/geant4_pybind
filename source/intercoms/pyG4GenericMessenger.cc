@@ -4,6 +4,8 @@
 #include <G4GenericMessenger.hh>
 #include <G4UIdirectory.hh>
 
+#include <G4Version.hh>
+
 #include <array>
 #include <limits>
 
@@ -238,9 +240,19 @@ void export_G4GenericMessenger(py::module &m)
               &G4GenericMessenger::Command::SetParameterName),
            py::arg("name"), py::arg("arg1"), py::arg("arg2"), py::arg("omittable"), py::arg("currentAsDefault") = false)
 
-      .def("SetParameterName", &G4GenericMessenger::Command::SetDefaultValue)
+#if G4VERSION_NUMBER >= 1101
+      .def("SetParameterName",
+           py::overload_cast<G4int, const G4String &, G4bool, G4bool>(&G4GenericMessenger::Command::SetParameterName),
+           py::arg("pIdx"), py::arg("name"), py::arg("omittable"), py::arg("currentAsDefault") = false)
+
+      .def("SetDefaultValue", py::overload_cast<G4int, const G4String &>(&G4GenericMessenger::Command::SetDefaultValue))
+      .def("SetDefaultValue", py::overload_cast<const G4String &>(&G4GenericMessenger::Command::SetDefaultValue))
+      .def("SetCandidates", py::overload_cast<G4int, const G4String &>(&G4GenericMessenger::Command::SetCandidates))
+      .def("SetCandidates", py::overload_cast<const G4String &>(&G4GenericMessenger::Command::SetCandidates))
+#else
       .def("SetDefaultValue", &G4GenericMessenger::Command::SetDefaultValue)
       .def("SetCandidates", &G4GenericMessenger::Command::SetCandidates)
+#endif
       .def("SetToBeBroadcasted", &G4GenericMessenger::Command::SetToBeBroadcasted)
       .def("SetToBeFlushed", &G4GenericMessenger::Command::SetToBeFlushed)
       .def("SetWorkerThreadOnly", &G4GenericMessenger::Command::SetWorkerThreadOnly);
