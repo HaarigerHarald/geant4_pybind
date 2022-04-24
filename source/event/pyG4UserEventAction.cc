@@ -35,7 +35,11 @@ void export_G4UserEventAction(py::module &m)
    py::class_<G4UserEventAction, PyG4UserEventAction>(m, "G4UserEventAction", "event action class")
 
       .def(py::init<>())
-      .def("BeginOfEventAction", &G4UserEventAction::BeginOfEventAction)
-      .def("EndOfEventAction", &G4UserEventAction::EndOfEventAction)
-      .def("SetEventManager", &G4UserEventAction::SetEventManager);
+      .def("__copy__", [](const PyG4UserEventAction &self) { return new PyG4UserEventAction(self); })
+      .def("__deepcopy__", [](const PyG4UserEventAction &self, py::dict) { return new PyG4UserEventAction(self); })
+      .def("__copy__", [](const G4UserEventAction &self) { return new G4UserEventAction(self); })
+      .def("__deepcopy__", [](const G4UserEventAction &self, py::dict) { return new G4UserEventAction(self); })
+      .def("SetEventManager", &G4UserEventAction::SetEventManager, py::arg("value"))
+      .def("BeginOfEventAction", &G4UserEventAction::BeginOfEventAction, py::arg("anEvent"))
+      .def("EndOfEventAction", &G4UserEventAction::EndOfEventAction, py::arg("anEvent"));
 }

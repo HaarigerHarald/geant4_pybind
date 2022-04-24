@@ -13,7 +13,7 @@ namespace py = pybind11;
 
 void export_G4ParticleDefinition(py::module &m)
 {
-   py::class_<G4ParticleDefinition>(m, "G4ParticleDefinition", "particle definition")
+   py::class_<G4ParticleDefinition, py::nodelete>(m, "G4ParticleDefinition", "particle definition")
 
       .def(py::init<>([](const G4String &aName, G4double mass, G4double width, G4double charge, G4int iSpin,
                          G4int iParity, G4int iConjugation, G4int iIsospin, G4int iIsospin3, G4int gParity,
