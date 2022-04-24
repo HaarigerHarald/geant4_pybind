@@ -7,7 +7,7 @@ on:
       - published
 
 env:
-  GEANT4_GIT_TAG: v11.0.0
+  GEANT4_GIT_TAG: v11.0.1
   GEANT4_SOURCE_DIR: geant4_source
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
@@ -185,7 +185,7 @@ jobs:
             echo -e "\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
 
-      - uses: pypa/cibuildwheel@v2.3.1
+      - uses: pypa/cibuildwheel@v2.4.0
         env:
           CIBW_ARCHS: native
           CIBW_BEFORE_BUILD: rm -rf {project}/build
@@ -221,7 +221,7 @@ jobs:
             echo -e "\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
 
-      - uses: pypa/cibuildwheel@v2.3.1
+      - uses: pypa/cibuildwheel@v2.4.0
         env:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >

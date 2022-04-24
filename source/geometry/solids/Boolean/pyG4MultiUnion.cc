@@ -11,6 +11,8 @@
 #include <G4DisplacedSolid.hh>
 #include <G4VisAttributes.hh>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -130,7 +132,14 @@ void export_G4MultiUnion(py::module &m)
       .def(py::init<const G4String &>(), py::arg("name"))
       .def("__copy__", [](const PyG4MultiUnion &self) { return PyG4MultiUnion(self); })
       .def("__deepcopy__", [](const PyG4MultiUnion &self, py::dict) { return PyG4MultiUnion(self); })
-      .def("AddNode", &G4MultiUnion::AddNode, py::arg("solid"), py::arg("trans"))
+#if G4VERSION_NUMBER >= 1101
+      .def("AddNode", py::overload_cast<G4VSolid &, const G4Transform3D &>(&G4MultiUnion::AddNode), py::arg("solid"),
+           py::arg("trans"))
+
+      .def("AddNode", py::overload_cast<G4VSolid *, const G4Transform3D &>(&G4MultiUnion::AddNode), py::arg("solid"),
+           py::arg("trans"))
+#endif
+
       .def("GetTransformation", &G4MultiUnion::GetTransformation, py::arg("index"))
       .def("GetSolid", &G4MultiUnion::GetSolid, py::arg("index"), py::return_value_policy::reference)
       .def("GetNumberOfSolids", &G4MultiUnion::GetNumberOfSolids)
