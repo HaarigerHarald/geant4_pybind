@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import sys
 import subprocess
 
@@ -48,6 +49,12 @@ class CMakeBuild(build_ext):
                 "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir)
             ]
             build_args += ["--config", cfg]
+
+        if sys.platform.startswith("darwin"):
+            # Cross-compile support for macOS - respect ARCHFLAGS if set
+            archs = re.findall(r"-arch (\S+)", os.environ.get("ARCHFLAGS", ""))
+            if archs:
+                cmake_args += ["-DCMAKE_OSX_ARCHITECTURES={}".format(";".join(archs))]
 
         # Set CMAKE_BUILD_PARALLEL_LEVEL to control the parallel build level
         # across all generators.
