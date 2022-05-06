@@ -24,14 +24,14 @@ jobs:
     name: Build SDist
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
       - name: Build SDist
         run: python setup.py sdist
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
 
@@ -45,32 +45,32 @@ jobs:
         os: [windows-latest, macos-latest]
  
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
       - name: Cache Geant4 install
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: g4cache
         with:
           path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
           key: ${{ env.GEANT4_GIT_TAG }}-${{ env.XERCES_C_GIT_REF }}
 
       - name: Cache xerces-c install
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: xerces-cache
         with:
           path: ${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}
           key: ${{ env.XERCES_C_GIT_REF }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: steps.g4cache.outputs.cache-hit != 'true'
         with:
           repository: Geant4/geant4
           ref: ${{ env.GEANT4_GIT_TAG }}
           path: ${{ env.GEANT4_SOURCE_DIR }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: steps.xerces-cache.outputs.cache-hit != 'true'
         with:
           repository: apache/xerces-c
@@ -185,12 +185,12 @@ jobs:
             echo -e "\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
 
-      - uses: pypa/cibuildwheel@v2.4.0
+      - uses: pypa/cibuildwheel@v2.5.0
         env:
           CIBW_ARCHS: native
           CIBW_BEFORE_BUILD: rm -rf {project}/build
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: wheelhouse/*.whl
 
@@ -200,7 +200,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -221,7 +221,7 @@ jobs:
             echo -e "\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
 
-      - uses: pypa/cibuildwheel@v2.4.0
+      - uses: pypa/cibuildwheel@v2.5.0
         env:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >
@@ -264,7 +264,7 @@ jobs:
           CIBW_ARCHS: native
           CIBW_BEFORE_BUILD: rm -rf {project}/build
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: wheelhouse/*.whl
 
@@ -276,9 +276,9 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
 
     steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: artifact
           path: dist

@@ -36,27 +36,27 @@ jobs:
  
     steps:
       - name: Cache Geant4 install
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: g4cache
         with:
           path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
           key: ${{ env.GEANT4_GIT_TAG }}-${{ env.XERCES_C_GIT_REF }}
 
       - name: Cache xerces-c install
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: xerces-cache
         with:
           path: ${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}
           key: ${{ env.XERCES_C_GIT_REF }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: steps.g4cache.outputs.cache-hit != 'true'
         with:
           repository: Geant4/geant4
           ref: ${{ env.GEANT4_GIT_TAG }}
           path: ${{ env.GEANT4_SOURCE_DIR }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: steps.xerces-cache.outputs.cache-hit != 'true'
         with:
           repository: apache/xerces-c
@@ -155,12 +155,12 @@ jobs:
             echo "HOME=${{ github.workspace }}" >> $GITHUB_ENV
             echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
           path: ${{ github.event.repository.name }}
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -171,7 +171,7 @@ jobs:
         run: python -m pip install "${{ github.workspace }}/${{ github.event.repository.name }}"
 
       - name: Cache Geant4 datasets
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           key: ${{ env.GEANT4_GIT_TAG }}-datasets
           path: ${{ github.workspace }}/.geant4_pybind
