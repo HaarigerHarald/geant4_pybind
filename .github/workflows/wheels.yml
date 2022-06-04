@@ -12,7 +12,7 @@ env:
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
 
-  XERCES_C_GIT_REF: 8ac9637b4a54e0b0a52e59b0299aaa974e8fc453
+  XERCES_C_GIT_REF: 045bdf8ac7755e1ce2735d5ef3f6741ec4718df9
   XERCES_C_SOURCE_DIR: xerces-c_source
   XERCES_C_BUILD_DIR: xerces-c_build
   XERCES_C_INSTALL_DIR: xerces-c_install
