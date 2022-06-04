@@ -11,6 +11,8 @@
 #include <G4VisExtent.hh>
 #include <G4DisplacedSolid.hh>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -25,6 +27,11 @@ void export_G4SolidStore(py::module &m)
       .def_static("GetInstance", &G4SolidStore::GetInstance, py::return_value_policy::reference)
       .def_static("SetNotifier", &G4SolidStore::SetNotifier, py::arg("pNotifier"))
       .def_static("Clean", &G4SolidStore::Clean)
+#if G4VERSION_NUMBER >= 1102
+      .def("GetSolid", &G4SolidStore::GetSolid, py::arg("name"), py::arg("verbose") = true,
+           py::arg("reverseSearch") = false, py::return_value_policy::reference);
+#else
       .def("GetSolid", &G4SolidStore::GetSolid, py::arg("name"), py::arg("verbose") = true,
            py::return_value_policy::reference);
+#endif
 }

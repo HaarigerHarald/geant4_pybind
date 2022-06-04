@@ -18,6 +18,8 @@
 #include <G4SmartVoxelHeader.hh>
 #include <G4VisAttributes.hh>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -32,6 +34,11 @@ void export_G4LogicalVolumeStore(py::module &m)
       .def_static("GetInstance", &G4LogicalVolumeStore::GetInstance, py::return_value_policy::reference)
       .def_static("SetNotifier", &G4LogicalVolumeStore::SetNotifier, py::arg("pNotifier"))
       .def_static("Clean", &G4LogicalVolumeStore::Clean)
+#if G4VERSION_NUMBER >= 1102
+      .def("GetVolume", &G4LogicalVolumeStore::GetVolume, py::arg("name"), py::arg("verbose") = true,
+           py::arg("reverseSearch") = false, py::return_value_policy::reference);
+#else
       .def("GetVolume", &G4LogicalVolumeStore::GetVolume, py::arg("name"), py::arg("verbose") = true,
            py::return_value_policy::reference);
+#endif
 }
