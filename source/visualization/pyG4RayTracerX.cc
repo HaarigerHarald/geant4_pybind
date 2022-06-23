@@ -10,7 +10,7 @@
 
 namespace py = pybind11;
 
-void export_G4RayTracerX()
+void export_G4RayTracerX(py::module &m)
 {
    py::class_<G4RayTracerX, G4VGraphicsSystem>(m, "G4RayTracerX", "RayTracerX visualization module").def(py::init<>());
 }
