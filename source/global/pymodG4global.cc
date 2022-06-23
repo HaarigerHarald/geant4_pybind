@@ -28,6 +28,8 @@ void export_G4GeometryTolerance(py::module &);
 void export_G4SystemOfUnits(py::module &);
 void export_G4PhysicalConstants(py::module &);
 void export_G4StatAnalysis(py::module &);
+void export_G4PhysicsVector(py::module &);
+void export_G4PhysicsFreeVector(py::module &);
 
 void export_modG4global(py::module &m)
 {
@@ -52,5 +54,7 @@ void export_modG4global(py::module &m)
    export_G4SystemOfUnits(m);
    export_G4PhysicalConstants(m);
    export_G4StatAnalysis(m);
+   export_G4PhysicsVector(m);
+   export_G4PhysicsFreeVector(m);
    export_globals(m);
 }

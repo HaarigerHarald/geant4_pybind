@@ -44,5 +44,6 @@ void export_G4Track(py::module &m)
       .def("GetLogicalVolumeAtVertex", &G4Track::GetLogicalVolumeAtVertex, py::return_value_policy::reference)
       .def("GetCreatorProcess", &G4Track::GetCreatorProcess, py::return_value_policy::reference)
       .def("GetWeight", &G4Track::GetWeight)
-      .def("SetWeight", &G4Track::SetWeight);
+      .def("SetWeight", &G4Track::SetWeight)
+      .def("GetDefinition", &G4Track::GetDefinition, py::return_value_policy::reference);
 }

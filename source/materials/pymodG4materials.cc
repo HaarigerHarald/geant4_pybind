@@ -13,6 +13,7 @@ void export_G4ElementTable(py::module &);
 void export_G4Isotope(py::module &);
 void export_G4NistManager(py::module &);
 void export_G4AtomicShells(py::module &);
+void export_G4MaterialPropertiesTable(py::module &);
 
 void export_modG4materials(py::module &m)
 {
@@ -23,4 +24,5 @@ void export_modG4materials(py::module &m)
    export_G4Isotope(m);
    export_G4NistManager(m);
    export_G4AtomicShells(m);
+   export_G4MaterialPropertiesTable(m);
 }
