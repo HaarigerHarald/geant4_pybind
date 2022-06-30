@@ -14,6 +14,7 @@
 #include <G4SolidStore.hh>
 #include <G4Material.hh>
 #include <G4RunManager.hh>
+#include <G4SurfaceProperty.hh>
 
 #include <cstdlib>
 #include <vector>
@@ -41,6 +42,12 @@ public:
       pystderr(cerrString);
       return 0;
    }
+};
+
+class G4NullCoutDestination : public G4coutDestination {
+public:
+   G4int ReceiveG4cout(const G4String &coutString) override { return 0; }
+   G4int ReceiveG4cerr(const G4String &cerrString) override { return 0; }
 };
 
 void export_modG4digit_hits(py::module &);
@@ -91,7 +98,13 @@ PYBIND11_MODULE(geant4_pybind, m)
    py::module_ atexit = py::module_::import("atexit");
    atexit.attr("register")(py::cpp_function([]() {
       py::gil_scoped_release gil_release;
+      G4UImanager           *UImgr = G4UImanager::GetUIpointer();
+      UImgr->SetCoutDestination(0);
       delete G4RunManager::GetRunManager();
+
+      static G4NullCoutDestination nullcout = G4NullCoutDestination();
+      G4coutbuf.SetDestination(&nullcout);
+      G4cerrbuf.SetDestination(&nullcout);
 
       // Delete everything before the interpreter shuts down to properly clean up python objects
       G4LogicalVolumeStore::Clean();
@@ -102,9 +115,7 @@ PYBIND11_MODULE(geant4_pybind, m)
       G4VPhysicalVolume::Clean();
       G4SolidStore::Clean();
       G4Material::GetMaterialTable()->clear();
-
-      G4UImanager *UImgr = G4UImanager::GetUIpointer();
-      UImgr->SetCoutDestination(0);
+      G4SurfaceProperty::CleanSurfacePropertyTable();
    }));
 
    py::dict globals = py::module_::import("__main__").attr("__dict__");

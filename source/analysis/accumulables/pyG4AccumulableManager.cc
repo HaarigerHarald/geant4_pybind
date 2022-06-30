@@ -20,10 +20,6 @@ void export_G4AccumulableManager(py::module &m)
          "__deepcopy__", [](const G4AccumulableManager &self, py::dict) { return new G4AccumulableManager(self); },
          py::return_value_policy::reference)
 
-      .def("Begin", &G4AccumulableManager::Begin)
-      .def("BeginConst", &G4AccumulableManager::BeginConst)
-      .def("End", &G4AccumulableManager::End)
-      .def("EndConst", &G4AccumulableManager::EndConst)
       .def("GetAccumulable",
            py::overload_cast<const G4String &, G4bool>(&G4AccumulableManager::GetAccumulable<G4double>, py::const_),
            py::arg("name"), py::arg("warn") = true, py::return_value_policy::reference)
@@ -38,5 +34,8 @@ void export_G4AccumulableManager(py::module &m)
 
       .def("Merge", &G4AccumulableManager::Merge, py::call_guard<py::gil_scoped_release>())
       .def("RegisterAccumulable", &G4AccumulableManager::RegisterAccumulable<G4double>, py::arg("accumulable"))
-      .def("Reset", &G4AccumulableManager::Reset, py::call_guard<py::gil_scoped_release>());
+      .def("Reset", &G4AccumulableManager::Reset, py::call_guard<py::gil_scoped_release>())
+      .def(
+         "__iter__", [](G4AccumulableManager &self) { return py::make_iterator(self.Begin(), self.End()); },
+         py::is_operator());
 }

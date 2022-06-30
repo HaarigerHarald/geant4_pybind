@@ -22,7 +22,7 @@ void export_G4RegionStore(py::module &m)
       .def("IsModified", &G4RegionStore::IsModified)
       .def("ResetRegionModified", &G4RegionStore::ResetRegionModified)
       .def("UpdateMaterialList", &G4RegionStore::UpdateMaterialList,
-           py::arg("currentWorld") = static_cast<G4VPhysicalVolume *>(0))
+           py::arg("currentWorld") = static_cast<G4VPhysicalVolume *>(nullptr))
 
       .def("GetRegion", &G4RegionStore::GetRegion, py::arg("name"), py::arg("verbose") = true,
            py::return_value_policy::reference)

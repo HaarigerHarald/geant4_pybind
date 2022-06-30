@@ -158,7 +158,7 @@ void export_G4IntersectionSolid(py::module &m)
            py::overload_cast<const G4ThreeVector &, const G4ThreeVector &, const G4bool, G4bool *, G4ThreeVector *>(
               &G4IntersectionSolid::DistanceToOut, py::const_),
            py::arg("p"), py::arg("v"), py::arg("calcNorm") = false, py::arg("validNorm") = static_cast<G4bool *>(0),
-           py::arg("n") = static_cast<G4ThreeVector *>(0))
+           py::arg("n") = static_cast<G4ThreeVector *>(nullptr))
 
       .def("DistanceToOut", py::overload_cast<const G4ThreeVector &>(&G4IntersectionSolid::DistanceToOut, py::const_),
            py::arg("p"))

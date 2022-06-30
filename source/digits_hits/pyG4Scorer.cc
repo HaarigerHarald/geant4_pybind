@@ -120,12 +120,8 @@ void export_G4Scorer(py::module &m)
               G4int nSeg[] = {z, phi, r};
               self.SetNumberOfSegments(nSeg);
            })
-      .def("SetNumberOfSegments", [](G4PSCellFluxForCylinder3D &self, py::list list) {
-         G4int nSeg[3];
-         for (size_t i = 0; i < 3; i++) {
-            nSeg[i] = list[i].cast<G4int>();
-         }
-         self.SetNumberOfSegments(nSeg);
+      .def("SetNumberOfSegments", [](G4PSCellFluxForCylinder3D &self, std::array<G4int, 3>& nSeg) {
+         self.SetNumberOfSegments(nSeg.data());
       });
 
    py::class_<G4PSCylinderSurfaceCurrent, G4VPrimitivePlotter>(m, "G4PSCylinderSurfaceCurrent")

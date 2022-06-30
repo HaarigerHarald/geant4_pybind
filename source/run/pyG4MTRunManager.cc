@@ -114,7 +114,7 @@ void export_G4MTRunManager(py::module &m)
       .def("GetPinAffinity", &G4MTRunManager::GetPinAffinity)
       .def("Initialize", &G4MTRunManager::Initialize)
       .def("InitializeEventLoop", &G4MTRunManager::InitializeEventLoop, py::arg("n_event"),
-           py::arg("macroFile") = static_cast<const char *>(0), py::arg("n_select") = -1)
+           py::arg("macroFile") = static_cast<const char *>(nullptr), py::arg("n_select") = -1)
 
       .def("InitializeThreadPool", &G4MTRunManager::InitializeThreadPool)
       .def("MergeRun", &G4MTRunManager::MergeRun, py::arg("localRun"))

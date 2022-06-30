@@ -1,6 +1,5 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include "pybind11/stl_bind.h"
 
 #include <G4MaterialPropertiesTable.hh>
 
@@ -11,11 +10,13 @@ namespace py = pybind11;
 
 void export_G4MaterialPropertiesTable(py::module &m)
 {
-   py::class_<G4MaterialPropertiesTable, py::nodelete>(m, "G4MaterialPropertiesTable",
-                                                       "material properties table class")
+   py::class_<G4MaterialPropertiesTable>(m, "G4MaterialPropertiesTable", "material properties table class")
+
+      .def("__copy__", [](const G4MaterialPropertiesTable &self) { return new G4MaterialPropertiesTable(self); })
+      .def("__deepcopy__",
+           [](const G4MaterialPropertiesTable &self, py::dict) { return new G4MaterialPropertiesTable(self); })
 
       .def(py::init<>())
-
       .def("AddConstProperty",
            py::overload_cast<const G4String &, G4double, G4bool>(&G4MaterialPropertiesTable::AddConstProperty),
            py::arg("key"), py::arg("propertyValue"), py::arg("createNewKey") = false)
