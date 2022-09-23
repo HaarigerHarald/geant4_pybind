@@ -20,6 +20,9 @@ class CMakeBuild(build_ext):
         import importlib.util
         import pybind11_stubgen as stubgen
 
+        global AUTO_STUB_GENERATION
+        AUTO_STUB_GENERATION = True
+
         extdir = os.path.dirname(os.path.realpath(self.get_ext_fullpath(ext.name)))
 
         spec = importlib.util.spec_from_file_location(
@@ -98,8 +101,6 @@ class CMakeBuild(build_ext):
 
         self.generate_stubs(ext)
 
-
-AUTO_STUB_GENERATION = True
 
 with open("README.md", "r") as readme:
     long_desc = readme.read()
