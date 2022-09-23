@@ -185,7 +185,7 @@ jobs:
             echo -e "\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
 
-      - uses: pypa/cibuildwheel@v2.5.0
+      - uses: pypa/cibuildwheel@v2.10.1
         env:
           CIBW_ARCHS: native
           CIBW_BEFORE_BUILD: rm -rf {project}/build
@@ -221,7 +221,7 @@ jobs:
             echo -e "\n\n" >> EXTRA_LICENSES
             curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
 
-      - uses: pypa/cibuildwheel@v2.5.0
+      - uses: pypa/cibuildwheel@v2.10.1
         env:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >
