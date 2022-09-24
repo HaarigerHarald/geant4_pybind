@@ -16,30 +16,6 @@ class CMakeExtension(Extension):
 
 class CMakeBuild(build_ext):
 
-    def generate_stubs(self, ext):
-        import importlib.util
-        import pybind11_stubgen as stubgen
-
-        global AUTO_STUB_GENERATION
-        AUTO_STUB_GENERATION = True
-
-        extdir = os.path.dirname(os.path.realpath(self.get_ext_fullpath(ext.name)))
-
-        spec = importlib.util.spec_from_file_location(
-            ext.name, os.path.realpath(self.get_ext_fullpath(ext.name)))
-
-        module = importlib.util.module_from_spec(spec)
-
-        stubgen.FunctionSignature.ignore_invalid_signature = True
-        stubgen.FunctionSignature.ignore_invalid_defaultarg = True
-        stubgen.FunctionSignature.signature_downgrade = False
-
-        moduleGen = stubgen.ModuleStubsGenerator(module)
-        moduleGen.parse()
-
-        with open(os.path.join(extdir, ext.name + '.pyi'), 'w') as init_pyi:
-            init_pyi.write('\n'.join(moduleGen.to_lines()))
-
     def build_extension(self, ext):
         extdir = os.path.abspath(os.path.dirname(
             self.get_ext_fullpath(ext.name)))
@@ -99,7 +75,12 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", "."] + build_args, cwd=self.build_temp
         )
 
-        self.generate_stubs(ext)
+        # Automatically generate stubs
+        subprocess.check_call(
+            [sys.executable, "doc/generate_stubs.py", ext.name,
+                os.path.realpath(self.get_ext_fullpath(ext.name))],
+            cwd=os.path.dirname(os.path.abspath(__file__))
+        )
 
 
 with open("README.md", "r") as readme:
