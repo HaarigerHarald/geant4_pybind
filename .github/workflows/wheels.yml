@@ -43,6 +43,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, macos-latest]
+        python-impl: [cp*, pp*]
  
     steps:
       - uses: actions/checkout@v3
@@ -188,6 +189,8 @@ jobs:
       - uses: pypa/cibuildwheel@v2.10.1
         env:
           CIBW_ARCHS: native
+          CIBW_SKIP: cp36-*
+          CIBW_BUILD: ${{ matrix.python-impl }}
           CIBW_BEFORE_BUILD: rm -rf {project}/build
 
       - uses: actions/upload-artifact@v3
