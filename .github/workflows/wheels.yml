@@ -37,7 +37,7 @@ jobs:
 
 
   build_wheels:
-    name: Wheels for ${{ matrix.os }}
+    name: Wheels for ${{ matrix.os }} - ${{ matrix.python-impl }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -189,7 +189,6 @@ jobs:
       - uses: pypa/cibuildwheel@v2.10.1
         env:
           CIBW_ARCHS: native
-          CIBW_SKIP: cp36-*
           CIBW_BUILD: ${{ matrix.python-impl }}
           CIBW_BEFORE_BUILD: rm -rf {project}/build
 
@@ -199,8 +198,12 @@ jobs:
 
 
   build_wheels_linux:
-    name: Wheels for Linux
+    name: Wheels for Linux - ${{ matrix.python-impl }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-impl: [cp*, pp*]
 
     steps:
       - uses: actions/checkout@v3
@@ -264,6 +267,7 @@ jobs:
               make install
 
           CIBW_SKIP: "*-musllinux*"
+          CIBW_BUILD: ${{ matrix.python-impl }}
           CIBW_ARCHS: native
           CIBW_BEFORE_BUILD: rm -rf {project}/build
 
