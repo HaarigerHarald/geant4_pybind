@@ -5,6 +5,8 @@
 #include <G4UIcommand.hh>
 #include <G4UImessenger.hh>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -54,8 +56,14 @@ void export_G4UIcommand(py::module &m)
       .def_static("ConvertToString", py::overload_cast<G4long>(&G4UIcommand::ConvertToString))
       .def_static("ConvertToString", py::overload_cast<G4double>(&G4UIcommand::ConvertToString))
       .def_static("ConvertToString", py::overload_cast<G4double, const char *>(&G4UIcommand::ConvertToString))
+#if G4VERSION_NUMBER >= 1110
+      .def_static("ConvertToString", py::overload_cast<const G4ThreeVector &>(&G4UIcommand::ConvertToString))
+      .def_static("ConvertToString",
+                  py::overload_cast<const G4ThreeVector &, const char *>(&G4UIcommand::ConvertToString))
+#else
       .def_static("ConvertToString", py::overload_cast<G4ThreeVector>(&G4UIcommand::ConvertToString))
       .def_static("ConvertToString", py::overload_cast<G4ThreeVector, const char *>(&G4UIcommand::ConvertToString))
+#endif
 
       .def_static("ConvertToBool", &G4UIcommand::ConvertToBool)
       .def_static("ConvertToInt", &G4UIcommand::ConvertToInt)

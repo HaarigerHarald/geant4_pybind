@@ -21,16 +21,16 @@ envs_to_set = dict()
 DATASET_URL = "https://cern.ch/geant4-data/datasets"
 DATASETS = [
     {"name": "G4NDL",
-     "version": "4.6",
+     "version": "4.7",
      "filename": "G4NDL",
      "envvar": "G4NEUTRONHPDATA",
-     "md5sum": "d07e43499f607e01f2c1ce06d7a09f3e"},
+     "md5sum": "b001a2091bf9392e6833830347672ea2"},
 
     {"name": "G4EMLOW",
-     "version": "8.0",
+     "version": "8.2",
      "filename": "G4EMLOW",
      "envvar": "G4LEDATA",
-     "md5sum": "6795805f39ac73a71333276756004d99"},
+     "md5sum": "07773e57be3f6f2ebb744da5ed574f6d"},
 
     {"name": "PhotonEvaporation",
      "version": "5.7",
@@ -167,6 +167,10 @@ def init_datasets():
     global envs_to_set
     data_directory = os.path.join(os.path.expanduser("~"), ".geant4_pybind")
     download_allowed = False
+
+    if "GEANT4_DATA_DIR" in os.environ:
+        # Use installed datasets
+        return
 
     if "CI" in os.environ and os.environ["CI"] == "true":
         # Automated tests

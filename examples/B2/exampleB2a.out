@@ -7,7 +7,7 @@
 Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
- Geant4 version Name: geant4-11-00-patch-03 [MT]   (16-September-2022)
+ Geant4 version Name: geant4-11-01 [MT]   (9-December-2022)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -29,6 +29,8 @@ Registered graphics systems are:
   RayTracer (RayTracer)
   VRML2FILE (VRML2FILE)
   gMocrenFile (gMocrenFile)
+  TOOLSSG_OFFSCREEN (TSG_OFFSCREEN)
+  TOOLSSG_OFFSCREEN (TSG_OFFSCREEN, TSG_FILE)
 
 Registering model factories...
 
@@ -135,8 +137,10 @@ Checking overlaps for volume Chamber_PV:4 (G4Tubs) ... OK!
 LPM effect enabled                                 1
 Enable creation and use of sampling tables         0
 Apply cuts on all EM processes                     0
-Use general process                                0
+Use combined TransportationWithMsc                 Disabled
+Use general process                                1
 Enable linear polarisation for gamma               0
+Enable photoeffect sampling below K-shell          1
 Enable sampling of quantum entanglement            0
 X-section factor for integral approach             0.8
 Min kinetic energy for tables                      100 eV 
@@ -152,7 +156,7 @@ Lowest triplet kinetic energy                      1 MeV
 Enable sampling of gamma linear polarisation       0
 5D gamma conversion model type                     0
 5D gamma conversion model on isolated ion          0
-Livermore data directory                           livermore
+Livermore data directory                           epics_2017
 =======================================================================
 ======                 Ionisation Parameters                   ========
 =======================================================================
@@ -162,8 +166,9 @@ Step function for light ions                       (0.2, 0.1 mm)
 Step function for general ions                     (0.2, 0.1 mm)
 Lowest e+e- kinetic energy                         1 keV
 Lowest muon/hadron kinetic energy                  1 keV
-Fluctuations of dE/dx are enabled                  1
 Use ICRU90 data                                    0
+Fluctuations of dE/dx are enabled                  1
+Type of fluctuation model for leptons and hadrons  Urban
 Use built-in Birks satuaration                     0
 Build CSDA range enabled                           0
 Use cut as a final range enabled                   0
@@ -214,8 +219,8 @@ conv:  for gamma SubType=14 BuildTable=1
      BetheHeitlerLPM : Emin=    0 eV  Emax=  100 TeV  ModifiedTsai
 
 Rayl:  for gamma SubType=11 BuildTable=1
-      Lambda table from 100 eV  to 100 keV, 7 bins/decade, spline: 0
-      LambdaPrime table from 100 keV to 100 TeV in 63 bins 
+      Lambda table from 100 eV  to 150 keV, 7 bins/decade, spline: 0
+      LambdaPrime table from 150 keV to 100 TeV in 62 bins 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
    LivermoreRayleigh : Emin=    0 eV  Emax=  100 TeV  CullenGenerator
 
@@ -226,10 +231,10 @@ msc:  for e-  SubType= 10
         WentzelVIUni : Emin=  100 MeV Emax=  100 TeV Nbins=42 100 MeV - 100 TeV
           StepLim=UseSafety Rfact=0.04 Gfact=2.5 Sfact=0.6 DispFlag:1 Skin=1 Llim=1 mm
 
-eIoni:  for e-  XStype:1  SubType=2
+eIoni:  for e-  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
         MollerBhabha : Emin=    0 eV  Emax=  100 TeV
 
@@ -254,10 +259,10 @@ msc:  for e+  SubType= 10
         WentzelVIUni : Emin=  100 MeV Emax=  100 TeV Nbins=42 100 MeV - 100 TeV
           StepLim=UseSafety Rfact=0.04 Gfact=2.5 Sfact=0.6 DispFlag:1 Skin=1 Llim=1 mm
 
-eIoni:  for e+  XStype:1  SubType=2
+eIoni:  for e+  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
         MollerBhabha : Emin=    0 eV  Emax=  100 TeV
 
@@ -284,10 +289,10 @@ msc:  for proton  SubType= 10
         WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-hIoni:  for proton  XStype:1  SubType=2
+hIoni:  for proton  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                Bragg : Emin=    0 eV  Emax=    2 MeV
           BetheBloch : Emin=    2 MeV Emax=  100 TeV
@@ -316,10 +321,10 @@ msc:  for GenericIon  SubType= 10
             UrbanMsc : Emin=    0 eV  Emax=  100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-ionIoni:  for GenericIon  XStype:1  SubType=2
+ionIoni:  for GenericIon  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.02
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.02
       Stopping Power data for 17 ion/material pairs
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
             BraggIon : Emin=    0 eV  Emax=    2 MeV
@@ -330,10 +335,10 @@ msc:  for alpha  SubType= 10
             UrbanMsc : Emin=    0 eV  Emax=  100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-ionIoni:  for alpha  XStype:1  SubType=2
+ionIoni:  for alpha  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.02
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.02
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
             BraggIon : Emin=    0 eV  Emax=7.9452 MeV
           BetheBloch : Emin=7.9452 MeV Emax=  100 TeV
@@ -343,10 +348,10 @@ msc:  for anti_proton  SubType= 10
         WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-hIoni:  for anti_proton  XStype:1  SubType=2
+hIoni:  for anti_proton  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
             ICRU73QO : Emin=    0 eV  Emax=    2 MeV
           BetheBloch : Emin=    2 MeV Emax=  100 TeV
@@ -375,10 +380,10 @@ msc:  for kaon+  SubType= 10
         WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-hIoni:  for kaon+  XStype:1  SubType=2
+hIoni:  for kaon+  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                Bragg : Emin=    0 eV  Emax=1.05231 MeV
           BetheBloch : Emin=1.05231 MeV Emax=  100 TeV
@@ -407,10 +412,10 @@ msc:  for kaon-  SubType= 10
         WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-hIoni:  for kaon-  XStype:1  SubType=2
+hIoni:  for kaon-  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
             ICRU73QO : Emin=    0 eV  Emax=1.05231 MeV
           BetheBloch : Emin=1.05231 MeV Emax=  100 TeV
@@ -439,14 +444,13 @@ msc:  for mu+  SubType= 10
         WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-muIoni:  for mu+  XStype:1  SubType=2
+muIoni:  for mu+  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                Bragg : Emin=    0 eV  Emax=  200 keV
-          BetheBloch : Emin=  200 keV Emax=    1 GeV
-        MuBetheBloch : Emin=    1 GeV Emax=  100 TeV
+        MuBetheBloch : Emin=  200 keV Emax=  100 TeV
 
 muBrems:  for mu+  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
@@ -457,7 +461,7 @@ muBrems:  for mu+  XStype:1  SubType=3
 muPairProd:  for mu+  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
-      Sampling table 21x1001; from 1 GeV to 100 TeV 
+      Sampling table 21x1001; from 0.85 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
           muPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -472,14 +476,13 @@ msc:  for mu-  SubType= 10
         WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-muIoni:  for mu-  XStype:1  SubType=2
+muIoni:  for mu-  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
             ICRU73QO : Emin=    0 eV  Emax=  200 keV
-          BetheBloch : Emin=  200 keV Emax=    1 GeV
-        MuBetheBloch : Emin=    1 GeV Emax=  100 TeV
+        MuBetheBloch : Emin=  200 keV Emax=  100 TeV
 
 muBrems:  for mu-  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
@@ -490,7 +493,7 @@ muBrems:  for mu-  XStype:1  SubType=3
 muPairProd:  for mu-  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
-      Sampling table 21x1001; from 1 GeV to 100 TeV 
+      Sampling table 21x1001; from 0.85 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
           muPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -505,10 +508,10 @@ msc:  for pi+  SubType= 10
         WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-hIoni:  for pi+  XStype:1  SubType=2
+hIoni:  for pi+  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                Bragg : Emin=    0 eV  Emax=297.505 keV
           BetheBloch : Emin=297.505 keV Emax=  100 TeV
@@ -537,10 +540,10 @@ msc:  for pi-  SubType= 10
         WentzelVIUni : Emin=    0 eV  Emax=  100 TeV Nbins=84 100 eV  - 100 TeV
           StepLim=Minimal Rfact=0.2 Gfact=2.5 Sfact=0.6 DispFlag:0 Skin=1 Llim=1 mm
 
-hIoni:  for pi-  XStype:1  SubType=2
+hIoni:  for pi-  XStype:3  SubType=2
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
-      StepFunction=(0.2, 0.1 mm), integ: 1, fluct: 1, linLossLim= 0.01
+      StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.01
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
             ICRU73QO : Emin=    0 eV  Emax=297.505 keV
           BetheBloch : Emin=297.505 keV Emax=  100 TeV
@@ -574,14 +577,17 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:             hElasticCHIPS: 0 eV  ---> 100 TeV
      Cr_sctns:        G4NeutronElasticXS: 0 eV  ---> 100 TeV
 
+
   Process: neutronInelastic
         Model:                      FTFP: 3 GeV ---> 100 TeV
         Model:            BertiniCascade: 0 eV  ---> 6 GeV
      Cr_sctns:      G4NeutronInelasticXS: 0 eV  ---> 100 TeV
 
+
   Process: nCapture
         Model:               nRadCapture: 0 eV  ---> 100 TeV
      Cr_sctns:        G4NeutronCaptureXS: 0 eV  ---> 100 TeV
+
 
   Process: nKiller
 
@@ -592,9 +598,11 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
 
+
   Process: B-Inelastic
         Model:                      FTFP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for D-
@@ -603,9 +611,11 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
 
+
   Process: D-Inelastic
         Model:                      FTFP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for GenericIon
@@ -615,6 +625,7 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
 
+
 ---------------------------------------------------
                            Hadronic Processes for He3
 
@@ -622,10 +633,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV /n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
 
+
   Process: He3Inelastic
         Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
         Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for alpha
@@ -634,10 +647,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV /n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
 
+
   Process: alphaInelastic
         Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
         Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for anti_He3
@@ -647,9 +662,11 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              AntiAElastic: 100 MeV/n ---> 100 TeV/n
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
 
+
   Process: anti_He3Inelastic
         Model:                      FTFP: 0 eV /n ---> 100 TeV/n
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
 
   Process: hFritiofCaptureAtRest
 
@@ -661,9 +678,11 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              AntiAElastic: 100 MeV/n ---> 100 TeV/n
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
 
+
   Process: anti_alphaInelastic
         Model:                      FTFP: 0 eV /n ---> 100 TeV/n
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
 
   Process: hFritiofCaptureAtRest
 
@@ -675,9 +694,16 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              AntiAElastic: 100 MeV/n ---> 100 TeV/n
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
 
+
   Process: anti_deuteronInelastic
         Model:                      FTFP: 0 eV /n ---> 100 TeV/n
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
+
+  Process: hFritiofCaptureAtRest
+
+---------------------------------------------------
+                           Hadronic Processes for anti_hypertriton
 
   Process: hFritiofCaptureAtRest
 
@@ -688,9 +714,11 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
 
+
   Process: anti_lambdaInelastic
         Model:                      FTFP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
 
   Process: hFritiofCaptureAtRest
 
@@ -702,9 +730,11 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              AntiAElastic: 100 MeV ---> 100 TeV
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
 
+
   Process: anti_neutronInelastic
         Model:                      FTFP: 0 eV  ---> 100 TeV
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
 
   Process: hFritiofCaptureAtRest
 
@@ -716,9 +746,11 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              AntiAElastic: 100 MeV ---> 100 TeV
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
 
+
   Process: anti_protonInelastic
         Model:                      FTFP: 0 eV  ---> 100 TeV
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
 
   Process: hFritiofCaptureAtRest
 
@@ -730,9 +762,11 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              AntiAElastic: 100 MeV/n ---> 100 TeV/n
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
 
+
   Process: anti_tritonInelastic
         Model:                      FTFP: 0 eV /n ---> 100 TeV/n
      Cr_sctns:              AntiAGlauber: 0 eV  ---> 25.6 PeV
+
 
   Process: hFritiofCaptureAtRest
 
@@ -743,10 +777,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV /n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
 
+
   Process: dInelastic
         Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
         Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for e+
@@ -755,12 +791,14 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:   G4ElectroVDNuclearModel: 0 eV  ---> 1 PeV
      Cr_sctns:          ElectroNuclearXS: 0 eV  ---> 100 TeV
 
+
 ---------------------------------------------------
                            Hadronic Processes for e-
 
   Process: electronNuclear
         Model:   G4ElectroVDNuclearModel: 0 eV  ---> 1 PeV
      Cr_sctns:          ElectroNuclearXS: 0 eV  ---> 100 TeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for gamma
@@ -771,6 +809,7 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:           TheoFSGenerator: 3 GeV ---> 100 TeV
      Cr_sctns:            GammaNuclearXS: 0 eV  ---> 100 TeV
 
+
 ---------------------------------------------------
                            Hadronic Processes for kaon+
 
@@ -778,10 +817,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
 
+
   Process: kaon+Inelastic
         Model:                      FTFP: 3 GeV ---> 100 TeV
         Model:            BertiniCascade: 0 eV  ---> 6 GeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for kaon-
@@ -790,10 +831,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
 
+
   Process: kaon-Inelastic
         Model:                      FTFP: 3 GeV ---> 100 TeV
         Model:            BertiniCascade: 0 eV  ---> 6 GeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
 
   Process: hBertiniCaptureAtRest
 
@@ -804,10 +847,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
 
+
   Process: lambdaInelastic
         Model:                      FTFP: 3 GeV ---> 100 TeV
         Model:            BertiniCascade: 0 eV  ---> 6 GeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for mu+
@@ -816,12 +861,14 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:      G4MuonVDNuclearModel: 0 eV  ---> 1 PeV
      Cr_sctns:     KokoulinMuonNuclearXS: 0 eV  ---> 100 TeV
 
+
 ---------------------------------------------------
                            Hadronic Processes for mu-
 
   Process: muonNuclear
         Model:      G4MuonVDNuclearModel: 0 eV  ---> 1 PeV
      Cr_sctns:     KokoulinMuonNuclearXS: 0 eV  ---> 100 TeV
+
 
   Process: muMinusCaptureAtRest
 
@@ -832,10 +879,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:           hElasticGlauber: 0 eV  ---> 100 TeV
      Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
 
+
   Process: pi+Inelastic
         Model:                      FTFP: 3 GeV ---> 100 TeV
         Model:            BertiniCascade: 0 eV  ---> 6 GeV
      Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for pi-
@@ -844,10 +893,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:           hElasticGlauber: 0 eV  ---> 100 TeV
      Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
 
+
   Process: pi-Inelastic
         Model:                      FTFP: 3 GeV ---> 100 TeV
         Model:            BertiniCascade: 0 eV  ---> 6 GeV
      Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
 
   Process: hBertiniCaptureAtRest
 
@@ -858,10 +909,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:             hElasticCHIPS: 0 eV  ---> 100 TeV
      Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
 
+
   Process: protonInelastic
         Model:                      FTFP: 3 GeV ---> 100 TeV
         Model:            BertiniCascade: 0 eV  ---> 6 GeV
      Cr_sctns:  BarashenkovGlauberGribov: 0 eV  ---> 100 TeV
+
 
 ---------------------------------------------------
                            Hadronic Processes for sigma-
@@ -870,10 +923,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV  ---> 100 TeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
 
+
   Process: sigma-Inelastic
         Model:                      FTFP: 3 GeV ---> 100 TeV
         Model:            BertiniCascade: 0 eV  ---> 6 GeV
      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
+
 
   Process: hBertiniCaptureAtRest
 
@@ -884,10 +939,12 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
         Model:              hElasticLHEP: 0 eV /n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
 
+
   Process: tInelastic
         Model:  Binary Light Ion Cascade: 0 eV /n ---> 6 GeV/n
         Model:                      FTFP: 3 GeV/n ---> 100 TeV/n
      Cr_sctns:  Glauber-Gribov Nucl-nucl: 0 eV  ---> 25.6 PeV
+
 
 ================================================================
 =======================================================================
@@ -895,18 +952,18 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
 =======================================================================
 Type of pre-compound inverse x-section              3
 Pre-compound model active                           1
-Pre-compound excitation low energy (MeV)            0.1
-Pre-compound excitation high energy (MeV)           30
+Pre-compound excitation low energy                  100 keV
+Pre-compound excitation high energy                 30 MeV
 Type of de-excitation inverse x-section             3
 Type of de-excitation factory                       Evaporation+GEM
 Number of de-excitation channels                    68
-Min excitation energy (keV)                         0.01
-Min energy per nucleon for multifragmentation (MeV) 2e+05
-Limit excitation energy for Fermi BreakUp (MeV)     20
+Min excitation energy                               10 eV 
+Min energy per nucleon for multifragmentation       200 GeV
+Limit excitation energy for Fermi BreakUp           20 MeV
 Level density (1/MeV)                               0.075
 Use simple level density model                      1
-Use discrete excitation energy of the residual      0
-Time limit for long lived isomeres (ns)             1
+Use discrete excitation energy of the residual      1
+Time limit for long lived isomeres                  1 ns 
 Isomer production flag                              1
 Internal e- conversion flag                         1
 Store e- internal conversion data                   0
@@ -926,41 +983,41 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 3
     0 hits stored in this event
 >>> Event: 4
-    0 hits stored in this event
+    32 hits stored in this event
 >>> Event: 5
     0 hits stored in this event
 >>> Event: 6
-    15 hits stored in this event
+    0 hits stored in this event
 >>> Event: 7
     0 hits stored in this event
 >>> Event: 8
-    90 hits stored in this event
+    0 hits stored in this event
 >>> Event: 9
-    0 hits stored in this event
+    41 hits stored in this event
 >>> Event: 10
-    0 hits stored in this event
+    63 hits stored in this event
 >>> Event: 11
     0 hits stored in this event
 >>> Event: 12
-    72 hits stored in this event
->>> Event: 13
     0 hits stored in this event
+>>> Event: 13
+    107 hits stored in this event
 >>> Event: 14
     0 hits stored in this event
 >>> Event: 15
     0 hits stored in this event
 >>> Event: 16
-    0 hits stored in this event
+    7 hits stored in this event
 >>> Event: 17
     0 hits stored in this event
 >>> Event: 18
-    254 hits stored in this event
+    0 hits stored in this event
 >>> Event: 19
     0 hits stored in this event
 >>> Event: 20
     0 hits stored in this event
 >>> Event: 21
-    81 hits stored in this event
+    0 hits stored in this event
 >>> Event: 22
     0 hits stored in this event
 >>> Event: 23
@@ -970,7 +1027,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 25
     0 hits stored in this event
 >>> Event: 26
-    35 hits stored in this event
+    66 hits stored in this event
 >>> Event: 27
     0 hits stored in this event
 >>> Event: 28
@@ -978,7 +1035,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 29
     0 hits stored in this event
 >>> Event: 30
-    169 hits stored in this event
+    0 hits stored in this event
 >>> Event: 31
     0 hits stored in this event
 >>> Event: 32
@@ -992,7 +1049,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 36
     0 hits stored in this event
 >>> Event: 37
-    0 hits stored in this event
+    52 hits stored in this event
 >>> Event: 38
     0 hits stored in this event
 >>> Event: 39
@@ -1004,7 +1061,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 42
     0 hits stored in this event
 >>> Event: 43
-    55 hits stored in this event
+    0 hits stored in this event
 >>> Event: 44
     0 hits stored in this event
 >>> Event: 45
@@ -1018,7 +1075,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 49
     0 hits stored in this event
 >>> Event: 50
-    0 hits stored in this event
+    149 hits stored in this event
 >>> Event: 51
     0 hits stored in this event
 >>> Event: 52
@@ -1026,13 +1083,13 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 53
     0 hits stored in this event
 >>> Event: 54
-    12 hits stored in this event
+    0 hits stored in this event
 >>> Event: 55
     0 hits stored in this event
 >>> Event: 56
-    143 hits stored in this event
+    0 hits stored in this event
 >>> Event: 57
-    30 hits stored in this event
+    0 hits stored in this event
 >>> Event: 58
     0 hits stored in this event
 >>> Event: 59
@@ -1044,7 +1101,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 62
     0 hits stored in this event
 >>> Event: 63
-    60 hits stored in this event
+    0 hits stored in this event
 >>> Event: 64
     0 hits stored in this event
 >>> Event: 65
@@ -1062,7 +1119,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 71
     0 hits stored in this event
 >>> Event: 72
-    0 hits stored in this event
+    73 hits stored in this event
 >>> Event: 73
     0 hits stored in this event
 >>> Event: 74
@@ -1072,7 +1129,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 76
     0 hits stored in this event
 >>> Event: 77
-    0 hits stored in this event
+    1 hits stored in this event
 >>> Event: 78
     0 hits stored in this event
 >>> Event: 79
@@ -1080,13 +1137,13 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 80
     0 hits stored in this event
 >>> Event: 81
-    0 hits stored in this event
+    16 hits stored in this event
 >>> Event: 82
-    0 hits stored in this event
+    145 hits stored in this event
 >>> Event: 83
     0 hits stored in this event
 >>> Event: 84
-    139 hits stored in this event
+    0 hits stored in this event
 >>> Event: 85
     0 hits stored in this event
 >>> Event: 86
@@ -1098,233 +1155,227 @@ See commands in /vis/modeling/trajectories/ for other options.
 >>> Event: 89
     0 hits stored in this event
 >>> Event: 90
-    0 hits stored in this event
+    28 hits stored in this event
 >>> Event: 91
     0 hits stored in this event
 >>> Event: 92
-    129 hits stored in this event
+    0 hits stored in this event
 >>> Event: 93
-    0 hits stored in this event
+    5 hits stored in this event
 >>> Event: 94
-    0 hits stored in this event
+    54 hits stored in this event
 >>> Event: 95
     0 hits stored in this event
 >>> Event: 96
-    79 hits stored in this event
+    0 hits stored in this event
 >>> Event: 97
     0 hits stored in this event
 >>> Event: 98
     0 hits stored in this event
 >>> Event: 99
     0 hits stored in this event
-0 events have been kept for refreshing and/or reviewing.
-  "/vis/reviewKeptEvents" to review them one by one.
-  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
 ### Run 1 starts.
 --> Event 0 starts.
 >>> Event: 0
-    391 hits stored in this event
+    88 hits stored in this event
 >>> Event: 1
-    130 hits stored in this event
+    110 hits stored in this event
 >>> Event: 2
-    433 hits stored in this event
+    60 hits stored in this event
 >>> Event: 3
-    281 hits stored in this event
->>> Event: 4
-    57 hits stored in this event
->>> Event: 5
-    79 hits stored in this event
->>> Event: 6
-    72 hits stored in this event
->>> Event: 7
-    138 hits stored in this event
->>> Event: 8
-    177 hits stored in this event
->>> Event: 9
-    469 hits stored in this event
->>> Event: 10
-    101 hits stored in this event
->>> Event: 11
-    68 hits stored in this event
->>> Event: 12
-    3105 hits stored in this event
->>> Event: 13
-    410 hits stored in this event
->>> Event: 14
-    441 hits stored in this event
->>> Event: 15
-    221 hits stored in this event
->>> Event: 16
-    69 hits stored in this event
->>> Event: 17
-    112 hits stored in this event
->>> Event: 18
-    120 hits stored in this event
->>> Event: 19
-    74 hits stored in this event
->>> Event: 20
-    1259 hits stored in this event
->>> Event: 21
-    74 hits stored in this event
->>> Event: 22
-    202 hits stored in this event
->>> Event: 23
-    249 hits stored in this event
->>> Event: 24
-    82 hits stored in this event
->>> Event: 25
-    87 hits stored in this event
->>> Event: 26
-    59 hits stored in this event
->>> Event: 27
-    464 hits stored in this event
->>> Event: 28
-    116 hits stored in this event
->>> Event: 29
-    57 hits stored in this event
->>> Event: 30
-    677 hits stored in this event
->>> Event: 31
-    159 hits stored in this event
->>> Event: 32
-    87 hits stored in this event
->>> Event: 33
-    69 hits stored in this event
->>> Event: 34
-    252 hits stored in this event
->>> Event: 35
-    131 hits stored in this event
->>> Event: 36
-    507 hits stored in this event
->>> Event: 37
-    90 hits stored in this event
->>> Event: 38
-    1088 hits stored in this event
->>> Event: 39
-    63 hits stored in this event
->>> Event: 40
-    90 hits stored in this event
->>> Event: 41
-    55 hits stored in this event
->>> Event: 42
-    198 hits stored in this event
->>> Event: 43
-    76 hits stored in this event
->>> Event: 44
-    227 hits stored in this event
->>> Event: 45
-    418 hits stored in this event
->>> Event: 46
-    267 hits stored in this event
->>> Event: 47
-    72 hits stored in this event
->>> Event: 48
-    86 hits stored in this event
->>> Event: 49
-    94 hits stored in this event
->>> Event: 50
-    535 hits stored in this event
->>> Event: 51
-    135 hits stored in this event
->>> Event: 52
-    55 hits stored in this event
->>> Event: 53
-    81 hits stored in this event
->>> Event: 54
-    47 hits stored in this event
->>> Event: 55
-    89 hits stored in this event
->>> Event: 56
-    468 hits stored in this event
->>> Event: 57
-    62 hits stored in this event
->>> Event: 58
-    48 hits stored in this event
->>> Event: 59
-    147 hits stored in this event
->>> Event: 60
-    78 hits stored in this event
->>> Event: 61
-    78 hits stored in this event
->>> Event: 62
-    102 hits stored in this event
->>> Event: 63
-    143 hits stored in this event
->>> Event: 64
-    73 hits stored in this event
->>> Event: 65
-    82 hits stored in this event
->>> Event: 66
-    120 hits stored in this event
->>> Event: 67
-    186 hits stored in this event
->>> Event: 68
-    268 hits stored in this event
->>> Event: 69
-    66 hits stored in this event
->>> Event: 70
-    381 hits stored in this event
->>> Event: 71
-    412 hits stored in this event
->>> Event: 72
-    134 hits stored in this event
->>> Event: 73
-    79 hits stored in this event
->>> Event: 74
-    131 hits stored in this event
->>> Event: 75
-    480 hits stored in this event
->>> Event: 76
     291 hits stored in this event
->>> Event: 77
-    62 hits stored in this event
->>> Event: 78
-    161 hits stored in this event
->>> Event: 79
-    341 hits stored in this event
->>> Event: 80
-    109 hits stored in this event
->>> Event: 81
-    118 hits stored in this event
->>> Event: 82
-    129 hits stored in this event
->>> Event: 83
-    103 hits stored in this event
->>> Event: 84
-    273 hits stored in this event
->>> Event: 85
-    86 hits stored in this event
->>> Event: 86
-    92 hits stored in this event
->>> Event: 87
-    143 hits stored in this event
->>> Event: 88
-    154 hits stored in this event
->>> Event: 89
-    70 hits stored in this event
->>> Event: 90
-    102 hits stored in this event
->>> Event: 91
-    1610 hits stored in this event
->>> Event: 92
-    201 hits stored in this event
->>> Event: 93
+>>> Event: 4
+    114 hits stored in this event
+>>> Event: 5
     82 hits stored in this event
->>> Event: 94
-    104 hits stored in this event
->>> Event: 95
-    69 hits stored in this event
->>> Event: 96
-    53 hits stored in this event
->>> Event: 97
-    103 hits stored in this event
->>> Event: 98
-    86 hits stored in this event
->>> Event: 99
+>>> Event: 6
+    514 hits stored in this event
+>>> Event: 7
+    76 hits stored in this event
+>>> Event: 8
+    129 hits stored in this event
+>>> Event: 9
+    71 hits stored in this event
+>>> Event: 10
+    92 hits stored in this event
+>>> Event: 11
+    71 hits stored in this event
+>>> Event: 12
+    98 hits stored in this event
+>>> Event: 13
+    100 hits stored in this event
+>>> Event: 14
+    247 hits stored in this event
+>>> Event: 15
+    89 hits stored in this event
+>>> Event: 16
+    1565 hits stored in this event
+>>> Event: 17
+    306 hits stored in this event
+>>> Event: 18
+    71 hits stored in this event
+>>> Event: 19
+    71 hits stored in this event
+>>> Event: 20
+    501 hits stored in this event
+>>> Event: 21
+    143 hits stored in this event
+>>> Event: 22
+    135 hits stored in this event
+>>> Event: 23
+    140 hits stored in this event
+>>> Event: 24
+    74 hits stored in this event
+>>> Event: 25
+    63 hits stored in this event
+>>> Event: 26
+    169 hits stored in this event
+>>> Event: 27
+    122 hits stored in this event
+>>> Event: 28
+    73 hits stored in this event
+>>> Event: 29
+    82 hits stored in this event
+>>> Event: 30
+    126 hits stored in this event
+>>> Event: 31
+    78 hits stored in this event
+>>> Event: 32
+    151 hits stored in this event
+>>> Event: 33
+    100 hits stored in this event
+>>> Event: 34
+    116 hits stored in this event
+>>> Event: 35
+    57 hits stored in this event
+>>> Event: 36
+    339 hits stored in this event
+>>> Event: 37
+    73 hits stored in this event
+>>> Event: 38
+    76 hits stored in this event
+>>> Event: 39
+    96 hits stored in this event
+>>> Event: 40
+    609 hits stored in this event
+>>> Event: 41
+    71 hits stored in this event
+>>> Event: 42
+    1020 hits stored in this event
+>>> Event: 43
+    59 hits stored in this event
+>>> Event: 44
+    95 hits stored in this event
+>>> Event: 45
+    63 hits stored in this event
+>>> Event: 46
     70 hits stored in this event
-0 events have been kept for refreshing and/or reviewing.
-  "/vis/reviewKeptEvents" to review them one by one.
-  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
+>>> Event: 47
+    76 hits stored in this event
+>>> Event: 48
+    61 hits stored in this event
+>>> Event: 49
+    93 hits stored in this event
+>>> Event: 50
+    67 hits stored in this event
+>>> Event: 51
+    177 hits stored in this event
+>>> Event: 52
+    79 hits stored in this event
+>>> Event: 53
+    60 hits stored in this event
+>>> Event: 54
+    133 hits stored in this event
+>>> Event: 55
+    535 hits stored in this event
+>>> Event: 56
+    105 hits stored in this event
+>>> Event: 57
+    238 hits stored in this event
+>>> Event: 58
+    600 hits stored in this event
+>>> Event: 59
+    1923 hits stored in this event
+>>> Event: 60
+    55 hits stored in this event
+>>> Event: 61
+    180 hits stored in this event
+>>> Event: 62
+    85 hits stored in this event
+>>> Event: 63
+    225 hits stored in this event
+>>> Event: 64
+    1523 hits stored in this event
+>>> Event: 65
+    130 hits stored in this event
+>>> Event: 66
+    78 hits stored in this event
+>>> Event: 67
+    66 hits stored in this event
+>>> Event: 68
+    109 hits stored in this event
+>>> Event: 69
+    106 hits stored in this event
+>>> Event: 70
+    80 hits stored in this event
+>>> Event: 71
+    82 hits stored in this event
+>>> Event: 72
+    58 hits stored in this event
+>>> Event: 73
+    228 hits stored in this event
+>>> Event: 74
+    71 hits stored in this event
+>>> Event: 75
+    109 hits stored in this event
+>>> Event: 76
+    124 hits stored in this event
+>>> Event: 77
+    80 hits stored in this event
+>>> Event: 78
+    441 hits stored in this event
+>>> Event: 79
+    105 hits stored in this event
+>>> Event: 80
+    124 hits stored in this event
+>>> Event: 81
+    117 hits stored in this event
+>>> Event: 82
+    116 hits stored in this event
+>>> Event: 83
+    74 hits stored in this event
+>>> Event: 84
+    135 hits stored in this event
+>>> Event: 85
+    121 hits stored in this event
+>>> Event: 86
+    94 hits stored in this event
+>>> Event: 87
+    108 hits stored in this event
+>>> Event: 88
+    161 hits stored in this event
+>>> Event: 89
+    140 hits stored in this event
+>>> Event: 90
+    57 hits stored in this event
+>>> Event: 91
+    145 hits stored in this event
+>>> Event: 92
+    61 hits stored in this event
+>>> Event: 93
+    65 hits stored in this event
+>>> Event: 94
+    111 hits stored in this event
+>>> Event: 95
+    66 hits stored in this event
+>>> Event: 96
+    110 hits stored in this event
+>>> Event: 97
+    53 hits stored in this event
+>>> Event: 98
+    349 hits stored in this event
+>>> Event: 99
+    59 hits stored in this event
 ### Run 2 starts.
 --> Event 0 starts.
 
@@ -1350,8 +1401,5 @@ Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolu
    14        0        0 2.94e+03     1e+06        0      540  5.88e+03  OutOfWorld Transportation
 >>> Event: 0
     0 hits stored in this event
-0 events have been kept for refreshing and/or reviewing.
-  "/vis/reviewKeptEvents" to review them one by one.
-  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
 Graphics systems deleted.
 Visualization Manager deleting...
