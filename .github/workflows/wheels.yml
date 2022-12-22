@@ -190,6 +190,7 @@ jobs:
         env:
           CIBW_ARCHS: native
           CIBW_BUILD: ${{ matrix.python-impl }}
+          CIBW_BEFORE_BUILD: rm -rf {project}/build
 
       - uses: actions/upload-artifact@v3
         with:
