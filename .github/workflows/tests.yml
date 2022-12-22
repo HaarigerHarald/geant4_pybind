@@ -27,12 +27,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
-        python-version: ['3.6', '3.10']
+        python-version: ['3.7', '3.11']
         exclude:
           - os: macos-latest
-            python-version: '3.6'
+            python-version: '3.7'
           - os: windows-latest
-            python-version: '3.6'
+            python-version: '3.7'
  
     steps:
       - name: Cache Geant4 install
