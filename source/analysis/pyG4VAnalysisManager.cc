@@ -6,11 +6,6 @@
 #include <G4AnalysisMessenger.hh>
 #include <G4NtupleBookingManager.hh>
 #include <G4HnManager.hh>
-#include <G4VH1Manager.hh>
-#include <G4VH2Manager.hh>
-#include <G4VH3Manager.hh>
-#include <G4VP1Manager.hh>
-#include <G4VP2Manager.hh>
 #include <G4VNtupleManager.hh>
 #include <G4VFileManager.hh>
 #include <G4PlotManager.hh>
