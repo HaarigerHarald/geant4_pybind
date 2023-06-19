@@ -7,7 +7,7 @@ on:
       - published
 
 env:
-  GEANT4_GIT_TAG: v11.1.1
+  GEANT4_GIT_TAG: v11.1.2
   GEANT4_SOURCE_DIR: geant4_source
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install

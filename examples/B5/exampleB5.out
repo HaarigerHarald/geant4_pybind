@@ -1,7 +1,7 @@
 Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
- Geant4 version Name: geant4-11-01-patch-01 [MT]   (10-February-2023)
+ Geant4 version Name: geant4-11-01-patch-02 [MT]   (15-June-2023)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -357,13 +357,13 @@ hIoni:  for proton  XStype:3  SubType=2
 
 hBrems:  for proton  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
 hPairProd:  for proton  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       Sampling table 17x1001; from 7.50618 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
@@ -416,13 +416,13 @@ hIoni:  for anti_proton  XStype:3  SubType=2
 
 hBrems:  for anti_proton  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
 hPairProd:  for anti_proton  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       Sampling table 17x1001; from 7.50618 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
@@ -448,13 +448,13 @@ hIoni:  for kaon+  XStype:3  SubType=2
 
 hBrems:  for kaon+  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
 hPairProd:  for kaon+  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       Sampling table 18x1001; from 3.94942 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
@@ -480,13 +480,13 @@ hIoni:  for kaon-  XStype:3  SubType=2
 
 hBrems:  for kaon-  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
 hPairProd:  for kaon-  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       Sampling table 18x1001; from 3.94942 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
@@ -512,13 +512,13 @@ muIoni:  for mu+  XStype:3  SubType=2
 
 muBrems:  for mu+  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
               MuBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
 muPairProd:  for mu+  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       Sampling table 21x1001; from 0.85 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
           muPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
@@ -544,13 +544,13 @@ muIoni:  for mu-  XStype:3  SubType=2
 
 muBrems:  for mu-  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
               MuBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
 muPairProd:  for mu-  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       Sampling table 21x1001; from 0.85 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
           muPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
@@ -576,13 +576,13 @@ hIoni:  for pi+  XStype:3  SubType=2
 
 hBrems:  for pi+  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
 hPairProd:  for pi+  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       Sampling table 20x1001; from 1.11656 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
@@ -608,13 +608,13 @@ hIoni:  for pi-  XStype:3  SubType=2
 
 hBrems:  for pi-  XStype:1  SubType=3
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
                hBrem : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
 hPairProd:  for pi-  XStype:1  SubType=4
       dE/dx and range tables from 100 eV  to 100 TeV in 84 bins
-      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 0
+      Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       Sampling table 20x1001; from 1.11656 GeV to 100 TeV 
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
@@ -1050,74 +1050,73 @@ Setting was ignored.
 Hodoscope 1 has 1 hits.
   Hodoscope[ 7 ] 4.987002726087155 (nsec)
 Hodoscope 2 has 0 hits.
-Drift Chamber 1 has 45 hits.
+Drift Chamber 1 has 63 hits.
   Layer[ 0 ] : time 6.672225332216619 (nsec) --- local (x,y) -2.1685854985035053 , -10.525684260597327
-  Layer[ 0 ] : time 6.672834630511469 (nsec) --- local (x,y) -12.55729297426003 , 16.601797990666828
-  Layer[ 0 ] : time 6.703194623089825 (nsec) --- local (x,y) 76.30467099888874 , 35.64536795765206
-  Layer[ 0 ] : time 6.674568924278867 (nsec) --- local (x,y) -18.980792541857568 , 5.616167900894538
-  Layer[ 0 ] : time 6.6730658189161325 (nsec) --- local (x,y) 0.623187577110226 , 20.429332547667514
-  Layer[ 0 ] : time 6.950603636010936 (nsec) --- local (x,y) 148.7841792461491 , -145.52583886322688
-  Layer[ 0 ] : time 6.6951122660412965 (nsec) --- local (x,y) 62.59381109360906 , -15.561754762066364
-  Layer[ 0 ] : time 6.682196835809819 (nsec) --- local (x,y) 49.91965738357718 , 13.114539543050261
-  Layer[ 0 ] : time 7.009107086936169 (nsec) --- local (x,y) -171.9404523069927 , -259.7679038831967
+  Layer[ 0 ] : time 6.672834630525485 (nsec) --- local (x,y) -12.557292974386904 , 16.601797991416664
+  Layer[ 0 ] : time 6.70341133612149 (nsec) --- local (x,y) 76.75822446385754 , 35.51741626008338
+  Layer[ 0 ] : time 6.793171325804123 (nsec) --- local (x,y) -185.78420850895412 , 47.276037854516545
+  Layer[ 0 ] : time 6.674616536857194 (nsec) --- local (x,y) -19.104026678651657 , 6.417312030577732
+  Layer[ 0 ] : time 6.673070540377218 (nsec) --- local (x,y) 0.18897396250319337 , 20.472488432609776
+  Layer[ 0 ] : time 6.674804484063618 (nsec) --- local (x,y) -20.09609434589688 , -22.156067709551767
+  Layer[ 0 ] : time 6.676223403017673 (nsec) --- local (x,y) -12.656944643019019 , -34.59664957448457
+  Layer[ 0 ] : time 6.943905160044303 (nsec) --- local (x,y) 144.39860144462614 , -143.00049797840884
+  Layer[ 0 ] : time 6.69476837424706 (nsec) --- local (x,y) 61.81069920375394 , -15.110155825856351
+  Layer[ 0 ] : time 6.748755673175413 (nsec) --- local (x,y) -124.27211966139998 , 64.12129207613565
+  Layer[ 0 ] : time 6.7359767319568995 (nsec) --- local (x,y) 113.96735852710815 , -74.96039156824784
   Layer[ 1 ] : time 8.341094631236246 (nsec) --- local (x,y) -4.332260793570281 , -20.96936373715028
-  Layer[ 1 ] : time 8.342316257719983 (nsec) --- local (x,y) -25.050159762232642 , 33.123606433344264
-  Layer[ 1 ] : time 8.47641738019255 (nsec) --- local (x,y) -11.235010995007988 , 25.88155587809214
-  Layer[ 1 ] : time 8.569035396008681 (nsec) --- local (x,y) -1.2769230274321495 , 26.756451873806473
-  Layer[ 1 ] : time 8.402816177934742 (nsec) --- local (x,y) 152.06345437314724 , 71.04208785476018
-  Layer[ 1 ] : time 8.345761499900846 (nsec) --- local (x,y) -37.771634999412946 , 11.258486754012974
-  Layer[ 1 ] : time 8.342776221690206 (nsec) --- local (x,y) 1.2227606214462257 , 40.748110758317885
-  Layer[ 1 ] : time 8.896121858625847 (nsec) --- local (x,y) 296.5748782376101 , -290.1112166781853
-  Layer[ 1 ] : time 8.386708094122072 (nsec) --- local (x,y) 124.8621391639026 , -30.5060861211196
-  Layer[ 1 ] : time 8.36095701180626 (nsec) --- local (x,y) 99.44491639870157 , 26.14072083116217
+  Layer[ 1 ] : time 8.342316257758398 (nsec) --- local (x,y) -25.05015976221093 , 33.123606436138346
+  Layer[ 1 ] : time 8.458297075869295 (nsec) --- local (x,y) -14.864845486195374 , 26.466995362085566
+  Layer[ 1 ] : time 8.403260818964098 (nsec) --- local (x,y) 153.00205853770117 , 70.7665908931037
+  Layer[ 1 ] : time 8.596888006525615 (nsec) --- local (x,y) -387.43082997318675 , 69.07900780594461
+  Layer[ 1 ] : time 8.345864130417874 (nsec) --- local (x,y) -38.11523595104362 , 12.73881552496964
+  Layer[ 1 ] : time 8.342777764507796 (nsec) --- local (x,y) 0.41978204654239915 , 40.77516349598354
+  Layer[ 1 ] : time 8.34623045777266 (nsec) --- local (x,y) -40.06631099816961 , -44.121506038499305
+  Layer[ 1 ] : time 8.349058973076804 (nsec) --- local (x,y) -25.198546304226838 , -68.95134806467976
+  Layer[ 1 ] : time 9.458437862404004 (nsec) --- local (x,y) -351.81703380379196 , -136.38223060013476
+  Layer[ 1 ] : time 9.484190401603232 (nsec) --- local (x,y) -356.9610940896212 , -137.84255712006532
+  Layer[ 1 ] : time 10.3381641077056 (nsec) --- local (x,y) -495.829015801992 , -130.02364234748052
+  Layer[ 1 ] : time 9.484190401603232 (nsec) --- local (x,y) -356.9610940896212 , -137.84255712006532
+  Layer[ 1 ] : time 9.48508453691799 (nsec) --- local (x,y) -356.9651393835975 , -137.8148179207051
+  Layer[ 1 ] : time 8.882996278228859 (nsec) --- local (x,y) 288.1715878621623 , -284.9607263472617
+  Layer[ 1 ] : time 8.386103481459955 (nsec) --- local (x,y) 123.35158328978747 , -30.21134809118809
+  Layer[ 1 ] : time 8.493580056526149 (nsec) --- local (x,y) -247.7312329730325 , 127.5852680885044
+  Layer[ 1 ] : time 8.468146405380928 (nsec) --- local (x,y) 227.15464619011723 , -149.36254788093163
   Layer[ 2 ] : time 10.009963172665074 (nsec) --- local (x,y) -6.489058095325343 , -31.40318404977311
-  Layer[ 2 ] : time 10.011803458211045 (nsec) --- local (x,y) -37.564558426590516 , 49.67956441329851
-  Layer[ 2 ] : time 10.643023860161433 (nsec) --- local (x,y) 152.38862006521094 , 31.52651363822641
-  Layer[ 2 ] : time 10.102426779603244 (nsec) --- local (x,y) 227.80856655523198 , 106.42061742403061
-  Layer[ 2 ] : time 10.016953115643974 (nsec) --- local (x,y) -56.5356284623119 , 16.960091205678037
-  Layer[ 2 ] : time 10.012495378545735 (nsec) --- local (x,y) 1.8701096662202934 , 61.12981882071994
-  Layer[ 2 ] : time 10.07819759173373 (nsec) --- local (x,y) 186.8760793464857 , -45.39774119814063
-  Layer[ 2 ] : time 10.208867531443236 (nsec) --- local (x,y) 216.55730581827953 , 24.35006016102031
-  Layer[ 2 ] : time 10.039701872194676 (nsec) --- local (x,y) 148.91509482270843 , 39.19773653021089
+  Layer[ 2 ] : time 10.011803458283696 (nsec) --- local (x,y) -37.564558427329544 , 49.67956442053285
+  Layer[ 2 ] : time 10.21671934752634 (nsec) --- local (x,y) 12.901390579095276 , 5.83747197663342
+  Layer[ 2 ] : time 10.103110671792066 (nsec) --- local (x,y) 229.253591832958 , 106.00009856174228
+  Layer[ 2 ] : time 10.449445667584111 (nsec) --- local (x,y) -625.2546293103647 , 99.29546049323588
+  Layer[ 2 ] : time 10.017112144141842 (nsec) --- local (x,y) -57.14880777075818 , 18.999547455673365
+  Layer[ 2 ] : time 10.012486443951282 (nsec) --- local (x,y) 0.619768235176517 , 61.08874096451287
+  Layer[ 2 ] : time 10.017650961875699 (nsec) --- local (x,y) -60.00989802517681 , -66.07354440558369
+  Layer[ 2 ] : time 10.02187098172124 (nsec) --- local (x,y) -37.69398692912558 , -103.21949942049899
+  Layer[ 2 ] : time 10.077539523763704 (nsec) --- local (x,y) 185.13139061181235 , -45.32495163919764
+  Layer[ 2 ] : time 10.238597003306984 (nsec) --- local (x,y) -371.40194876634234 , 191.1000721901664
+  Layer[ 2 ] : time 10.200329347944244 (nsec) --- local (x,y) 340.3496914618953 , -223.7797596948343
   Layer[ 3 ] : time 11.678828696001778 (nsec) --- local (x,y) -8.597137134770541 , -41.803170730572255
-  Layer[ 3 ] : time 11.68129672898716 (nsec) --- local (x,y) -50.10121751934011 , 66.27347573076761
-  Layer[ 3 ] : time 11.802029784702512 (nsec) --- local (x,y) 303.5463022985907 , 141.7817595671013
-  Layer[ 3 ] : time 11.688142885918998 (nsec) --- local (x,y) -75.27622093184401 , 22.686727967841975
-  Layer[ 3 ] : time 36.66391370896004 (nsec) --- local (x,y) -996.5979613167674 , 108.72689082089803
-  Layer[ 3 ] : time 11.682223261365301 (nsec) --- local (x,y) 2.543094945752955 , 81.57467584857882
-  Layer[ 3 ] : time 11.769630704200027 (nsec) --- local (x,y) 248.65398421880602 , -60.56162988163067
-  Layer[ 3 ] : time 12.346518723663007 (nsec) --- local (x,y) 270.0038307584872 , -280.0776442495578
-  Layer[ 3 ] : time 11.718488438861474 (nsec) --- local (x,y) 198.49550619226267 , 52.31490298534232
+  Layer[ 3 ] : time 11.681296729112836 (nsec) --- local (x,y) -50.10121752211819 , 66.27347574803598
+  Layer[ 3 ] : time 11.802969669332082 (nsec) --- local (x,y) 305.51894957032 , 141.24185608967244
+  Layer[ 3 ] : time 12.3576957523005 (nsec) --- local (x,y) -898.7694809281 , 128.80781186466794
+  Layer[ 3 ] : time 11.688365638661107 (nsec) --- local (x,y) -76.22498508573838 , 25.259186468105636
+  Layer[ 3 ] : time 11.682190005468886 (nsec) --- local (x,y) 0.8005734608526174 , 81.36459120899876
+  Layer[ 3 ] : time 11.689069304721723 (nsec) --- local (x,y) -79.96273826317706 , -88.002249555014
+  Layer[ 3 ] : time 11.722256314324545 (nsec) --- local (x,y) -83.80850846213953 , -100.75168587280098
+  Layer[ 3 ] : time 11.694692290901035 (nsec) --- local (x,y) -50.20966129655511 , -137.5209451285158
+  Layer[ 3 ] : time 11.769004216636809 (nsec) --- local (x,y) 246.95880261099595 , -60.51211596503601
+  Layer[ 3 ] : time 11.983675434679183 (nsec) --- local (x,y) -495.1168335603918 , 254.67191688907596
+  Layer[ 3 ] : time 11.93254905741632 (nsec) --- local (x,y) 453.49991500149116 , -298.34065212109374
   Layer[ 4 ] : time 13.347694350342037 (nsec) --- local (x,y) -10.677938272049518 , -52.21013936958234
-  Layer[ 4 ] : time 13.350790765890318 (nsec) --- local (x,y) -62.637772557912804 , 82.87434031917185
-  Layer[ 4 ] : time 13.501647467265672 (nsec) --- local (x,y) 379.3119120974201 , 177.1453805556558
-  Layer[ 4 ] : time 13.359328958582108 (nsec) --- local (x,y) -93.97378320266212 , 28.452702691353096
-  Layer[ 4 ] : time 34.930515889813705 (nsec) --- local (x,y) -857.5441511134844 , 102.8455801251401
-  Layer[ 4 ] : time 13.351941069961063 (nsec) --- local (x,y) 3.1227992586728175 , 101.94817110891891
-  Layer[ 4 ] : time 13.4610999220072 (nsec) --- local (x,y) 310.5276248255298 , -75.6475253949281
-  Layer[ 4 ] : time 13.397288923835568 (nsec) --- local (x,y) 248.1481360350628 , 65.31643957023512
+  Layer[ 4 ] : time 13.350790766078559 (nsec) --- local (x,y) -62.637772561997146 , 82.8743403473165
+  Layer[ 4 ] : time 13.5028167781695 (nsec) --- local (x,y) 381.7667164837273 , 176.46963263051725
+  Layer[ 4 ] : time 13.359627932097244 (nsec) --- local (x,y) -95.36277098803411 , 31.5375943451417
+  Layer[ 4 ] : time 34.967564778750216 (nsec) --- local (x,y) -894.1638497668768 , 112.56337188600526
+  Layer[ 4 ] : time 13.351891755454194 (nsec) --- local (x,y) 0.9673797321391977 , 101.62696304584497
+  Layer[ 4 ] : time 13.36048486376765 (nsec) --- local (x,y) -99.8931595922353 , -109.93111961073566
+  Layer[ 4 ] : time 13.367502374338068 (nsec) --- local (x,y) -62.70392726405026 , -171.78090612059614
+  Layer[ 4 ] : time 13.460429115775852 (nsec) --- local (x,y) 308.6982702030537 , -75.64861820927179
 Drift Chamber 2 has 0 hits.
-EM Calorimeter has 0 hits. Total Edep is 0.0 (MeV)
+EM Calorimeter has 1 hits. Total Edep is 0.06602205977576672 (MeV)
 Hadron Calorimeter has 0 hits. Total Edep is 0.0 (MeV)
-
--------- WWWW ------- G4Exception-START -------- WWWW -------
-*** G4Exception : GeomNav1002
-      issued by : G4Navigator::ComputeStep()
-Stuck Track: potential geometry or navigation problem.
-  Track stuck, not moving for 10 steps.
-  Current  phys volume: 'worldPhysical'
-   - at position : (1.729101144782571,-4.170197049317406,-999.9985051034981)
-     in direction: (0.5406391007890641,-0.7088112549888134,0.453095980449149)
-    (local position: (1.729101144782571,-4.170197049317406,-999.9985051034981))
-    (local direction: (0.5406391007890641,-0.7088112549888134,0.453095980449149)).
-  Previous phys volume: 'magneticPhysical'
-
-  Likely geometry overlap - else navigation problem !
-   *** Trying to get *unstuck* using a push - expanding step to 1e-07 (mm) ...       Potential overlap in geometry !
-
-*** This is just a warning message. ***
--------- WWWW -------- G4Exception-END --------- WWWW -------
-
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
 ... close file : B5.root - done
@@ -1138,24 +1137,23 @@ View them with "/vis/plot" or "/vis/reviewPlots".
 --> Event 0 starts.
 >>> Event 0 >>> Simulation truth : pi+ (0,0,100000)
 Hodoscope 1 has 1 hits.
-  Hodoscope[ 7 ] 4.986788082649189 (nsec)
-Hodoscope 2 has 2 hits.
-  Hodoscope[ 10 ] 42.69441325996739 (nsec)
-  Hodoscope[ 24 ] 468.1911508949304 (nsec)
+  Hodoscope[ 7 ] 4.986788080322375 (nsec)
+Hodoscope 2 has 1 hits.
+  Hodoscope[ 10 ] 42.69422089685397 (nsec)
 Drift Chamber 1 has 5 hits.
-  Layer[ 0 ] : time 6.670954840630974 (nsec) --- local (x,y) 0.017035292976926228 , -0.050868949349052915
-  Layer[ 1 ] : time 8.338776942016798 (nsec) --- local (x,y) 0.02536766205716878 , -0.06488781643448607
-  Layer[ 2 ] : time 10.006599043150906 (nsec) --- local (x,y) 0.03222914831136908 , -0.07681169942410783
-  Layer[ 3 ] : time 11.674421144441522 (nsec) --- local (x,y) 0.04217222678959117 , -0.08846474607419313
-  Layer[ 4 ] : time 13.342243245492773 (nsec) --- local (x,y) 0.05167408760189454 , -0.09696964422713401
+  Layer[ 0 ] : time 6.670954837661465 (nsec) --- local (x,y) -0.0009513145940252188 , 0.008535133206864345
+  Layer[ 1 ] : time 8.338776938626333 (nsec) --- local (x,y) -0.0015924623368095043 , 0.02020948677504041
+  Layer[ 2 ] : time 10.006599039628288 (nsec) --- local (x,y) -0.0029881943088574062 , 0.03215242062066612
+  Layer[ 3 ] : time 11.674421140591338 (nsec) --- local (x,y) 0.00047024964247222966 , 0.04326943734172505
+  Layer[ 4 ] : time 13.342243241563672 (nsec) --- local (x,y) 0.004079106574416497 , 0.05438767814481631
 Drift Chamber 2 has 5 hits.
-  Layer[ 0 ] : time 34.367082023598535 (nsec) --- local (x,y) -82.70422831165251 , -0.24365071531808666
-  Layer[ 1 ] : time 36.03581904060049 (nsec) --- local (x,y) -99.26804270185357 , -0.251763880629338
-  Layer[ 2 ] : time 37.70455592544345 (nsec) --- local (x,y) -115.83065688825309 , -0.26514691034149623
-  Layer[ 3 ] : time 39.37329297502186 (nsec) --- local (x,y) -132.3947627109601 , -0.2785973129474544
-  Layer[ 4 ] : time 41.04202986529523 (nsec) --- local (x,y) -148.95742707062004 , -0.2906803142131322
-EM Calorimeter has 70 hits. Total Edep is 15754.638374775011 (MeV)
-Hadron Calorimeter has 16 hits. Total Edep is 3592.371765380588 (MeV)
+  Layer[ 0 ] : time 34.36690868512123 (nsec) --- local (x,y) -82.614583602788 , 0.19019975177605858
+  Layer[ 1 ] : time 36.035642068046116 (nsec) --- local (x,y) -99.1454565867316 , 0.20374244049624607
+  Layer[ 2 ] : time 37.70437551851739 (nsec) --- local (x,y) -115.67694141808897 , 0.21841400536919173
+  Layer[ 3 ] : time 39.37310872278475 (nsec) --- local (x,y) -132.20619087287332 , 0.23474230549201006
+  Layer[ 4 ] : time 41.04184166042147 (nsec) --- local (x,y) -148.73301456243234 , 0.25634883619975307
+EM Calorimeter has 57 hits. Total Edep is 6220.596430902295 (MeV)
+Hadron Calorimeter has 16 hits. Total Edep is 3905.461000138932 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
 ... close file : B5.root - done
@@ -1174,25 +1172,25 @@ View them with "/vis/plot" or "/vis/reviewPlots".
 ... create file : B5ntuple.root - done
 ... open analysis file : B5.root - done
 --> Event 0 starts.
->>> Event 0 >>> Simulation truth : e+ (-0,0,100000)
+>>> Event 0 >>> Simulation truth : e+ (0,0,100000)
 Hodoscope 1 has 1 hits.
-  Hodoscope[ 7 ] 4.986783223351274 (nsec)
+  Hodoscope[ 7 ] 4.986783223313279 (nsec)
 Hodoscope 2 has 1 hits.
-  Hodoscope[ 9 ] 43.18589990055388 (nsec)
+  Hodoscope[ 4 ] 43.31614243459152 (nsec)
 Drift Chamber 1 has 5 hits.
-  Layer[ 0 ] : time 6.670948340070054 (nsec) --- local (x,y) -0.003424182084976276 , 0.007126229604112157
-  Layer[ 1 ] : time 8.338768816123922 (nsec) --- local (x,y) -0.006700409473965683 , 0.007855666720551742
-  Layer[ 2 ] : time 10.006589292209332 (nsec) --- local (x,y) -0.01107742965815834 , 0.009367822887469554
-  Layer[ 3 ] : time 11.674409768366017 (nsec) --- local (x,y) -0.016957997892354023 , 0.012230971355319161
-  Layer[ 4 ] : time 13.3422302445612 (nsec) --- local (x,y) -0.01977246692217556 , 0.018881601882586512
+  Layer[ 0 ] : time 6.670948340270188 (nsec) --- local (x,y) 0.00729954180402105 , -0.007746400869782442
+  Layer[ 1 ] : time 8.338768816489585 (nsec) --- local (x,y) 0.013577471389578905 , -0.012115418140610672
+  Layer[ 2 ] : time 10.006589292697674 (nsec) --- local (x,y) 0.01704409024174905 , -0.018713716588089666
+  Layer[ 3 ] : time 11.67440976900871 (nsec) --- local (x,y) 0.018258663795393804 , -0.02785678451842628
+  Layer[ 4 ] : time 13.342230245286396 (nsec) --- local (x,y) 0.01799900923278003 , -0.03661203299269415
 Drift Chamber 2 has 5 hits.
-  Layer[ 0 ] : time 34.848661517650484 (nsec) --- local (x,y) -147.5448106643414 , 0.18415264120846533
-  Layer[ 1 ] : time 36.51938432915284 (nsec) --- local (x,y) -177.0550628273793 , 0.2035930247283272
-  Layer[ 2 ] : time 38.19010714761207 (nsec) --- local (x,y) -206.5653505187188 , 0.22283969661064207
-  Layer[ 3 ] : time 39.86082929092871 (nsec) --- local (x,y) -236.0722039581526 , 0.23993999994856985
-  Layer[ 4 ] : time 41.5315513516084 (nsec) --- local (x,y) -265.57863896243384 , 0.2530483048433499
-EM Calorimeter has 43 hits. Total Edep is 90519.56742993082 (MeV)
-Hadron Calorimeter has 8 hits. Total Edep is 59.411072170375135 (MeV)
+  Layer[ 0 ] : time 34.87482080218195 (nsec) --- local (x,y) -423.4611961399371 , -0.1921792949398048
+  Layer[ 1 ] : time 36.56640465337367 (nsec) --- local (x,y) -508.1655829814367 , -0.1972464332326073
+  Layer[ 2 ] : time 38.25798529602116 (nsec) --- local (x,y) -592.8642109236257 , -0.1972900866550003
+  Layer[ 3 ] : time 39.94956505940384 (nsec) --- local (x,y) -677.5612605285812 , -0.2003290513273182
+  Layer[ 4 ] : time 41.64114327434706 (nsec) --- local (x,y) -762.2555306070021 , -0.20402086036750808
+EM Calorimeter has 30 hits. Total Edep is 76777.3319161018 (MeV)
+Hadron Calorimeter has 6 hits. Total Edep is 41.500679889031744 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
 ... close file : B5.root - done
@@ -1211,37 +1209,26 @@ View them with "/vis/plot" or "/vis/reviewPlots".
 ... create file : B5ntuple.root - done
 ... open analysis file : B5.root - done
 --> Event 0 starts.
->>> Event 0 >>> Simulation truth : proton (-0,0,10000)
-Hodoscope 1 has 2 hits.
-  Hodoscope[ 7 ] 5.0086864349784435 (nsec)
-  Hodoscope[ 8 ] 5.93624324897347 (nsec)
-Hodoscope 2 has 6 hits.
-  Hodoscope[ 9 ] 43.3751941307878 (nsec)
-  Hodoscope[ 18 ] 800.9637888959894 (nsec)
-  Hodoscope[ 13 ] 56.508602720310016 (nsec)
-  Hodoscope[ 14 ] 56.53430143964509 (nsec)
-  Hodoscope[ 21 ] 58.516514264760495 (nsec)
-  Hodoscope[ 16 ] 56.660481993832654 (nsec)
+>>> Event 0 >>> Simulation truth : proton (0,0,10000)
+Hodoscope 1 has 1 hits.
+  Hodoscope[ 7 ] 5.008686356922182 (nsec)
+Hodoscope 2 has 2 hits.
+  Hodoscope[ 9 ] 43.374241539947135 (nsec)
+  Hodoscope[ 7 ] 444.08254373326724 (nsec)
 Drift Chamber 1 has 5 hits.
-  Layer[ 0 ] : time 6.700252558624113 (nsec) --- local (x,y) -0.0963496022338836 , 0.023653928083127867
-  Layer[ 1 ] : time 8.375402391759144 (nsec) --- local (x,y) -0.16946308679815905 , 0.08258278085129651
-  Layer[ 2 ] : time 10.050552334910865 (nsec) --- local (x,y) -0.2294842799563851 , 0.09704260264300948
-  Layer[ 3 ] : time 11.725702431749252 (nsec) --- local (x,y) -0.2807688915312642 , 0.10594004573537726
-  Layer[ 4 ] : time 13.400852649397896 (nsec) --- local (x,y) -0.323707120004941 , 0.10601559372134609
-Drift Chamber 2 has 11 hits.
-  Layer[ 0 ] : time 35.00115177706946 (nsec) --- local (x,y) -148.37314684650028 , -0.1766043399360436
-  Layer[ 0 ] : time 65.66313877728034 (nsec) --- local (x,y) 1391.3664009370818 , 74.27158443788844
-  Layer[ 1 ] : time 36.679244486602705 (nsec) --- local (x,y) -177.9981868981872 , -0.1995657275292242
-  Layer[ 1 ] : time 63.86611839355084 (nsec) --- local (x,y) 1190.8338241836805 , 74.64560962119013
-  Layer[ 2 ] : time 38.35734267372679 (nsec) --- local (x,y) -207.65024461586722 , -0.22181894563022925
-  Layer[ 2 ] : time 62.069159401859096 (nsec) --- local (x,y) 990.3519347811304 , 74.01793261734642
-  Layer[ 3 ] : time 40.03544449411582 (nsec) --- local (x,y) -237.31983506970005 , -0.22887932345694714
-  Layer[ 3 ] : time 60.27504430584715 (nsec) --- local (x,y) 792.2178300303465 , 69.49533261454597
-  Layer[ 4 ] : time 41.713541419469486 (nsec) --- local (x,y) -266.96398134928177 , -0.2661528985500041
-  Layer[ 4 ] : time 58.59594549915596 (nsec) --- local (x,y) 504.94832535625665 , -188.9905016327276
-  Layer[ 4 ] : time 58.476270808355636 (nsec) --- local (x,y) 590.4125205272828 , 61.886067069244845
-EM Calorimeter has 47 hits. Total Edep is 3481.8058626652555 (MeV)
-Hadron Calorimeter has 10 hits. Total Edep is 269.5425458308577 (MeV)
+  Layer[ 0 ] : time 6.700251449261775 (nsec) --- local (x,y) -0.06478849171078525 , 0.1187548857001987
+  Layer[ 1 ] : time 8.375400296378043 (nsec) --- local (x,y) -0.12588808198061788 , 0.21402692242932525
+  Layer[ 2 ] : time 10.050549314630622 (nsec) --- local (x,y) -0.19888560909834932 , 0.31578491935002134
+  Layer[ 3 ] : time 11.725698457608235 (nsec) --- local (x,y) -0.2743336396273626 , 0.39875985672202635
+  Layer[ 4 ] : time 13.40084773733671 (nsec) --- local (x,y) -0.344270942358858 , 0.49264833731499613
+Drift Chamber 2 has 5 hits.
+  Layer[ 0 ] : time 35.00030818528001 (nsec) --- local (x,y) -148.89397898987545 , 2.6105446784411996
+  Layer[ 1 ] : time 36.678380688555656 (nsec) --- local (x,y) -178.4349273758146 , 2.743303272133734
+  Layer[ 2 ] : time 38.356459374011756 (nsec) --- local (x,y) -208.00637489841756 , 2.8904513695925615
+  Layer[ 3 ] : time 40.03453866341327 (nsec) --- local (x,y) -237.58035531799374 , 3.0353775036735855
+  Layer[ 4 ] : time 41.71261185651687 (nsec) --- local (x,y) -267.1227085008377 , 3.204698717319319
+EM Calorimeter has 36 hits. Total Edep is 3584.929649649792 (MeV)
+Hadron Calorimeter has 9 hits. Total Edep is 93.84403864247234 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
 ... close file : B5.root - done
@@ -1260,48 +1247,25 @@ View them with "/vis/plot" or "/vis/reviewPlots".
 ... create file : B5ntuple.root - done
 ... open analysis file : B5.root - done
 --> Event 0 starts.
->>> Event 0 >>> Simulation truth : pi+ (-0,0,10000)
+>>> Event 0 >>> Simulation truth : pi+ (0,0,10000)
 Hodoscope 1 has 1 hits.
-  Hodoscope[ 7 ] 4.987268924315782 (nsec)
-Hodoscope 2 has 2 hits.
-  Hodoscope[ 10 ] 42.70005432552428 (nsec)
-  Hodoscope[ 1 ] 291.7087135704212 (nsec)
-Drift Chamber 1 has 27 hits.
-  Layer[ 0 ] : time 6.671598222384384 (nsec) --- local (x,y) 0.07095893932837861 , 0.16929670523676674
-  Layer[ 1 ] : time 8.339581298526413 (nsec) --- local (x,y) 0.17118925407656946 , 0.2979513920108874
-  Layer[ 1 ] : time 8.449017034204488 (nsec) --- local (x,y) 0.8069114380980714 , 13.084281952117461
-  Layer[ 1 ] : time 8.449455465435575 (nsec) --- local (x,y) 0.7633336245611605 , 13.068618811375973
-  Layer[ 1 ] : time 8.512252128857185 (nsec) --- local (x,y) -5.1918221894335925 , 12.836570737328726
-  Layer[ 1 ] : time 8.53827112330129 (nsec) --- local (x,y) -6.640476250399144 , 14.44214307217131
-  Layer[ 1 ] : time 8.543694906727826 (nsec) --- local (x,y) -7.052891087499112 , 14.571912261238012
-  Layer[ 1 ] : time 8.546743494610654 (nsec) --- local (x,y) -7.291712803465103 , 14.542460950032792
-  Layer[ 1 ] : time 8.551468274059282 (nsec) --- local (x,y) -7.612064274234459 , 14.687592287405764
-  Layer[ 1 ] : time 8.449455465435575 (nsec) --- local (x,y) 0.7633336245611605 , 13.068618811375973
-  Layer[ 1 ] : time 8.450576031538573 (nsec) --- local (x,y) 0.762111774646816 , 13.078979199229108
-  Layer[ 1 ] : time 8.451714500126275 (nsec) --- local (x,y) 0.7698724406229946 , 13.093613191521303
-  Layer[ 1 ] : time 8.452854172963116 (nsec) --- local (x,y) 0.8067698209911534 , 13.112548567444833
-  Layer[ 1 ] : time 8.454016308833005 (nsec) --- local (x,y) 0.8479038441544358 , 13.115473010385818
-  Layer[ 1 ] : time 8.455192114857223 (nsec) --- local (x,y) 0.8628149564254691 , 13.082545269653309
-  Layer[ 1 ] : time 8.456382777705253 (nsec) --- local (x,y) 0.9121334565435897 , 13.072250108022898
-  Layer[ 1 ] : time 8.457573440553283 (nsec) --- local (x,y) 0.9603019512249297 , 13.047573192022059
-  Layer[ 1 ] : time 8.458767883949347 (nsec) --- local (x,y) 1.0101213445927186 , 13.022039379964035
-  Layer[ 1 ] : time 8.459971541459574 (nsec) --- local (x,y) 1.0517644858347106 , 12.995041593357262
-  Layer[ 1 ] : time 8.46118462855658 (nsec) --- local (x,y) 1.0863261567741316 , 12.952958738954583
-  Layer[ 1 ] : time 8.462415381967595 (nsec) --- local (x,y) 1.125980386522708 , 12.91441768106912
-  Layer[ 1 ] : time 8.46364757843642 (nsec) --- local (x,y) 1.1706396518001974 , 12.88603449134008
-  Layer[ 1 ] : time 8.464888785525517 (nsec) --- local (x,y) 1.2166934676814867 , 12.860461522857282
-  Layer[ 1 ] : time 8.466132061126267 (nsec) --- local (x,y) 1.2502155328330287 , 12.850081231903921
-  Layer[ 2 ] : time 10.007564336853532 (nsec) --- local (x,y) 0.23161128981412268 , 0.39791179686383277
-  Layer[ 3 ] : time 11.67554736971892 (nsec) --- local (x,y) 0.27595054685263176 , 0.49409598746974215
-  Layer[ 4 ] : time 13.3435304146162 (nsec) --- local (x,y) 0.3123335134646403 , 0.6033096740825296
+  Hodoscope[ 7 ] 4.987268923713411 (nsec)
+Hodoscope 2 has 1 hits.
+  Hodoscope[ 10 ] 42.69907937753225 (nsec)
+Drift Chamber 1 has 5 hits.
+  Layer[ 0 ] : time 6.671598153942599 (nsec) --- local (x,y) 0.015357292014937123 , 0.10883028469711795
+  Layer[ 1 ] : time 8.339581157269574 (nsec) --- local (x,y) 0.004650786237818788 , 0.18011257989946045
+  Layer[ 2 ] : time 10.00756416121172 (nsec) --- local (x,y) -0.01494389718843733 , 0.24692475578330222
+  Layer[ 3 ] : time 11.675547169115447 (nsec) --- local (x,y) -0.03391295278680954 , 0.31290567233173516
+  Layer[ 4 ] : time 13.343530169034425 (nsec) --- local (x,y) -0.01618023305601606 , 0.33581615827429667
 Drift Chamber 2 has 5 hits.
-  Layer[ 0 ] : time 34.37171114740079 (nsec) --- local (x,y) -83.49877279237955 , 0.8791547060808139
-  Layer[ 1 ] : time 36.04064704538084 (nsec) --- local (x,y) -100.40161986213047 , 0.8502809391025122
-  Layer[ 2 ] : time 37.709584107776024 (nsec) --- local (x,y) -117.3147703368304 , 0.8202935610888693
-  Layer[ 3 ] : time 39.37852381442383 (nsec) --- local (x,y) -134.25132336337833 , 0.8275711676900924
-  Layer[ 4 ] : time 41.04746587863943 (nsec) --- local (x,y) -151.2086899877504 , 0.8441484211453703
-EM Calorimeter has 35 hits. Total Edep is 2676.518575658603 (MeV)
-Hadron Calorimeter has 12 hits. Total Edep is 117.63227836746013 (MeV)
+  Layer[ 0 ] : time 34.37075885074224 (nsec) --- local (x,y) -83.77661936977825 , -0.26518820281626165
+  Layer[ 1 ] : time 36.03969283487405 (nsec) --- local (x,y) -100.66036814057975 , -0.5197895478116822
+  Layer[ 2 ] : time 37.70862792070914 (nsec) --- local (x,y) -117.55390483069414 , -0.7708654109966783
+  Layer[ 3 ] : time 39.377562734549386 (nsec) --- local (x,y) -134.44510126728596 , -1.0141689361941784
+  Layer[ 4 ] : time 41.046498442917354 (nsec) --- local (x,y) -151.3442878370729 , -1.2513714918947692
+EM Calorimeter has 24 hits. Total Edep is 218.74151402592 (MeV)
+Hadron Calorimeter has 8 hits. Total Edep is 420.8539681697466 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
 ... close file : B5.root - done
@@ -1322,23 +1286,23 @@ View them with "/vis/plot" or "/vis/reviewPlots".
 --> Event 0 starts.
 >>> Event 0 >>> Simulation truth : e+ (-0,0,10000)
 Hodoscope 1 has 1 hits.
-  Hodoscope[ 7 ] 4.986783231800003 (nsec)
+  Hodoscope[ 7 ] 4.986783234351607 (nsec)
 Hodoscope 2 has 1 hits.
-  Hodoscope[ 9 ] 43.18863756661309 (nsec)
+  Hodoscope[ 9 ] 43.186589821820384 (nsec)
 Drift Chamber 1 has 5 hits.
-  Layer[ 0 ] : time 6.670948393423082 (nsec) --- local (x,y) 0.09572894349868012 , -0.04317147941186302
-  Layer[ 1 ] : time 8.338768923347427 (nsec) --- local (x,y) 0.1992009006855353 , -0.11121217114081197
-  Layer[ 2 ] : time 10.00658946538004 (nsec) --- local (x,y) 0.29229986727195234 , -0.21277917987192624
-  Layer[ 3 ] : time 11.674410013939813 (nsec) --- local (x,y) 0.3899960842124621 , -0.31988297829981993
-  Layer[ 4 ] : time 13.342230611606697 (nsec) --- local (x,y) 0.4786617895058402 , -0.4861995455779932
+  Layer[ 0 ] : time 6.670948407341871 (nsec) --- local (x,y) -0.1634585552513476 , -0.02813086874652816
+  Layer[ 1 ] : time 8.338768925796916 (nsec) --- local (x,y) -0.27320033083700845 , -0.028505828120344592
+  Layer[ 2 ] : time 10.006589435857297 (nsec) --- local (x,y) -0.3608789132152013 , 0.014324909510110062
+  Layer[ 3 ] : time 11.674409945929932 (nsec) --- local (x,y) -0.3129079773285841 , -0.07051021438725438
+  Layer[ 4 ] : time 13.342230453770124 (nsec) --- local (x,y) -0.2640323899963955 , -0.14943838898076445
 Drift Chamber 2 has 5 hits.
-  Layer[ 0 ] : time 34.85130690906771 (nsec) --- local (x,y) -146.33372700480732 , -2.9818787112368996
-  Layer[ 1 ] : time 36.52204654416455 (nsec) --- local (x,y) -175.92891879109038 , -3.15982910995435
-  Layer[ 2 ] : time 38.19278335021355 (nsec) --- local (x,y) -205.50965201804456 , -3.3538249270635965
-  Layer[ 3 ] : time 39.86352458691658 (nsec) --- local (x,y) -235.11289733150306 , -3.5431552094565557
-  Layer[ 4 ] : time 41.534266880381224 (nsec) --- local (x,y) -264.72139419568475 , -3.748924471859796
-EM Calorimeter has 16 hits. Total Edep is 9678.595305054161 (MeV)
-Hadron Calorimeter has 2 hits. Total Edep is 0.33954963236886126 (MeV)
+  Layer[ 0 ] : time 34.849448149105115 (nsec) --- local (x,y) -146.8126972571465 , -1.5059522349128027
+  Layer[ 1 ] : time 36.52015437799807 (nsec) --- local (x,y) -176.23811843620592 , -1.644868419812563
+  Layer[ 2 ] : time 38.19085789627191 (nsec) --- local (x,y) -205.64941860853241 , -1.8345779996369025
+  Layer[ 3 ] : time 39.86155714023168 (nsec) --- local (x,y) -235.03869230330224 , -2.0528511451282574
+  Layer[ 4 ] : time 41.532259365066196 (nsec) --- local (x,y) -264.44329760864457 , -2.2562585210556554
+EM Calorimeter has 15 hits. Total Edep is 9543.820215935846 (MeV)
+Hadron Calorimeter has 1 hits. Total Edep is 0.29792887523741357 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
 ... close file : B5.root - done
@@ -1359,22 +1323,22 @@ View them with "/vis/plot" or "/vis/reviewPlots".
 --> Event 0 starts.
 >>> Event 0 >>> Simulation truth : proton (-0,0,1000)
 Hodoscope 1 has 1 hits.
-  Hodoscope[ 7 ] 6.8390094642372965 (nsec)
+  Hodoscope[ 7 ] 6.838933435937652 (nsec)
 Hodoscope 2 has 1 hits.
-  Hodoscope[ 9 ] 59.36872487017662 (nsec)
+  Hodoscope[ 9 ] 59.39053982751566 (nsec)
 Drift Chamber 1 has 5 hits.
-  Layer[ 0 ] : time 9.153229627230207 (nsec) --- local (x,y) -1.0500418327498688 , 0.560802060440013
-  Layer[ 1 ] : time 11.445279402587099 (nsec) --- local (x,y) -2.310113847815153 , 0.47482866458204925
-  Layer[ 2 ] : time 13.737539844351803 (nsec) --- local (x,y) -3.6406111142320134 , 0.1484773981617411
-  Layer[ 3 ] : time 16.029989372382968 (nsec) --- local (x,y) -4.978383588363921 , -0.2124851564432402
-  Layer[ 4 ] : time 18.322679346077734 (nsec) --- local (x,y) -5.707326100911821 , -0.8855597724279358
+  Layer[ 0 ] : time 9.152787146230692 (nsec) --- local (x,y) -0.9177615951100374 , 2.2424873920699584
+  Layer[ 1 ] : time 11.444447942544794 (nsec) --- local (x,y) -1.4470240684754094 , 3.25149133727966
+  Layer[ 2 ] : time 13.73632528569694 (nsec) --- local (x,y) -1.83784637127087 , 3.9433240323692305
+  Layer[ 3 ] : time 16.028393039464973 (nsec) --- local (x,y) -1.7377721373066202 , 4.560458242647908
+  Layer[ 4 ] : time 18.320631592950857 (nsec) --- local (x,y) -1.564393650241249 , 5.137302409042639
 Drift Chamber 2 has 5 hits.
-  Layer[ 0 ] : time 47.89155852065478 (nsec) --- local (x,y) -157.1496956049093 , -2.242067687300699
-  Layer[ 1 ] : time 50.1912242649919 (nsec) --- local (x,y) -187.08695594353867 , -2.1991404347902437
-  Layer[ 2 ] : time 52.49096837466993 (nsec) --- local (x,y) -216.74584162085011 , -2.476774074097676
-  Layer[ 3 ] : time 54.79085532422819 (nsec) --- local (x,y) -246.05810776901512 , -2.6587410031993275
-  Layer[ 4 ] : time 57.09097511322012 (nsec) --- local (x,y) -275.2324473113297 , -2.5278994279407327
-EM Calorimeter has 1 hits. Total Edep is 298.2435229080682 (MeV)
+  Layer[ 0 ] : time 47.91081935268884 (nsec) --- local (x,y) -150.4688369967264 , 11.315316579836724
+  Layer[ 1 ] : time 50.210871542127826 (nsec) --- local (x,y) -181.8044200362117 , 11.400246414117852
+  Layer[ 2 ] : time 52.51112064994414 (nsec) --- local (x,y) -213.07121652351793 , 11.306033452895187
+  Layer[ 3 ] : time 54.811569562126024 (nsec) --- local (x,y) -244.11806971199712 , 11.016418196924072
+  Layer[ 4 ] : time 57.11227946961837 (nsec) --- local (x,y) -275.362515758213 , 10.710203373617514
+EM Calorimeter has 2 hits. Total Edep is 299.1653817605054 (MeV)
 Hadron Calorimeter has 0 hits. Total Edep is 0.0 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
@@ -1394,26 +1358,24 @@ View them with "/vis/plot" or "/vis/reviewPlots".
 ... create file : B5ntuple.root - done
 ... open analysis file : B5.root - done
 --> Event 0 starts.
->>> Event 0 >>> Simulation truth : pi+ (0,0,999.9999999999999)
+>>> Event 0 >>> Simulation truth : pi+ (-0,0,999.9999999999999)
 Hodoscope 1 has 1 hits.
-  Hodoscope[ 7 ] 5.035130019616391 (nsec)
-Hodoscope 2 has 1 hits.
-  Hodoscope[ 10 ] 43.111103992718725 (nsec)
-Drift Chamber 1 has 6 hits.
-  Layer[ 0 ] : time 6.735743913168082 (nsec) --- local (x,y) 0.5387970446145695 , -0.9373196743164033
-  Layer[ 0 ] : time 7.035994286235132 (nsec) --- local (x,y) 104.0273001097512 , 239.30141997733404
-  Layer[ 1 ] : time 8.419858257929274 (nsec) --- local (x,y) 0.6208296567268641 , -1.5789608015154015
-  Layer[ 2 ] : time 10.103975243686419 (nsec) --- local (x,y) 0.6555490950514617 , -2.246117966848297
-  Layer[ 3 ] : time 11.788096007262947 (nsec) --- local (x,y) 0.5168123821845614 , -2.817747809647285
-  Layer[ 4 ] : time 13.472220214793678 (nsec) --- local (x,y) 0.3733240390910534 , -3.425976185548807
-Drift Chamber 2 has 5 hits.
-  Layer[ 0 ] : time 34.699841207123036 (nsec) --- local (x,y) -99.38859758667854 , -12.250861639919787
-  Layer[ 1 ] : time 36.38537114085915 (nsec) --- local (x,y) -119.54688216578325 , -12.338983318206743
-  Layer[ 2 ] : time 38.07091702940434 (nsec) --- local (x,y) -139.80109063932832 , -12.419399393758114
-  Layer[ 3 ] : time 39.7564835894179 (nsec) --- local (x,y) -160.1890838370557 , -12.56908371650502
-  Layer[ 4 ] : time 41.442042970582094 (nsec) --- local (x,y) -180.4971107006204 , -12.651929600535775
-EM Calorimeter has 6 hits. Total Edep is 179.7664973632136 (MeV)
-Hadron Calorimeter has 4 hits. Total Edep is 16.66168034365035 (MeV)
+  Hodoscope[ 7 ] 5.035135792705882 (nsec)
+Hodoscope 2 has 0 hits.
+Drift Chamber 1 has 10 hits.
+  Layer[ 0 ] : time 19.0102052430745 (nsec) --- local (x,y) 157.39351734433194 , 90.89993413771306
+  Layer[ 0 ] : time 19.011302282335375 (nsec) --- local (x,y) 157.40377195212454 , 90.90550344968301
+  Layer[ 0 ] : time 19.011302282335375 (nsec) --- local (x,y) 157.40377195212454 , 90.90550344968301
+  Layer[ 0 ] : time 19.011970818944395 (nsec) --- local (x,y) 157.40182600914662 , 90.89350421374036
+  Layer[ 0 ] : time 19.0127834978057 (nsec) --- local (x,y) 157.38146926829725 , 90.90161724245216
+  Layer[ 0 ] : time 7.39471437721464 (nsec) --- local (x,y) -17.160535645487837 , -23.284975549016593
+  Layer[ 1 ] : time 9.744889227904881 (nsec) --- local (x,y) -34.11702489528647 , -47.852569142740236
+  Layer[ 2 ] : time 12.095402751076044 (nsec) --- local (x,y) -50.99119068287709 , -72.54543498084459
+  Layer[ 3 ] : time 14.446356425822438 (nsec) --- local (x,y) -68.07394540210143 , -97.31782393160755
+  Layer[ 4 ] : time 16.797525053262774 (nsec) --- local (x,y) -85.12868258941567 , -121.99070287619449
+Drift Chamber 2 has 0 hits.
+EM Calorimeter has 0 hits. Total Edep is 0.0 (MeV)
+Hadron Calorimeter has 0 hits. Total Edep is 0.0 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
 ... close file : B5.root - done
@@ -1432,24 +1394,25 @@ View them with "/vis/plot" or "/vis/reviewPlots".
 ... create file : B5ntuple.root - done
 ... open analysis file : B5.root - done
 --> Event 0 starts.
->>> Event 0 >>> Simulation truth : e+ (-0,0,1000)
+>>> Event 0 >>> Simulation truth : e+ (0,0,1000)
 Hodoscope 1 has 1 hits.
-  Hodoscope[ 7 ] 4.986785254566869 (nsec)
-Hodoscope 2 has 1 hits.
-  Hodoscope[ 9 ] 43.11751468519368 (nsec)
+  Hodoscope[ 7 ] 4.9867848670421075 (nsec)
+Hodoscope 2 has 2 hits.
+  Hodoscope[ 9 ] 43.18620621572286 (nsec)
+  Hodoscope[ 21 ] 57.580157915155695 (nsec)
 Drift Chamber 1 has 5 hits.
-  Layer[ 0 ] : time 6.6709718632416966 (nsec) --- local (x,y) -2.4502782114729977 , 0.6804521713332501
-  Layer[ 1 ] : time 8.338810798385163 (nsec) --- local (x,y) -4.750129517630666 , 0.2624851507493238
-  Layer[ 2 ] : time 10.00664813828493 (nsec) --- local (x,y) -6.8721815846404395 , -0.43224516946938724
-  Layer[ 3 ] : time 11.674488277053152 (nsec) --- local (x,y) -9.190001810754673 , -1.1003981019372813
-  Layer[ 4 ] : time 13.34234415239352 (nsec) --- local (x,y) -12.333148735526082 , -1.8879448060393451
+  Layer[ 0 ] : time 6.670950402368458 (nsec) --- local (x,y) 0.7511724471477566 , -0.33759859454985847
+  Layer[ 1 ] : time 8.338771888257662 (nsec) --- local (x,y) 0.4629716270321036 , -0.6831109327246851
+  Layer[ 2 ] : time 10.006593780337546 (nsec) --- local (x,y) 0.5139724014648405 , -1.2743076640030362
+  Layer[ 3 ] : time 11.674417061786917 (nsec) --- local (x,y) 0.5018254722905541 , -2.151524697624803
+  Layer[ 4 ] : time 13.34224046181528 (nsec) --- local (x,y) 0.20816263227877355 , -2.996997122415407
 Drift Chamber 2 has 5 hits.
-  Layer[ 0 ] : time 34.77961450012723 (nsec) --- local (x,y) -193.70000932503285 , -5.527047505719903
-  Layer[ 1 ] : time 36.45046562857783 (nsec) --- local (x,y) -223.85058735369262 , -5.0121588444108855
-  Layer[ 2 ] : time 38.121326562032586 (nsec) --- local (x,y) -254.05283847260284 , -4.709687991369285
-  Layer[ 3 ] : time 39.79218845438104 (nsec) --- local (x,y) -284.25969691728983 , -4.3885748187469895
-  Layer[ 4 ] : time 41.46303325548104 (nsec) --- local (x,y) -314.3827157256683 , -4.258896421197878
-EM Calorimeter has 7 hits. Total Edep is 962.0900462225392 (MeV)
+  Layer[ 0 ] : time 34.84757021684224 (nsec) --- local (x,y) -152.19222375248796 , -10.4063137935214
+  Layer[ 1 ] : time 36.51858134107652 (nsec) --- local (x,y) -183.13075880502265 , -10.82639634312503
+  Layer[ 2 ] : time 38.18959362020653 (nsec) --- local (x,y) -214.0738170784382 , -11.330249793806573
+  Layer[ 3 ] : time 39.86056635497692 (nsec) --- local (x,y) -244.8270474868391 , -11.619351982411503
+  Layer[ 4 ] : time 41.53155299880958 (nsec) --- local (x,y) -275.64363708024393 , -12.194942272820859
+EM Calorimeter has 9 hits. Total Edep is 978.1030769163266 (MeV)
 Hadron Calorimeter has 0 hits. Total Edep is 0.0 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
