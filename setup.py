@@ -111,7 +111,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/HaarigerHarald/geant4_pybind",
     license="Public Domain",
-    python_requires=">=3.5, <4",
+    python_requires=">=3.7, <4",
     ext_modules=[CMakeExtension("geant4_pybind")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False
