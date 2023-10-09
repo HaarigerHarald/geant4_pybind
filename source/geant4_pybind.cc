@@ -50,6 +50,15 @@ public:
    G4int ReceiveG4cerr(const G4String &cerrString) override { return 0; }
 };
 
+static bool endsWith(const std::string &str, const std::string &end)
+{
+   if (str.length() >= end.length()) {
+      return str.compare(str.length() - end.length(), end.length(), end) == 0;
+   } else {
+      return false;
+   }
+}
+
 void export_modG4digit_hits(py::module &);
 void export_modG4event(py::module &);
 void export_modG4geometry(py::module &);
@@ -118,8 +127,9 @@ PYBIND11_MODULE(geant4_pybind, m)
       G4SurfaceProperty::CleanSurfacePropertyTable();
    }));
 
-   py::dict globals = py::module_::import("__main__").attr("__dict__");
-   if (!globals.contains("AUTO_STUB_GENERATION")) {
+   py::dict modules = py::module_::import("sys").attr("modules");
+   if (!modules["__main__"].attr("__dir__")().contains("__file__") ||
+       !endsWith(modules["__main__"].attr("__file__").cast<std::string>(), "pybind11-stubgen")) {
 
       py::dict frameGlobals = py::globals();
       py::exec(
