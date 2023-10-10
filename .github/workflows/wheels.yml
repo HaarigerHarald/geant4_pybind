@@ -289,6 +289,7 @@ jobs:
               mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
               cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
               cmake
+              -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
               -Dnetwork-accessor=socket
               -Dtranscoder=iconv
               -DBUILD_SHARED_LIBS=OFF
@@ -301,6 +302,7 @@ jobs:
               mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
               cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
               cmake
+              -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
               -DCMAKE_BUILD_TYPE=Release
               -DBUILD_STATIC_LIBS=ON
               -DBUILD_SHARED_LIBS=OFF
