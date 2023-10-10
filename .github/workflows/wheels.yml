@@ -251,6 +251,9 @@ jobs:
       matrix:
         arch: [x86_64, arm64]
         python-impl: [cp*, pp*]
+        exclude:
+        - arch: arm64
+          python-impl: pp*
 
     steps:
       - uses: actions/checkout@v3
@@ -276,7 +279,7 @@ jobs:
 
       - uses: pypa/cibuildwheel@v2.16.2
         env:
-          CIBW_ENVIRONMENT_MACOS: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
+          CIBW_ENVIRONMENT_MACOS: CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=11.00
           CIBW_BEFORE_ALL_MACOS: >
               python -m pip install cmake &&
               git clone https://github.com/apache/xerces-c
