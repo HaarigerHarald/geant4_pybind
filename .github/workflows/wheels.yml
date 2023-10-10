@@ -36,13 +36,12 @@ jobs:
           path: dist/*.tar.gz
 
 
-  build_wheels:
-    name: Wheels for ${{ matrix.os }} - ${{ matrix.python-impl }}
-    runs-on: ${{ matrix.os }}
+  build_wheels_windows:
+    name: Wheels for Windows - ${{ matrix.python-impl }}
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
         python-impl: [cp*, pp*]
  
     steps:
@@ -81,21 +80,8 @@ jobs:
       - uses: lukka/get-cmake@latest
         if: steps.g4cache.outputs.cache-hit != 'true' || steps.xerces-cache.outputs.cache-hit != 'true'
 
-      - name: CMake configure xerces-c Unix
-        if: steps.xerces-cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
-        run: >
-            cmake -E env CXXFLAGS="-fPIC"
-            cmake -E env CFLAGS="-fPIC" 
-            cmake
-            -Dnetwork-accessor=socket
-            -Dtranscoder=iconv
-            -DBUILD_SHARED_LIBS=OFF
-            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
-            -S "${{ github.workspace }}/${{ env.XERCES_C_SOURCE_DIR }}"
-            -B "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
-
       - name: CMake configure xerces-c Windows
-        if: steps.xerces-cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        if: steps.xerces-cache.outputs.cache-hit != 'true'
         run: > 
             cmake
             -DBUILD_SHARED_LIBS=OFF
@@ -116,26 +102,8 @@ jobs:
             --config Release
             --target install
 
-      - name: CMake configure Geant4 Unix
-        if: steps.g4cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
-        run: >
-            cmake -E env CXXFLAGS="-fPIC"
-            cmake -E env CFLAGS="-fPIC" 
-            cmake
-            -GNinja
-            -DBUILD_STATIC_LIBS=ON
-            -DBUILD_SHARED_LIBS=OFF
-            -DGEANT4_INSTALL_EXAMPLES=OFF
-            -DGEANT4_USE_SYSTEM_EXPAT=OFF
-            -DGEANT4_USE_GDML=ON
-            -DGEANT4_BUILD_TLS_MODEL=global-dynamic
-            -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
-            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
-            -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
-            -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
-
       - name: CMake configure Geant4 Windows
-        if: steps.g4cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        if: steps.g4cache.outputs.cache-hit != 'true'
         run: >
             cmake
             -DBUILD_STATIC_LIBS=ON
@@ -275,10 +243,83 @@ jobs:
         with:
           path: wheelhouse/*.whl
 
+  build_wheels_macos:
+    name: Wheels for MacOS - ${{ matrix.arch }} ${{ matrix.python-impl }}
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x86_64, arm64]
+        python-impl: [cp*, pp*]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Extra Licenses
+        shell: bash
+        run: |
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/clhep/COPYING.LESSER" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/expat/COPYING" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/g4tools/tools.license" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/ptl/LICENSE" >> EXTRA_LICENSES
+            echo -e "\n\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
+            echo -e "\n\n" >> EXTRA_LICENSES
+            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
+
+      - uses: pypa/cibuildwheel@v2.16.2
+        env:
+          CIBW_ENVIRONMENT_MACOS: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
+          CIBW_BEFORE_ALL_MACOS: >
+              python -m pip install cmake &&
+              git clone https://github.com/apache/xerces-c
+              "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+              cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+              git checkout ${{ env.XERCES_C_GIT_REF }} &&
+              mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
+              cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
+              cmake
+              -Dnetwork-accessor=socket
+              -Dtranscoder=iconv
+              -DBUILD_SHARED_LIBS=OFF
+              "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+              make -j8 &&
+              make install &&
+              git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
+              https://github.com/Geant4/geant4
+              "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
+              mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
+              cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
+              cmake
+              -DCMAKE_BUILD_TYPE=Release
+              -DBUILD_STATIC_LIBS=ON
+              -DBUILD_SHARED_LIBS=OFF
+              -DGEANT4_INSTALL_EXAMPLES=OFF
+              -DGEANT4_USE_SYSTEM_EXPAT=OFF
+              -DGEANT4_USE_GDML=ON
+              -DGEANT4_BUILD_TLS_MODEL=global-dynamic
+              "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
+              make -j8 &&
+              make install
+
+          CIBW_BUILD: ${{ matrix.python-impl }}
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_BEFORE_BUILD: rm -rf {project}/build
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: wheelhouse/*.whl
 
   upload_all:
     name: Upload wheels
-    needs: [build_wheels, build_wheels_linux, build_sdist]
+    needs: [build_wheels_windows, build_wheels_linux, build_wheels_macos, build_sdist]
     runs-on: ubuntu-latest
     if: github.event_name == 'release' && github.event.action == 'published'
 
