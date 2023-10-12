@@ -17,14 +17,12 @@ env:
   XERCES_C_BUILD_DIR: xerces-c_build
   XERCES_C_INSTALL_DIR: xerces-c_install
 
-
 jobs:
-
   build_sdist:
     name: Build SDist
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
@@ -35,287 +33,192 @@ jobs:
         with:
           path: dist/*.tar.gz
 
-
-  build_wheels_windows:
-    name: Wheels for Windows - ${{ matrix.python-impl }}
-    runs-on: windows-latest
+  build_wheels:
+    name: ${{ matrix.config.os }} ${{ matrix.config.arch }} - ${{ matrix.config.build-pattern }}
+    runs-on: ${{ matrix.config.os }}
     strategy:
-      fail-fast: false
       matrix:
-        python-impl: [cp*, pp*]
- 
+        config:
+          [
+            { os: windows-latest, arch: AMD64, build-pattern: cp* },
+            { os: windows-latest, arch: AMD64, build-pattern: pp* },
+            { os: macos-latest, arch: x86_64, build-pattern: cp* },
+            { os: macos-latest, arch: x86_64, build-pattern: pp* },
+            { os: macos-latest, arch: arm64, build-pattern: cp* },
+            { os: ubuntu-latest, arch: x86_64, build-pattern: cp*-manylinux* },
+            { os: ubuntu-latest, arch: x86_64, build-pattern: pp*-manylinux* },
+            { os: ubuntu-latest, arch: x86_64, build-pattern: cp*-musllinux* },
+          ]
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
-      - name: Cache Geant4 install
-        uses: actions/cache@v3
-        id: g4cache
-        with:
-          path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
-          key: ${{ env.GEANT4_GIT_TAG }}-${{ env.XERCES_C_GIT_REF }}
-
       - name: Cache xerces-c install
         uses: actions/cache@v3
+        if: runner.os == 'Windows'
         id: xerces-cache
         with:
           path: ${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}
           key: ${{ env.XERCES_C_GIT_REF }}
 
-      - uses: actions/checkout@v3
-        if: steps.g4cache.outputs.cache-hit != 'true'
+      - name: Cache Geant4 install
+        uses: actions/cache@v3
+        if: runner.os == 'Windows'
+        id: g4cache
         with:
-          repository: Geant4/geant4
-          ref: ${{ env.GEANT4_GIT_TAG }}
-          path: ${{ env.GEANT4_SOURCE_DIR }}
+          path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
+          key: ${{ env.GEANT4_GIT_TAG }}-${{ env.XERCES_C_GIT_REF }}
 
-      - uses: actions/checkout@v3
-        if: steps.xerces-cache.outputs.cache-hit != 'true'
+      - uses: actions/checkout@v4
+        if: runner.os == 'Windows' && steps.xerces-cache.outputs.cache-hit != 'true'
         with:
           repository: apache/xerces-c
           ref: ${{ env.XERCES_C_GIT_REF }}
           path: ${{ env.XERCES_C_SOURCE_DIR }}
 
       - uses: lukka/get-cmake@latest
-        if: steps.g4cache.outputs.cache-hit != 'true' || steps.xerces-cache.outputs.cache-hit != 'true'
+        if: runner.os == 'Windows' && (steps.g4cache.outputs.cache-hit != 'true' || steps.xerces-cache.outputs.cache-hit != 'true')
 
-      - name: CMake configure xerces-c Windows
-        if: steps.xerces-cache.outputs.cache-hit != 'true'
-        run: > 
-            cmake
-            -DBUILD_SHARED_LIBS=OFF
-            -DCMAKE_CXX_FLAGS_RELEASE="/MT"
-            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
-            -S "${{ github.workspace }}/${{ env.XERCES_C_SOURCE_DIR }}"
-            -B "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
- 
-      - name: CMake build xerces-c
-        if: steps.xerces-cache.outputs.cache-hit != 'true'
-        run: cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release
-
-      - name: CMake install xerces-c
-        if: steps.xerces-cache.outputs.cache-hit != 'true'
+      - name: CMake build xerces-c Windows
+        if: runner.os == 'Windows' && steps.xerces-cache.outputs.cache-hit != 'true'
         run: >
-            cmake
-            --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}"
-            --config Release
-            --target install
+          cmake
+          -DBUILD_SHARED_LIBS=OFF
+          -DCMAKE_CXX_FLAGS_RELEASE="/MT"
+          -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
+          -S "${{ github.workspace }}/${{ env.XERCES_C_SOURCE_DIR }}"
+          -B "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" &&
+          cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release &&
+          cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release --target install
 
-      - name: CMake configure Geant4 Windows
-        if: steps.g4cache.outputs.cache-hit != 'true'
+      - uses: actions/checkout@v4
+        if: runner.os == 'Windows' && steps.g4cache.outputs.cache-hit != 'true'
+        with:
+          repository: Geant4/geant4
+          ref: ${{ env.GEANT4_GIT_TAG }}
+          path: ${{ env.GEANT4_SOURCE_DIR }}
+
+      - name: CMake build Geant4 Windows
+        if: runner.os == 'Windows' && steps.g4cache.outputs.cache-hit != 'true'
         run: >
-            cmake
-            -DBUILD_STATIC_LIBS=ON
-            -DBUILD_SHARED_LIBS=OFF
-            -DGEANT4_INSTALL_EXAMPLES=OFF
-            -DGEANT4_USE_GDML=ON
-            -DGEANT4_BUILD_TLS_MODEL=global-dynamic
-            -DGEANT4_USE_OPENGL_WIN32=ON
-            -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
-            -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
-            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
-            -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
-            -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
-
-      - name: CMake build Geant4
-        if: steps.g4cache.outputs.cache-hit != 'true'
-        run: cmake --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}" --config Release
-
-      - name: CMake install Geant4
-        if: steps.g4cache.outputs.cache-hit != 'true'
-        run: >
-            cmake
-            --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}"
-            --config Release
-            --target install
+          cmake
+          -DBUILD_STATIC_LIBS=ON
+          -DBUILD_SHARED_LIBS=OFF
+          -DGEANT4_INSTALL_EXAMPLES=OFF
+          -DGEANT4_USE_GDML=ON
+          -DGEANT4_BUILD_TLS_MODEL=global-dynamic
+          -DGEANT4_USE_OPENGL_WIN32=ON
+          -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+          -DCMAKE_PREFIX_PATH="${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}"
+          -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}"
+          -S "${{ github.workspace }}/${{ env.GEANT4_SOURCE_DIR }}"
+          -B "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}" &&
+          cmake --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}" --config Release &&
+          cmake --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}" --config Release --target install
 
       - name: Setup environment variables
+        if: runner.os == 'Windows'
         shell: bash
         run: |
-            echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
-            echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
-            echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
+          echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+          echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
+          echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
 
       - name: Extra Licenses
         shell: bash
         run: |
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/clhep/COPYING.LESSER" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/expat/COPYING" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/g4tools/tools.license" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/ptl/LICENSE" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
-            echo -e "\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
-
-      - uses: pypa/cibuildwheel@v2.16.2
-        env:
-          CIBW_ARCHS: native
-          CIBW_BUILD: ${{ matrix.python-impl }}
-          CIBW_BEFORE_BUILD: rm -rf {project}/build
-
-      - uses: actions/upload-artifact@v3
-        with:
-          path: wheelhouse/*.whl
-
-
-  build_wheels_linux:
-    name: Wheels for Linux - ${{ matrix.python-impl }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-impl: [cp*, pp*]
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-
-      - name: Extra Licenses
-        shell: bash
-        run: |
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/clhep/COPYING.LESSER" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/expat/COPYING" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/g4tools/tools.license" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/ptl/LICENSE" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
-            echo -e "\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
+          curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
+          echo -e "\n\n\n" >> EXTRA_LICENSES
+          curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/clhep/COPYING.LESSER" >> EXTRA_LICENSES
+          echo -e "\n\n\n" >> EXTRA_LICENSES
+          curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/expat/COPYING" >> EXTRA_LICENSES
+          echo -e "\n\n\n" >> EXTRA_LICENSES
+          curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/g4tools/tools.license" >> EXTRA_LICENSES
+          echo -e "\n\n\n" >> EXTRA_LICENSES
+          curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/ptl/LICENSE" >> EXTRA_LICENSES
+          echo -e "\n\n\n" >> EXTRA_LICENSES
+          curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
+          echo -e "\n\n" >> EXTRA_LICENSES
+          curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
 
       - uses: pypa/cibuildwheel@v2.16.2
         env:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >
-              python -m pip install cmake &&
-              git clone https://github.com/apache/xerces-c
-              "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-              cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-              git checkout ${{ env.XERCES_C_GIT_REF }} &&
-              mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
-              cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
-              cmake
-              -Dnetwork-accessor=socket
-              -Dtranscoder=iconv
-              -DBUILD_SHARED_LIBS=OFF
-              "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-              make -j8 &&
-              make install &&
-              yum install -y libXt-devel libXmu-devel ||
-              apt-get install -y libxt-dev libxmu-dev ||
-              apk add libxt-dev libxmu-dev &&
-              git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
-              https://github.com/Geant4/geant4
-              "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
-              mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
-              cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
-              cmake
-              -DCMAKE_BUILD_TYPE=Release
-              -DBUILD_STATIC_LIBS=ON
-              -DBUILD_SHARED_LIBS=OFF
-              -DGEANT4_INSTALL_EXAMPLES=OFF
-              -DGEANT4_USE_SYSTEM_EXPAT=OFF
-              -DGEANT4_USE_GDML=ON
-              -DGEANT4_BUILD_TLS_MODEL=global-dynamic
-              -DGEANT4_USE_OPENGL_X11=ON
-              "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
-              make -j8 &&
-              make install
-
-          CIBW_SKIP: "*-musllinux*"
-          CIBW_BUILD: ${{ matrix.python-impl }}
-          CIBW_ARCHS: native
-          CIBW_BEFORE_BUILD: rm -rf {project}/build
-
-      - uses: actions/upload-artifact@v3
-        with:
-          path: wheelhouse/*.whl
-
-  build_wheels_macos:
-    name: Wheels for MacOS - ${{ matrix.arch }} ${{ matrix.python-impl }}
-    runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [x86_64, arm64]
-        python-impl: [cp*, pp*]
-        exclude:
-        - arch: arm64
-          python-impl: pp*
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-
-      - name: Extra Licenses
-        shell: bash
-        run: |
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/LICENSE" > EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/clhep/COPYING.LESSER" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/expat/COPYING" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/g4tools/tools.license" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/Geant4/geant4/${{ env.GEANT4_GIT_TAG }}/source/externals/ptl/LICENSE" >> EXTRA_LICENSES
-            echo -e "\n\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/NOTICE" >> EXTRA_LICENSES
-            echo -e "\n\n" >> EXTRA_LICENSES
-            curl "https://raw.githubusercontent.com/apache/xerces-c/${{ env.XERCES_C_GIT_REF }}/LICENSE" >> EXTRA_LICENSES
-
-      - uses: pypa/cibuildwheel@v2.16.2
-        env:
-          CIBW_ENVIRONMENT_MACOS: CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=11.00
+            python3 -m pip install cmake &&
+            git clone https://github.com/apache/xerces-c
+            "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+            cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+            git checkout ${{ env.XERCES_C_GIT_REF }} &&
+            mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
+            cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
+            cmake
+            -Dnetwork-accessor=socket
+            -Dtranscoder=iconv
+            -DBUILD_SHARED_LIBS=OFF
+            "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+            make -j8 &&
+            make install &&
+            yum install -y libXt-devel libXmu-devel ||
+            apt-get install -y libxt-dev libxmu-dev ||
+            apk add libxt-dev libxmu-dev libexecinfo-dev &&
+            git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
+            https://github.com/Geant4/geant4
+            "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
+            mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
+            cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
+            cmake
+            -DCMAKE_BUILD_TYPE=Release
+            -DBUILD_STATIC_LIBS=ON
+            -DBUILD_SHARED_LIBS=OFF
+            -DGEANT4_INSTALL_EXAMPLES=OFF
+            -DGEANT4_USE_SYSTEM_EXPAT=OFF
+            -DGEANT4_USE_GDML=ON
+            -DGEANT4_BUILD_TLS_MODEL=global-dynamic
+            -DGEANT4_USE_OPENGL_X11=ON
+            "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
+            make -j8 &&
+            make install
+          CIBW_ENVIRONMENT_MACOS: >
+            CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=11.00
+            ${{ matrix.config.arch == 'arm64' && 'SKIP_PYBIND11_STUBGEN=1' || '' }}
           CIBW_BEFORE_ALL_MACOS: >
-              python -m pip install cmake &&
-              git clone https://github.com/apache/xerces-c
-              "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-              cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-              git checkout ${{ env.XERCES_C_GIT_REF }} &&
-              mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
-              cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
-              cmake
-              -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
-              -Dnetwork-accessor=socket
-              -Dtranscoder=iconv
-              -DBUILD_SHARED_LIBS=OFF
-              "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-              make -j8 &&
-              make install &&
-              git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
-              https://github.com/Geant4/geant4
-              "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
-              mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
-              cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
-              cmake
-              -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
-              -DCMAKE_BUILD_TYPE=Release
-              -DBUILD_STATIC_LIBS=ON
-              -DBUILD_SHARED_LIBS=OFF
-              -DGEANT4_INSTALL_EXAMPLES=OFF
-              -DGEANT4_USE_SYSTEM_EXPAT=OFF
-              -DGEANT4_USE_GDML=ON
-              -DGEANT4_BUILD_TLS_MODEL=global-dynamic
-              "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
-              make -j8 &&
-              make install
-
-          CIBW_BUILD: ${{ matrix.python-impl }}
-          CIBW_ARCHS: ${{ matrix.arch }}
+            python3 -m pip install cmake &&
+            git clone https://github.com/apache/xerces-c
+            "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+            cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+            git checkout ${{ env.XERCES_C_GIT_REF }} &&
+            mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
+            cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
+            cmake
+            -DCMAKE_OSX_ARCHITECTURES=${{ matrix.config.arch }}
+            -Dnetwork-accessor=socket
+            -Dtranscoder=iconv
+            -DBUILD_SHARED_LIBS=OFF
+            "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
+            make -j8 &&
+            make install &&
+            git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
+            https://github.com/Geant4/geant4
+            "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
+            mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
+            cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
+            cmake
+            -DCMAKE_OSX_ARCHITECTURES=${{ matrix.config.arch }}
+            -DCMAKE_BUILD_TYPE=Release
+            -DBUILD_STATIC_LIBS=ON
+            -DBUILD_SHARED_LIBS=OFF
+            -DGEANT4_INSTALL_EXAMPLES=OFF
+            -DGEANT4_USE_SYSTEM_EXPAT=OFF
+            -DGEANT4_USE_GDML=ON
+            -DGEANT4_BUILD_TLS_MODEL=global-dynamic
+            "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
+            make -j8 &&
+            make install
+          CIBW_ARCHS: ${{ matrix.config.arch }}
+          CIBW_BUILD: ${{ matrix.config.build-pattern }}
           CIBW_BEFORE_BUILD: rm -rf {project}/build
 
       - uses: actions/upload-artifact@v3
@@ -324,12 +227,12 @@ jobs:
 
   upload_all:
     name: Upload wheels
-    needs: [build_wheels_windows, build_wheels_linux, build_wheels_macos, build_sdist]
+    needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     if: github.event_name == 'release' && github.event.action == 'published'
 
     steps:
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
 
       - uses: actions/download-artifact@v3
         with:

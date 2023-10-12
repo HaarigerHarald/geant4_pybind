@@ -75,16 +75,16 @@ class CMakeBuild(build_ext):
             ["cmake", "--build", "."] + build_args, cwd=self.build_temp
         )
 
-        ext_dir = os.path.dirname(self.get_ext_fullpath(ext.name))
-        python_path = ext_dir
+        python_path = extdir
         if "PYTHONPATH" in os.environ:
             python_path += os.pathsep + os.environ["PYTHONPATH"]
 
-        # Automatically generate stubs
-        subprocess.check_call(
-            ["pybind11-stubgen", "-o", ext_dir, "--ignore-all-errors", "geant4_pybind"],
-            env=dict(os.environ, PYTHONPATH=python_path)
-        )
+        if not "SKIP_PYBIND11_STUBGEN" in os.environ:
+            # Automatically generate stubs
+            subprocess.check_call(
+                ["pybind11-stubgen", "-o", extdir, "--ignore-all-errors", "geant4_pybind"],
+                env=dict(os.environ, PYTHONPATH=python_path)
+            )
 
 
 with open("README.md", "r") as readme:
