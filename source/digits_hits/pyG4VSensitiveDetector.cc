@@ -64,10 +64,9 @@ void export_G4VSensitiveDetector(py::module &m)
       .def(py::init<>())
       .def("insert", &G4CollectionNameVector::insert)
       .def(
-         "__getitem__", [](G4CollectionNameVector &self, std::size_t n) { return self[n]; }, py::is_operator(),
-         py::return_value_policy::reference_internal);
+         "__getitem__", [](G4CollectionNameVector &self, std::size_t n) { return self[n]; }, py::is_operator());
 
-   py::implicitly_convertible<G4CollectionNameVector, std::vector<G4String>>();
+   py::implicitly_convertible<std::vector<G4String>, G4CollectionNameVector>();
 
    py::class_<G4VSensitiveDetector, PyG4VSensitiveDetector>(m, "G4VSensitiveDetector",
                                                             "base class of senstive detector")
