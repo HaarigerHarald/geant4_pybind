@@ -162,6 +162,7 @@ jobs:
         with:
           key: ${{ env.GEANT4_GIT_TAG }}-datasets
           path: ${{ github.workspace }}/.geant4_pybind
+          enableCrossOsArchive: true
 
       - name: Run B1 (sanity) test
         run: python ${{ github.event.repository.name }}/tests/test_B1.py
