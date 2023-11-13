@@ -10,6 +10,8 @@
 #include <CLHEP/Random/RanshiEngine.h>
 #include <CLHEP/Random/MTwistEngine.h>
 #include <CLHEP/Random/NonRandomEngine.h>
+#include <CLHEP/Random/MixMaxRng.h>
+#include <CLHEP/Random/DualRand.h>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -73,6 +75,13 @@ void export_RandomEngines(py::module &m)
       .def(py::init<>());
 
    py::class_<RanshiEngine, HepRandomEngine>(m, "RanshiEngine", "RanshiEngine random engine")
+      .def(py::init<>())
+      .def(py::init<long>())
+      .def(py::init<int, int>());
+
+   py::class_<MixMaxRng, HepRandomEngine>(m, "MixMaxRng").def(py::init<>()).def(py::init<long>());
+
+   py::class_<DualRand, HepRandomEngine>(m, "DualRand")
       .def(py::init<>())
       .def(py::init<long>())
       .def(py::init<int, int>());
