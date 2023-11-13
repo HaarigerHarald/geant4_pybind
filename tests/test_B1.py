@@ -2,7 +2,6 @@ from geant4_pybind import *
 
 import math
 import os
-import psutil
 
 
 class B1DetectorConstruction(G4VUserDetectorConstruction):
@@ -188,9 +187,6 @@ class B1RunAction(G4UserRunAction):
         print("{:.5f} rms = {:.5f}".format(G4BestUnit(dose, "Dose"), G4BestUnit(rmsDose, "Dose")))
         print("------------------------------------------------------------")
         print("")
-
-        process = psutil.Process(os.getpid())
-        print(process.memory_info().rss)
 
     def AddEdep(self, edep):
         self.edep += edep
