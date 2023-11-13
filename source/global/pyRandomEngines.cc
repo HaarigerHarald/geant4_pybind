@@ -88,8 +88,8 @@ void export_RandomEngines(py::module &m)
       .def("flat", &HepRandomEngine::flat)
       .def("flatArray",
            [](HepRandomEngine &self, py::list &vect) {
-              double dVect[vect.size()];
-              self.flatArray(vect.size(), dVect);
+              std::vector<double> dVect(vect.size());
+              self.flatArray(vect.size(), dVect.data());
 
               for (size_t i = 0; i < vect.size(); i++) {
                  vect[i] = dVect[i];
