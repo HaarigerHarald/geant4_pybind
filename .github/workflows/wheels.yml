@@ -170,15 +170,41 @@ jobs:
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
             make -j8 &&
             make install &&
-            yum install -y libXt-devel libXmu-devel ||
-            apt-get install -y libxt-dev libxmu-dev ||
-            apk add libxt-dev libxmu-dev libexecinfo-dev &&
+
+            yum install -y libXt-devel libXmu-devel mesa-libGL-devel libxkbcommon-devel fontconfig-devel ||
+            apt-get install -y libxt-dev libxmu-dev libgl1-mesa-dev libxkbcommon-dev libfontconfig1-dev ||
+            apk add libxt-dev libxmu-dev libexecinfo-dev mesa-dev libxkbcommon-dev fontconfig-dev &&
+
+            echo -e "\n\n\nThis software contains parts of Qt5
+            licensed under GPL-2.0, GPL-3.0 and LGPL-3.0.
+            \nLicense information and source code are available at:
+            https://github.com/qt/qt5
+            \nFor information on how Qt5 was built please see:
+            https://github.com/HaarigerHarald/geant4_pybind/blob/main/.github/workflows/wheels.yml
+            \n\n" >> "{package}/EXTRA_LICENSES" &&
+            git clone -b v5.14.2 --depth 1 https://github.com/qt/qt5 "{package}/qt5" &&
+            cd "{package}/qt5" &&
+            git submodule update --init --recursive --depth 1 qt3d qtbase &&
+            sed -i '48 i #  include <limits>' "{package}/qt5/qtbase/src/corelib/global/qglobal.h" &&
+            ${{ matrix.config.build-pattern == 'cp*-musllinux*' && 'echo "QMAKE_LIBS_EXECINFO = -lexecinfo" >> "{package}/qt5/qtbase/mkspecs/common/gcc-base.conf" &&' || '' }}
+            ./configure -opensource -confirm-license -release -qt-zlib -qt-libjpeg -qt-libpng -fontconfig -system-freetype
+            -no-harfbuzz -qt-xcb -qt-pcre -skip qtwebengine -no-feature-sqlmodel -skip qtconnectivity -skip qtdoc
+            -nomake examples -nomake tools -nomake tests -static -prefix "{package}/qt5_install" &&
+            make -j8 &&
+            make install &&
+            echo -e "\nqt5_import_plugins(geant4_pybind
+            \n    INCLUDE Qt5::QXcbIntegrationPlugin Qt5::QMinimalIntegrationPlugin Qt5::QLinuxFbIntegrationPlugin
+            \n    INCLUDE_BY_TYPE imageformats Qt5::QPngPlugin Qt5::QGifPlugin Qt5::QJpegPlugin
+            \n    EXCLUDE_BY_TYPE sqldrivers
+            \n)" >> "{package}/source/CMakeLists.txt" &&
+
             git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
             https://github.com/Geant4/geant4
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
             mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
             cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
             cmake
+            -DCMAKE_PREFIX_PATH="{package}/qt5_install"
             -DCMAKE_BUILD_TYPE=Release
             -DBUILD_STATIC_LIBS=ON
             -DBUILD_SHARED_LIBS=OFF
@@ -186,7 +212,7 @@ jobs:
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
             -DGEANT4_USE_GDML=ON
             -DGEANT4_BUILD_TLS_MODEL=global-dynamic
-            -DGEANT4_USE_OPENGL_X11=ON
+            -DGEANT4_USE_QT=ON
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
             make -j8 &&
             make install
@@ -210,12 +236,31 @@ jobs:
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
             make -j8 &&
             make install &&
+
+            echo -e "\n\n\nThis software contains parts of Qt5
+            licensed under GPL-2.0, GPL-3.0 and LGPL-3.0.
+            \nLicense information and source code are available at:
+            https://github.com/qt/qt5
+            \nFor information on how Qt5 was built please see:
+            https://github.com/HaarigerHarald/geant4_pybind/blob/main/.github/workflows/wheels.yml
+            \n\n" >> "{package}/EXTRA_LICENSES" &&
+            git clone -b v5.15.11-lts-lgpl --depth 1 https://github.com/qt/qt5 "{package}/qt5" &&
+            cd "{package}/qt5" &&
+            git submodule update --init --recursive --depth 1 qt3d qtbase &&
+            ./configure -opensource -confirm-license -release -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype
+            -qt-harfbuzz -qt-pcre -skip qtwebengine -no-feature-sqlmodel -skip qtconnectivity -skip qtdoc
+            -nomake examples -nomake tools -nomake tests -static QMAKE_APPLE_DEVICE_ARCHS="x86_64 arm64"
+            -prefix "{package}/qt5_install" &&
+            make -j8 &&
+            make install &&
+
             git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
             https://github.com/Geant4/geant4
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
             mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
             cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
             cmake
+            -DCMAKE_PREFIX_PATH="{package}/qt5_install"
             -DCMAKE_OSX_ARCHITECTURES=${{ matrix.config.arch }}
             -DCMAKE_BUILD_TYPE=Release
             -DBUILD_STATIC_LIBS=ON
@@ -224,6 +269,7 @@ jobs:
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
             -DGEANT4_USE_GDML=ON
             -DGEANT4_BUILD_TLS_MODEL=global-dynamic
+            -DGEANT4_USE_QT=ON
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
             make -j8 &&
             make install
