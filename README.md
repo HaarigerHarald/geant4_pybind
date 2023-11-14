@@ -6,7 +6,7 @@
 
 Alternative Python bindings for [Geant4](https://geant4.web.cern.ch/) via [pybind11](https://github.com/pybind/pybind11). It is loosely based on g4py, but retains an API closer to the standard C++ API and does not depend on Boost.Python.
 
-It currently includes all g4py bindings plus a large portion of very commonly used classes and functions that aren't currently present in g4py. However, it is still off from replicating the full Geant4 API and is thus (currently) only applicable for simple simulations.
+It currently includes all g4py bindings plus a large portion of very commonly used classes and functions that aren't currently present in g4py. However, it is still off from replicating the full Geant4 API.
 
 ## Installation
 
@@ -27,7 +27,7 @@ It's available on PyPI for all major platforms as a fully self-contained (i.e. s
 **Windows prerequisites**
 
   * A Geant4 installation version 11.0+, compiled with CMake option `GEANT4_BUILD_TLS_MODEL=global-dynamic` ([make sure it is also added to the PATH](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html#required-environment-settings-on-windows))
-  * [Visual Studio 2019](https://visualstudio.microsoft.com/en/vs) for C++ development
+  * [Visual Studio](https://visualstudio.microsoft.com/en/vs) for C++ development
   * Python3
   * pip
   * [git](https://git-scm.com/download/win)
@@ -43,7 +43,7 @@ pip3 install ./geant4_pybind
 
 **Windows notes**
 
-The above commands have to be executed in a "Developer Command Prompt for VS 2019" and require that Python3, pip and git are added to the PATH environment variable.
+The above commands have to be executed in a "Developer Command Prompt for VS 2022" and require that pip and git are added to the PATH environment variable.
 
 **General notes**
 
@@ -73,11 +73,7 @@ Check out the [examples](https://github.com/HaarigerHarald/geant4_pybind/tree/ma
 
 ## Design
 
-There is a small [overview](DESIGN.md), outlining the design choices made. It should be helpful to anyone seeking to extend the bindings.
-
-## Bugs?
-
-Yes! Please create an issue if you encounter one.
+There is a small [overview](https://github.com/HaarigerHarald/geant4_pybind/blob/main/DESIGN.md), outlining the design choices made. It should be helpful to anyone seeking to extend the bindings.
 
 ## License
 
