@@ -28,6 +28,7 @@ public:
 
    void flatArray(const int size, double *vect) override
    {
+      pybind11::gil_scoped_acquire gil;
       py::function flatArray = py::get_override(static_cast<const HepRandomEngine *>(this), "flatArray");
 
       if (flatArray) {
