@@ -27,10 +27,10 @@ DATASETS = [
      "md5sum": "b001a2091bf9392e6833830347672ea2"},
 
     {"name": "G4EMLOW",
-     "version": "8.2",
+     "version": "8.5",
      "filename": "G4EMLOW",
      "envvar": "G4LEDATA",
-     "md5sum": "07773e57be3f6f2ebb744da5ed574f6d"},
+     "md5sum": "146d0625d8d39f294056e1618271bc46"},
 
     {"name": "PhotonEvaporation",
      "version": "5.7",
@@ -69,16 +69,16 @@ DATASETS = [
      "md5sum": "d5d4e9541120c274aeed038c621d39da"},
 
     {"name": "G4ABLA",
-     "version": "3.1",
+     "version": "3.3",
      "filename": "G4ABLA",
      "envvar": "G4ABLADATA",
-     "md5sum": "180f1f5d937733b207f8d5677f76296e"},
+     "md5sum": "b25d093339e1e4532e31038653580ca6"},
 
     {"name": "G4INCL",
-     "version": "1.0",
+     "version": "1.2",
      "filename": "G4INCL",
      "envvar": "G4INCLDATA",
-     "md5sum": "85fe937b6df46d41814f07175d3f5b51"},
+     "md5sum": "0a76df936839bb557dae7254117eb58e"},
 
     {"name": "G4ENSDFSTATE",
      "version": "2.3",
