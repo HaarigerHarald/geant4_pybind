@@ -1,4 +1,3 @@
-R"(
 
 """Dataset initialization
 
@@ -204,5 +203,3 @@ def init_datasets():
 
 
 init_datasets()
-
-# )"
