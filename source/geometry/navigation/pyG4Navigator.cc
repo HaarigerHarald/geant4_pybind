@@ -35,6 +35,7 @@
 #include <G4Polycone.hh>
 #include <G4Polyhedra.hh>
 #include <G4Hype.hh>
+#include <G4Version.hh>
 
 #include <limits>
 
@@ -78,10 +79,17 @@ public:
       PYBIND11_OVERRIDE(G4double, G4Navigator, ComputeSafety, globalpoint, pProposedMaxLength, keepState);
    }
 
+#if G4VERSION_NUMBER >= 1120
+   G4TouchableHandle CreateTouchableHistoryHandle() const override
+   {
+      PYBIND11_OVERRIDE(G4TouchableHandle, G4Navigator, CreateTouchableHistoryHandle, );
+   }
+#else
    G4TouchableHistoryHandle CreateTouchableHistoryHandle() const override
    {
       PYBIND11_OVERRIDE(G4TouchableHistoryHandle, G4Navigator, CreateTouchableHistoryHandle, );
    }
+#endif
 
    G4ThreeVector GetLocalExitNormal(G4bool *valid) override
    {
@@ -141,8 +149,6 @@ void export_G4Navigator(py::module &m)
 
       .def("GetWorldVolume", &G4Navigator::GetWorldVolume, py::return_value_policy::reference)
       .def("SetWorldVolume", &G4Navigator::SetWorldVolume, py::arg("pWorld"))
-      .def("CreateGRSVolume", &G4Navigator::CreateGRSVolume, py::return_value_policy::reference)
-      .def("CreateGRSSolid", &G4Navigator::CreateGRSSolid, py::return_value_policy::reference)
       .def("CreateTouchableHistory", py::overload_cast<>(&G4Navigator::CreateTouchableHistory, py::const_),
            py::return_value_policy::reference)
 

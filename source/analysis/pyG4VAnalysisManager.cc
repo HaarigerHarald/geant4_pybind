@@ -9,6 +9,7 @@
 #include <G4VNtupleManager.hh>
 #include <G4VFileManager.hh>
 #include <G4PlotManager.hh>
+#include <G4Version.hh>
 
 #include <tools/histo/hmpi>
 
@@ -30,9 +31,16 @@ void export_G4VAnalysisManager(py::module &m)
       .def("CloseFile", &G4VAnalysisManager::CloseFile, py::arg("reset") = true,
            py::call_guard<py::gil_scoped_release>())
 
+      .def("Reset", &G4VAnalysisManager::Reset)
+      .def("Clear", &G4VAnalysisManager::Clear)
       .def("Merge", &G4VAnalysisManager::Merge) // TODO
       .def("Plot", &G4VAnalysisManager::Plot)
       .def("IsOpenFile", &G4VAnalysisManager::IsOpenFile)
+
+#if G4VERSION_NUMBER >= 1120
+      .def("SetDefaultFileType", &G4VAnalysisManager::SetDefaultFileType, py::arg("value"))
+      .def("GetDefaultFileType", &G4VAnalysisManager::GetDefaultFileType)
+#endif
 
       .def("SetFileName", &G4VAnalysisManager::SetFileName)
       .def("SetHistoDirectoryName", &G4VAnalysisManager::SetHistoDirectoryName)
@@ -599,6 +607,15 @@ void export_G4VAnalysisManager(py::module &m)
       .def("GetP2XAxisIsLog", &G4VAnalysisManager::GetP2XAxisIsLog, py::arg("id"))
       .def("GetP2YAxisIsLog", &G4VAnalysisManager::GetP2YAxisIsLog, py::arg("id"))
       .def("GetP2ZAxisIsLog", &G4VAnalysisManager::GetP2ZAxisIsLog, py::arg("id"))
+
+#if G4VERSION_NUMBER >= 1120
+      .def("DeleteH1", &G4VAnalysisManager::DeleteH1, py::arg("id"), py::arg("keepSetting") = false)
+      .def("DeleteH2", &G4VAnalysisManager::DeleteH2, py::arg("id"), py::arg("keepSetting") = false)
+      .def("DeleteH3", &G4VAnalysisManager::DeleteH3, py::arg("id"), py::arg("keepSetting") = false)
+      .def("DeleteP1", &G4VAnalysisManager::DeleteP1, py::arg("id"), py::arg("keepSetting") = false)
+      .def("DeleteP2", &G4VAnalysisManager::DeleteP2, py::arg("id"), py::arg("keepSetting") = false)
+      .def("DeleteNtuple", &G4VAnalysisManager::DeleteNtuple, py::arg("id"), py::arg("clear") = false)
+#endif
 
       .def("SetVerboseLevel", &G4VAnalysisManager::SetVerboseLevel, py::arg("verboseLevel"))
       .def("GetVerboseLevel", &G4VAnalysisManager::GetVerboseLevel)

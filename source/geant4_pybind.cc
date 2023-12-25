@@ -3,7 +3,6 @@
 #include <pybind11/eval.h>
 
 #include <G4coutDestination.hh>
-#include <G4strstreambuf.hh>
 #include <G4UImanager.hh>
 #include <G4LogicalVolumeStore.hh>
 #include <G4LogicalVolume.hh>
@@ -15,6 +14,10 @@
 #include <G4Material.hh>
 #include <G4RunManager.hh>
 #include <G4SurfaceProperty.hh>
+#include <G4Version.hh>
+#if G4VERSION_NUMBER < 1120
+#include <G4strstreambuf.hh>
+#endif
 
 #include <cstdlib>
 #include <vector>
@@ -27,27 +30,40 @@ namespace py = pybind11;
 class G4PyCoutDestination : public G4coutDestination {
 
 public:
-   G4int ReceiveG4cout(const G4String &coutString) override
+#if G4VERSION_NUMBER >= 1120
+   G4int ReceiveG4debug(const G4String &msg) override
    {
       py::gil_scoped_acquire gil;
       auto                   pystdout = py::module_::import("sys").attr("stdout").attr("write");
-      pystdout(coutString);
+      pystdout(msg);
+      return 0;
+   }
+#endif
+
+   G4int ReceiveG4cout(const G4String &msg) override
+   {
+      py::gil_scoped_acquire gil;
+      auto                   pystdout = py::module_::import("sys").attr("stdout").attr("write");
+      pystdout(msg);
       return 0;
    }
 
-   G4int ReceiveG4cerr(const G4String &cerrString) override
+   G4int ReceiveG4cerr(const G4String &msg) override
    {
       py::gil_scoped_acquire gil;
       auto                   pystderr = py::module_::import("sys").attr("stderr").attr("write");
-      pystderr(cerrString);
+      pystderr(msg);
       return 0;
    }
 };
 
 class G4NullCoutDestination : public G4coutDestination {
 public:
-   G4int ReceiveG4cout(const G4String &coutString) override { return 0; }
-   G4int ReceiveG4cerr(const G4String &cerrString) override { return 0; }
+#if G4VERSION_NUMBER >= 1120
+   G4int ReceiveG4debug(const G4String &) override { return 0; }
+#endif
+   G4int ReceiveG4cout(const G4String &) override { return 0; }
+   G4int ReceiveG4cerr(const G4String &) override { return 0; }
 };
 
 static bool endsWith(const std::string &str, const std::string &end)
@@ -101,8 +117,12 @@ PYBIND11_MODULE(geant4_pybind, m)
 
    G4UImanager::GetUIpointer();
    static G4PyCoutDestination pycout = G4PyCoutDestination();
+#if G4VERSION_NUMBER >= 1120
+   G4iosSetDestination(&pycout);
+#else
    G4coutbuf.SetDestination(&pycout);
    G4cerrbuf.SetDestination(&pycout);
+#endif
 
    py::module_ atexit = py::module_::import("atexit");
    atexit.attr("register")(py::cpp_function([]() {
@@ -112,8 +132,12 @@ PYBIND11_MODULE(geant4_pybind, m)
       delete G4RunManager::GetRunManager();
 
       static G4NullCoutDestination nullcout = G4NullCoutDestination();
+#if G4VERSION_NUMBER >= 1120
+      G4iosSetDestination(&nullcout);
+#else
       G4coutbuf.SetDestination(&nullcout);
       G4cerrbuf.SetDestination(&nullcout);
+#endif
 
       // Delete everything before the interpreter shuts down to properly clean up python objects
       G4LogicalVolumeStore::Clean();

@@ -17,6 +17,7 @@
 #include <G4VSensitiveDetector.hh>
 #include <G4SmartVoxelHeader.hh>
 #include <G4VisAttributes.hh>
+#include <G4Version.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -72,8 +73,11 @@ public:
 
 void export_G4TouchableHistory(py::module &m)
 {
+#if G4VERSION_NUMBER >= 1120
+   py::class_<G4TouchableHistory, PyG4TouchableHistory>(m, "G4TouchableHistory")
+#else
    py::class_<G4TouchableHistory, PyG4TouchableHistory, G4VTouchable>(m, "G4TouchableHistory")
-
+#endif
       .def(py::init<>())
       .def(py::init<const G4NavigationHistory &>(), py::arg("history"))
       .def("__copy__", [](const PyG4TouchableHistory &self) { return PyG4TouchableHistory(self); })
@@ -83,6 +87,7 @@ void export_G4TouchableHistory(py::module &m)
       .def("GetTranslation", &G4TouchableHistory::GetTranslation, py::arg("depth") = 0)
       .def("GetRotation", &G4TouchableHistory::GetRotation, py::arg("depth") = 0, py::return_value_policy::reference)
       .def("GetReplicaNumber", &G4TouchableHistory::GetReplicaNumber, py::arg("depth") = 0)
+      .def("GetCopyNumber", &G4TouchableHistory::GetCopyNumber, py::arg("depth") = 0)
       .def("GetHistoryDepth", &G4TouchableHistory::GetHistoryDepth)
       .def("MoveUpHistory", &G4TouchableHistory::MoveUpHistory, py::arg("num_levels") = 1)
       .def("UpdateYourself", &G4TouchableHistory::UpdateYourself, py::arg("pPhysVol"),

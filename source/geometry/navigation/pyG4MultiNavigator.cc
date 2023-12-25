@@ -36,6 +36,7 @@
 #include <G4Polyhedra.hh>
 #include <G4Hype.hh>
 #include <G4TransportationManager.hh>
+#include <G4Version.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -77,10 +78,17 @@ public:
       PYBIND11_OVERRIDE(G4double, G4MultiNavigator, ComputeSafety, globalpoint, pProposedMaxLength, keepState);
    }
 
+#if G4VERSION_NUMBER >= 1120
+   G4TouchableHandle CreateTouchableHistoryHandle() const override
+   {
+      PYBIND11_OVERRIDE(G4TouchableHandle, G4MultiNavigator, CreateTouchableHistoryHandle, );
+   }
+#else
    G4TouchableHistoryHandle CreateTouchableHistoryHandle() const override
    {
       PYBIND11_OVERRIDE(G4TouchableHistoryHandle, G4MultiNavigator, CreateTouchableHistoryHandle, );
    }
+#endif
 
    G4ThreeVector GetLocalExitNormal(G4bool *obtained) override
    {

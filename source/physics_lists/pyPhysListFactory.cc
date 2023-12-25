@@ -17,6 +17,7 @@ void export_PhysListFactory(py::module &m)
 
       .def("ReferencePhysList", &G4PhysListFactory::ReferencePhysList, py::return_value_policy::reference_internal)
       .def("IsReferencePhysList", &G4PhysListFactory::IsReferencePhysList)
-      .def("AvailablePhysLists", &G4PhysListFactory::AvailablePhysLists, py::return_value_policy::reference)
-      .def("AvailablePhysListsEM", &G4PhysListFactory::AvailablePhysListsEM, py::return_value_policy::reference);
+      .def("AvailablePhysLists", &G4PhysListFactory::AvailablePhysLists)
+      .def("AvailablePhysListsEM", &G4PhysListFactory::AvailablePhysListsEM)
+      .def("SetVerbose", &G4PhysListFactory::SetVerbose, py::arg("val"));
 }

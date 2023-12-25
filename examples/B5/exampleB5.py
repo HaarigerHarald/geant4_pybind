@@ -1073,6 +1073,9 @@ class B5RunAction(G4UserRunAction):
         # Get analysis manager
         analysisManager = G4AnalysisManager.Instance()
 
+        # Reset histograms from previous run
+        analysisManager.Reset()
+
         # Open an output file
         # The default file name is set in B5RunAction.B5RunAction()
         # it can be overwritten in a macro
@@ -1082,7 +1085,7 @@ class B5RunAction(G4UserRunAction):
         # save histograms & ntuple
         analysisManager = G4AnalysisManager.Instance()
         analysisManager.Write()
-        analysisManager.CloseFile()
+        analysisManager.CloseFile(False)
 
 
 class B5ActionInitialization(G4VUserActionInitialization):
