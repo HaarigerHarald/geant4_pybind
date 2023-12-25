@@ -12,7 +12,6 @@
 #include <G4VUserPrimaryGeneratorAction.hh>
 #include <G4UserEventAction.hh>
 #include <G4Timer.hh>
-#include <G4RunMessenger.hh>
 #include <G4DCtable.hh>
 #include <G4Run.hh>
 #include <G4Allocator.hh>

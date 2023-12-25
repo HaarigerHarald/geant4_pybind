@@ -10,6 +10,10 @@
 #include <G4HadronElasticPhysicsXS.hh>
 #include <G4HadronHElasticPhysics.hh>
 #include <G4IonElasticPhysics.hh>
+#include <G4Version.hh>
+#if G4VERSION_NUMBER >= 1120
+#include <G4HadronElasticPhysicsHPT.hh>
+#endif
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -33,4 +37,7 @@ void export_G4HadronElasticPhysics(py::module &m)
    ADD_HADRON_ELASTIC_PHYSICS(G4HadronElasticPhysicsXS);
    ADD_HADRON_ELASTIC_PHYSICS(G4HadronHElasticPhysics);
    ADD_HADRON_ELASTIC_PHYSICS(G4IonElasticPhysics);
+#if G4VERSION_NUMBER >= 1120
+   ADD_HADRON_ELASTIC_PHYSICS(G4HadronElasticPhysicsHPT);
+#endif
 }

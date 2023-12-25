@@ -21,6 +21,13 @@
 #include <QGSP_INCLXX_HP.hh>
 #include <QGS_BIC.hh>
 #include <Shielding.hh>
+#include <G4Version.hh>
+#if G4VERSION_NUMBER >= 1120
+#include <QGSP_BIC_HPT.hh>
+#include <QBBC_ABLA.hh>
+#include <ShieldingLEND.hh>
+#include <FTFQGSP_BERT.hh>
+#endif
 
 #include "typecast.hh"
 #include "opaques.hh"

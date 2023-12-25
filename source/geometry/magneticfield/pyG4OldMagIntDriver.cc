@@ -2,6 +2,8 @@
 #include <pybind11/stl.h>
 
 #include <G4OldMagIntDriver.hh>
+#include <G4MagIntegratorStepper.hh>
+#include <G4Version.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -20,7 +22,14 @@ public:
 
    void OnStartTracking() override { PYBIND11_OVERRIDE(void, G4OldMagIntDriver, OnStartTracking, ); }
 
+#if G4VERSION_NUMBER >= 1120
+   void OnComputeStep(const G4FieldTrack *track) override
+   {
+      PYBIND11_OVERRIDE(void, G4OldMagIntDriver, OnComputeStep, track);
+   }
+#else
    void OnComputeStep() override { PYBIND11_OVERRIDE(void, G4OldMagIntDriver, OnComputeStep, ); }
+#endif
 
    G4bool DoesReIntegrate() const override { PYBIND11_OVERRIDE(G4bool, G4OldMagIntDriver, DoesReIntegrate, ); }
 

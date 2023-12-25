@@ -5,6 +5,7 @@
 #include <G4VTrajectory.hh>
 #include <G4Track.hh>
 #include <G4ClassificationOfNewTrack.hh>
+#include <G4Event.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"

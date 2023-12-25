@@ -42,13 +42,6 @@ public:
       PYBIND11_OVERRIDE(G4ThreeVector, G4TwistTubsHypeSide, GetNormal, xx, isGlobal);
    }
 
-   EInside Inside(const G4ThreeVector &gp) override { PYBIND11_OVERRIDE(EInside, G4TwistTubsHypeSide, Inside, gp); }
-
-   G4double GetRhoAtPZ(const G4ThreeVector &p, G4bool isglobal) const override
-   {
-      PYBIND11_OVERRIDE(G4double, G4TwistTubsHypeSide, GetRhoAtPZ, p, isglobal);
-   }
-
    G4ThreeVector SurfacePoint(G4double arg0, G4double arg1, G4bool isGlobal) override
    {
       PYBIND11_OVERRIDE(G4ThreeVector, G4TwistTubsHypeSide, SurfacePoint, arg0, arg1, isGlobal);

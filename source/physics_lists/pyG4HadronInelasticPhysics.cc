@@ -19,6 +19,10 @@
 #include <G4HadronPhysicsQGSP_FTFP_BERT.hh>
 #include <G4HadronPhysicsShielding.hh>
 #include <G4HadronPhysicsShieldingLEND.hh>
+#include <G4Version.hh>
+#if G4VERSION_NUMBER >= 1120
+#include <G4HadronInelasticQBBC_ABLA.hh>
+#endif
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -51,4 +55,7 @@ void export_G4HadronInelasticPhysics(py::module &m)
    ADD_HADRON_INELASTIC_PHYSICS(G4HadronPhysicsQGSP_FTFP_BERT);
    ADD_HADRON_INELASTIC_PHYSICS(G4HadronPhysicsShielding);
    ADD_HADRON_INELASTIC_PHYSICS(G4HadronPhysicsShieldingLEND);
+#if G4VERSION_NUMBER >= 1120
+   ADD_HADRON_INELASTIC_PHYSICS(G4HadronInelasticQBBC_ABLA);
+#endif
 }

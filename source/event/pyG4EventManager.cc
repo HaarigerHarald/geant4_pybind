@@ -37,7 +37,6 @@ void export_G4EventManager(py::module &m)
       .def("ProcessOneEvent", py::overload_cast<G4TrackVector *, G4Event *>(&G4EventManager::ProcessOneEvent),
            py::arg("trackVector"), py::arg("anEvent") = static_cast<G4Event *>(nullptr))
 
-      .def("SetNumberOfAdditionalWaitingStacks", &G4EventManager::SetNumberOfAdditionalWaitingStacks, py::arg("iAdd"))
       .def(
          "SetPrimaryTransformer",
          [](G4EventManager &self, py::disown_ptr<G4PrimaryTransformer> tf) { self.SetPrimaryTransformer(tf); },

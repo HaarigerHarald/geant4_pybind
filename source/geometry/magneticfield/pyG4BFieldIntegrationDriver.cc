@@ -3,6 +3,8 @@
 
 #include <G4BFieldIntegrationDriver.hh>
 #include <G4MagneticField.hh>
+#include <G4MagIntegratorStepper.hh>
+#include <G4Version.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -67,7 +69,14 @@ public:
 
    G4int GetVerboseLevel() const override { PYBIND11_OVERRIDE(G4int, G4BFieldIntegrationDriver, GetVerboseLevel, ); }
 
+#if G4VERSION_NUMBER >= 1120
+   void OnComputeStep(const G4FieldTrack *track) override
+   {
+      PYBIND11_OVERRIDE(void, G4BFieldIntegrationDriver, OnComputeStep, track);
+   }
+#else
    void OnComputeStep() override { PYBIND11_OVERRIDE(void, G4BFieldIntegrationDriver, OnComputeStep, ); }
+#endif
 
    void OnStartTracking() override { PYBIND11_OVERRIDE(void, G4BFieldIntegrationDriver, OnStartTracking, ); }
 

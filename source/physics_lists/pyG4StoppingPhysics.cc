@@ -3,6 +3,10 @@
 
 #include <G4StoppingPhysics.hh>
 #include <G4StoppingPhysicsFritiofWithBinaryCascade.hh>
+#include <G4Version.hh>
+#if G4VERSION_NUMBER >= 1120
+#include <G4StoppingPhysicsWithINCLXX.hh>
+#endif
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -19,4 +23,8 @@ void export_G4StoppingPhysics(py::module &m)
 {
    ADD_STOPPING_PHYSICS(G4StoppingPhysics);
    ADD_STOPPING_PHYSICS(G4StoppingPhysicsFritiofWithBinaryCascade);
+#if G4VERSION_NUMBER >= 1120
+   ADD_STOPPING_PHYSICS(G4StoppingPhysicsWithINCLXX)
+      .def("SetMuonMinusCapture", &G4StoppingPhysicsWithINCLXX::SetMuonMinusCapture);
+#endif
 }

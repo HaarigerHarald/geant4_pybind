@@ -1,6 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -112,9 +114,9 @@ void export_modG4geometry(py::module &m)
    EXPORT_G4HEADER(G4NavigationHistory, m);
    EXPORT_G4HEADER(G4VoxelLimits, m);
 
+#if G4VERSION_NUMBER < 1120
    EXPORT_G4HEADER(G4VTouchable, m);
-   EXPORT_G4HEADER(G4GRSSolid, m);
-   EXPORT_G4HEADER(G4GRSVolume, m);
+#endif
    EXPORT_G4HEADER(G4TouchableHistory, m);
 
    EXPORT_G4HEADER(G4VSolid, m);

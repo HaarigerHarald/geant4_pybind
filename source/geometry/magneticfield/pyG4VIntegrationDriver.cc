@@ -2,6 +2,8 @@
 #include <pybind11/stl.h>
 
 #include <G4VIntegrationDriver.hh>
+#include <G4MagIntegratorStepper.hh>
+#include <G4Version.hh>
 
 #include <limits>
 
@@ -41,7 +43,14 @@ public:
 
    G4int GetVerboseLevel() const override { PYBIND11_OVERRIDE_PURE(G4int, G4VIntegrationDriver, GetVerboseLevel, ); }
 
+#if G4VERSION_NUMBER >= 1120
+   void OnComputeStep(const G4FieldTrack *track) override
+   {
+      PYBIND11_OVERRIDE_PURE(void, G4VIntegrationDriver, OnComputeStep, track);
+   }
+#else
    void OnComputeStep() override { PYBIND11_OVERRIDE_PURE(void, G4VIntegrationDriver, OnComputeStep, ); }
+#endif
 
    void OnStartTracking() override { PYBIND11_OVERRIDE_PURE(void, G4VIntegrationDriver, OnStartTracking, ); }
 

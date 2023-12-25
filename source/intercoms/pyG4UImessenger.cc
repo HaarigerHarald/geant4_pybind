@@ -34,7 +34,5 @@ void export_G4UImessenger(py::module &m)
 
       .def("GetCurrentValue", &G4UImessenger::GetCurrentValue)
       .def("SetNewValue", &G4UImessenger::SetNewValue)
-      .def("CommandsShouldBeInMaster", &G4UImessenger::CommandsShouldBeInMaster)
-      .def(py::self == py::self)
-      .def(py::self != py::self);
+      .def("CommandsShouldBeInMaster", &G4UImessenger::CommandsShouldBeInMaster);
 }
