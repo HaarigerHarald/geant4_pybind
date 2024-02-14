@@ -286,41 +286,42 @@ def runSim(processNum):
     return edep, edep2, mass, nofEvents
 
 
-NUM_PROCESSES = 8
+if __name__ == "__main__":
+    NUM_PROCESSES = 8
 
-edep, edep2, mass, nofEvents = 0, 0, 0, 0
+    edep, edep2, mass, nofEvents = 0, 0, 0, 0
 
-with multiprocessing.pool.Pool(NUM_PROCESSES) as pool:
-    for edep_i, edep2_i, mass_i, nofEvents_i in pool.map(runSim, range(NUM_PROCESSES)):
-        edep += edep_i
-        edep2 += edep2_i
-        mass = mass_i
-        nofEvents += nofEvents_i
+    with multiprocessing.pool.Pool(NUM_PROCESSES) as pool:
+        for edep_i, edep2_i, mass_i, nofEvents_i in pool.map(runSim, range(NUM_PROCESSES)):
+            edep += edep_i
+            edep2 += edep2_i
+            mass = mass_i
+            nofEvents += nofEvents_i
 
 
-# Compute dose = total energy deposit in a run and its variance
-rms = edep2 - edep*edep/nofEvents
-if rms > 0:
-    rms = math.sqrt(rms)
-else:
-    rms = 0
+    # Compute dose = total energy deposit in a run and its variance
+    rms = edep2 - edep*edep/nofEvents
+    if rms > 0:
+        rms = math.sqrt(rms)
+    else:
+        rms = 0
 
-dose = edep/mass
-rmsDose = rms/mass
+    dose = edep/mass
+    rmsDose = rms/mass
 
-milligray = 1.e-3*gray
-microgray = 1.e-6*gray
-nanogray = 1.e-9*gray
-picogray = 1.e-12*gray
+    milligray = 1.e-3*gray
+    microgray = 1.e-6*gray
+    nanogray = 1.e-9*gray
+    picogray = 1.e-12*gray
 
-G4UnitDefinition("milligray", "milliGy", "Dose", milligray)
-G4UnitDefinition("microgray", "microGy", "Dose", microgray)
-G4UnitDefinition("nanogray", "nanoGy", "Dose", nanogray)
-G4UnitDefinition("picogray", "picoGy", "Dose", picogray)
+    G4UnitDefinition("milligray", "milliGy", "Dose", milligray)
+    G4UnitDefinition("microgray", "microGy", "Dose", microgray)
+    G4UnitDefinition("nanogray", "nanoGy", "Dose", nanogray)
+    G4UnitDefinition("picogray", "picoGy", "Dose", picogray)
 
-print("--------------------End of Global Run-----------------------")
-print(" The run consists of", nofEvents, "Events")
-print(" Cumulated dose per run, in scoring volume: ", end="")
-print("{:.5f} rms = {:.5f}".format(G4BestUnit(dose, "Dose"), G4BestUnit(rmsDose, "Dose")))
-print("------------------------------------------------------------")
+    print("--------------------End of Global Run-----------------------")
+    print(" The run consists of", nofEvents, "Events")
+    print(" Cumulated dose per run, in scoring volume: ", end="")
+    print("{:.5f} rms = {:.5f}".format(G4BestUnit(dose, "Dose"), G4BestUnit(rmsDose, "Dose")))
+    print("------------------------------------------------------------")
 
