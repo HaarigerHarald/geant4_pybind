@@ -71,6 +71,10 @@ ui.SessionStart()
 
 Check out the [examples](https://github.com/HaarigerHarald/geant4_pybind/tree/main/examples) directory, which contains the Geant4 basic examples ported to Python. However, writing simulations in Python should be pretty straightforward as the API is almost identical to the C++ one. One notable exception is template classes, which have been renamed such that their type replaces the `T` (i.e. `G4TScoreNtupleWriter<G4GenericAnalysisManager>` becomes `G4GenericScoreNtupleWriter`).
 
+**Parallelism**
+
+One main caveat of using Python for Geant4 simulations is the [global interpreter lock (GIL)](https://docs.python.org/3/glossary.html#term-global-interpreter-lock) that prevents Python code from being executed on multiple threads at the same time. Thus, using any of the multithreaded `RunManagers` in Python just increases complexity without the benefit of a better runtime. In order to circumvent this limitation and achieve some parallelism, one can facilitate Python's [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) module. An example of how one might do this is [exampleB1MT.py](https://github.com/HaarigerHarald/geant4_pybind/blob/main/examples/B1/exampleB1MT.py).
+
 ## Design
 
 There is a small [overview](https://github.com/HaarigerHarald/geant4_pybind/blob/main/DESIGN.md), outlining the design choices made. It should be helpful to anyone seeking to extend the bindings.

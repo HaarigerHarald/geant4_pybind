@@ -21,6 +21,7 @@ def test_example(dir, py_file, macro_file, out_file, extra_params=[]):
 os.environ['G4FORCE_RUN_MANAGER_TYPE'] = 'Serial'
 
 test_example('B1', 'exampleB1.py', 'exampleB1.in', 'exampleB1.out')
+test_example('B1', 'exampleB1MT.py', '', False)
 
 test_example('B2', 'exampleB2a.py', 'exampleB2.in', 'exampleB2a.out')
 test_example('B2', 'exampleB2b.py', 'exampleB2.in', 'exampleB2b.out')
