@@ -152,7 +152,7 @@ jobs:
           path: ${{ github.workspace }}/.geant4_pybind
           enableCrossOsArchive: true
 
-      - uses: pypa/cibuildwheel@v2.16.2
+      - uses: pypa/cibuildwheel@v2.16.5
         env:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >
