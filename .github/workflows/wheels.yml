@@ -29,7 +29,7 @@ jobs:
       - name: Build SDist
         run: python setup.py sdist
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: dist/*.tar.gz
 
@@ -56,7 +56,7 @@ jobs:
           submodules: true
 
       - name: Cache xerces-c install
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: runner.os == 'Windows'
         id: xerces-cache
         with:
@@ -64,7 +64,7 @@ jobs:
           key: ${{ env.XERCES_C_GIT_REF }}
 
       - name: Cache Geant4 install
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: runner.os == 'Windows'
         id: g4cache
         with:
@@ -146,7 +146,7 @@ jobs:
 
       - name: Cache Geant4 datasets
         if: runner.os != 'Linux'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: ${{ env.GEANT4_GIT_TAG }}-datasets
           path: ${{ github.workspace }}/.geant4_pybind
@@ -278,7 +278,7 @@ jobs:
           CIBW_TEST_COMMAND_MACOS: HOME={package} python {package}/tests/test_B1.py
           CIBW_TEST_COMMAND_WINDOWS: python {package}/tests/test_B1.py
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: wheelhouse/*.whl
 
@@ -289,9 +289,9 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
 
     steps:
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: artifact
           path: dist

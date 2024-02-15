@@ -35,14 +35,14 @@ jobs:
 
     steps:
       - name: Cache Geant4 install
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: g4cache
         with:
           path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
           key: ${{ env.GEANT4_GIT_TAG }}-${{ env.XERCES_C_GIT_REF }}
 
       - name: Cache xerces-c install
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: xerces-cache
         with:
           path: ${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}
@@ -147,7 +147,7 @@ jobs:
           submodules: true
           path: ${{ github.event.repository.name }}
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -158,7 +158,7 @@ jobs:
         run: python -m pip install "${{ github.workspace }}/${{ github.event.repository.name }}"
 
       - name: Cache Geant4 datasets
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: ${{ env.GEANT4_GIT_TAG }}-datasets
           path: ${{ github.workspace }}/.geant4_pybind
