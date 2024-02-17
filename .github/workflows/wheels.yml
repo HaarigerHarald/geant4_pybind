@@ -32,6 +32,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           path: dist/*.tar.gz
+          name: sdist
 
   build_wheels:
     name: ${{ matrix.config.os }} ${{ matrix.config.arch }} - ${{ matrix.config.build-pattern }}
@@ -280,6 +281,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: wheels-${{ matrix.os }}-${{ strategy.job-index }}
           path: wheelhouse/*.whl
 
   upload_all:
@@ -293,8 +295,8 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: artifact
           path: dist
+          merge-multiple: true
 
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
