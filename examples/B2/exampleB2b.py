@@ -413,7 +413,7 @@ class B2PrimaryGeneratorAction(G4VUserPrimaryGeneratorAction):
 
         # Note that this particular case of starting a primary particle on the world boundary
         # requires shooting in a direction towards inside the world.
-        self.fParticleGun.SetParticlePosition(G4ThreeVector(0, 0, -worldZHalfLength))
+        self.fParticleGun.SetParticlePosition(G4ThreeVector(0, 0, -worldZHalfLength + 1*um))
         self.fParticleGun.GeneratePrimaryVertex(anEvent)
 
 

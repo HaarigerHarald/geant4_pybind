@@ -1,7 +1,7 @@
 Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
- Geant4 version Name: geant4-11-02 [MT]   (8-December-2023)
+ Geant4 version Name: geant4-11-02-patch-01 [MT]   (16-February-2024)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -824,15 +824,15 @@ See commands in /vis/modeling/trajectories/ for other options.
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 264.3993649220026 MeV       total track length: 19.08976550002452 cm 
-        Gap: total energy: 18.08250039607511 MeV       total track length: 8.603302173462238 cm 
+   Absorber: total energy: 265.7812324042694 MeV       total track length: 19.32602090433879 cm 
+        Gap: total energy: 21.05605935028195 MeV       total track length: 10.64541514473329 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 264.3993649220026 MeV rms = 0 eV 
- EGap : mean = 18.08250039607511 MeV rms = 0 eV 
- LAbs : mean =  19.08976550002452 cm  rms = 0 fm 
- LGap : mean = 8.603302173462238 cm  rms = 0 fm 
+ EAbs : mean = 265.7812324042694 MeV rms = 0 eV 
+ EGap : mean = 21.05605935028195 MeV rms = 0 eV 
+ LAbs : mean =  19.32602090433879 cm  rms = 0 fm 
+ LGap : mean = 10.64541514473329 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
 There are histograms that can be viewed with visualization:
@@ -901,15 +901,15 @@ hFritiofCaptureAtRest,hBertiniCaptureAtRest,muMinusCaptureAtRest,         dInela
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 263.9279281578626 MeV       total track length: 19.03009213612632 cm 
-        Gap: total energy: 21.77613636863769 MeV       total track length: 10.62057208485699 cm 
+   Absorber: total energy: 273.1244430802375 MeV       total track length: 20.16456657877432 cm 
+        Gap: total energy: 16.26560432333922 MeV       total track length: 7.733724784292404 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 263.9279281578626 MeV rms = 0 eV 
- EGap : mean = 21.77613636863769 MeV rms = 0 eV 
- LAbs : mean =  19.03009213612632 cm  rms = 0 fm 
- LGap : mean = 10.62057208485699 cm  rms = 0 fm 
+ EAbs : mean = 273.1244430802375 MeV rms = 0 eV 
+ EGap : mean = 16.26560432333922 MeV rms = 0 eV 
+ LAbs : mean =  20.16456657877432 cm  rms = 0 fm 
+ LGap : mean = 7.733724784292404 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
 There are histograms that can be viewed with visualization:
@@ -924,15 +924,15 @@ There are histograms that can be viewed with visualization:
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 431.5076782577234 MeV       total track length: 31.23152078573529 cm 
-        Gap: total energy: 25.77548117664445 MeV       total track length: 12.76152173645608 cm 
+   Absorber: total energy: 465.7156402543708 MeV       total track length: 34.00472547850998 cm 
+        Gap: total energy: 15.14628164605601 MeV       total track length: 7.88173049921437 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 431.5076782577234 MeV rms = 0 eV 
- EGap : mean = 25.77548117664445 MeV rms = 0 eV 
- LAbs : mean =  31.23152078573529 cm  rms = 0 fm 
- LGap : mean = 12.76152173645608 cm  rms = 0 fm 
+ EAbs : mean = 465.7156402543708 MeV rms = 0 eV 
+ EGap : mean = 15.14628164605601 MeV rms = 0 eV 
+ LAbs : mean =  34.00472547850998 cm  rms = 0 fm 
+ LGap : mean = 7.88173049921437 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
 There are histograms that can be viewed with visualization:

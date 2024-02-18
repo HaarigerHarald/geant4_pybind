@@ -1,7 +1,7 @@
 Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
- Geant4 version Name: geant4-11-02 [MT]   (8-December-2023)
+ Geant4 version Name: geant4-11-02-patch-01 [MT]   (16-February-2024)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -810,7 +810,7 @@ See commands in /vis/modeling/trajectories/ for other options.
 --> Event 900 starts.
 --------------------End of Global Run-----------------------
  The run consists of 1000 proton(s) of 210 MeV
- Cumulated dose per run, in scoring volume: 5.06408 nanoGy  rms = 145.71222 picoGy 
+ Cumulated dose per run, in scoring volume: 5.05669 nanoGy  rms = 147.00913 picoGy 
 ------------------------------------------------------------
 
 Graphics systems deleted.
