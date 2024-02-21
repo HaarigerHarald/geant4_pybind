@@ -274,6 +274,7 @@ jobs:
             sudo make install
           CIBW_ARCHS: ${{ matrix.config.arch }}
           CIBW_BUILD: ${{ matrix.config.build-pattern }}
+          CIBW_SKIP: cp38-macosx_arm64
           CIBW_BEFORE_BUILD: rm -rf {project}/build
           CIBW_TEST_COMMAND_MACOS: HOME={package} python {package}/tests/test_B1.py
           CIBW_TEST_COMMAND_WINDOWS: python {package}/tests/test_B1.py
