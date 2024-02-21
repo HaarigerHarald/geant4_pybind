@@ -45,7 +45,7 @@ jobs:
             { os: windows-latest, arch: AMD64, build-pattern: pp* },
             { os: macos-latest, arch: x86_64, build-pattern: cp* },
             { os: macos-latest, arch: x86_64, build-pattern: pp* },
-            { os: macos-latest, arch: arm64, build-pattern: cp* },
+            { os: macos-14, arch: arm64, build-pattern: cp* },
             { os: ubuntu-latest, arch: x86_64, build-pattern: cp*-manylinux* },
             { os: ubuntu-latest, arch: x86_64, build-pattern: pp*-manylinux* },
             { os: ubuntu-latest, arch: x86_64, build-pattern: cp*-musllinux* },
@@ -217,9 +217,7 @@ jobs:
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
             make -j8 &&
             make install
-          CIBW_ENVIRONMENT_MACOS: >
-            CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=10.15
-            ${{ matrix.config.arch == 'arm64' && 'SKIP_PYBIND11_STUBGEN=1' || '' }}
+          CIBW_ENVIRONMENT_MACOS: CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=10.15
           CIBW_BEFORE_ALL_MACOS: >
             python3 -m pip install cmake &&
             git clone https://github.com/apache/xerces-c

@@ -79,12 +79,11 @@ class CMakeBuild(build_ext):
         if "PYTHONPATH" in os.environ:
             python_path += os.pathsep + os.environ["PYTHONPATH"]
 
-        if not "SKIP_PYBIND11_STUBGEN" in os.environ:
-            # Automatically generate stubs
-            subprocess.check_call(
-                ["pybind11-stubgen", "-o", extdir, "--ignore-all-errors", "geant4_pybind"],
-                env=dict(os.environ, PYTHONPATH=python_path)
-            )
+        # Automatically generate stubs
+        subprocess.check_call(
+            ["pybind11-stubgen", "-o", extdir, "--ignore-all-errors", "geant4_pybind"],
+            env=dict(os.environ, PYTHONPATH=python_path)
+        )
 
 
 with open("README.md", "r") as readme:
