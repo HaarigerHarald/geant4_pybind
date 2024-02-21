@@ -233,7 +233,7 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
             make -j8 &&
-            make install &&
+            sudo make install &&
 
             echo -e "\n\n\nThis software contains parts of Qt5
             licensed under GPL-2.0, GPL-3.0 and LGPL-3.0.
@@ -250,7 +250,7 @@ jobs:
             -nomake examples -nomake tools -nomake tests -static QMAKE_APPLE_DEVICE_ARCHS="x86_64 arm64"
             -prefix "{package}/qt5_install" &&
             make -j8 &&
-            make install &&
+            sudo make install &&
 
             git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
             https://github.com/Geant4/geant4
@@ -270,7 +270,7 @@ jobs:
             -DGEANT4_USE_QT=ON
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
             make -j8 &&
-            make install
+            sudo make install
           CIBW_ARCHS: ${{ matrix.config.arch }}
           CIBW_BUILD: ${{ matrix.config.build-pattern }}
           CIBW_BEFORE_BUILD: rm -rf {project}/build
