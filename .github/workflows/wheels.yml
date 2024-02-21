@@ -242,9 +242,10 @@ jobs:
             \nFor information on how Qt5 was built please see:
             https://github.com/HaarigerHarald/geant4_pybind/blob/main/.github/workflows/wheels.yml
             \n\n" >> "{package}/EXTRA_LICENSES" &&
-            git clone -b v5.15.11-lts-lgpl --depth 1 https://github.com/qt/qt5 "{package}/qt5" &&
+            git clone -b v5.15.12-lts-lgpl --depth 1 https://github.com/qt/qt5 "{package}/qt5" &&
             cd "{package}/qt5" &&
             git submodule update --init --recursive --depth 1 qt3d qtbase &&
+            git apply --directory=qtbase {package}/.github/workflow-aux/qt_xcode15.patch &&
             ./configure -opensource -confirm-license -release -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype
             -qt-harfbuzz -qt-pcre -skip qtwebengine -no-feature-sqlmodel -skip qtconnectivity -skip qtdoc
             -nomake examples -nomake tools -nomake tests -static QMAKE_APPLE_DEVICE_ARCHS="x86_64 arm64"
