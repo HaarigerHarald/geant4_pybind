@@ -15,6 +15,8 @@ void export_G4VCrossSectionHandler(py::module &);
 void export_G4CrossSectionHandler(py::module &);
 void export_G4ProcessTable(py::module &);
 void export_G4ProcessManager(py::module &);
+void export_G4EmParameters(py::module &);
+void export_G4HadronicParameters(py::module &);
 
 void export_modG4processes(py::module &m)
 {
@@ -27,4 +29,6 @@ void export_modG4processes(py::module &m)
    export_G4CrossSectionHandler(m);
    export_G4ProcessTable(m);
    export_G4ProcessManager(m);
+   export_G4EmParameters(m);
+   export_G4HadronicParameters(m);
 }
