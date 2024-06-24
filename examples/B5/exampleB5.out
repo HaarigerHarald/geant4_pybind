@@ -1017,8 +1017,8 @@ Drift Chamber 2 has 5 hits.
   Layer[ 2 ] : time 37.70380632617566 (nsec) --- local (x,y) -115.71894544954262 , 0.0691550825214608
   Layer[ 3 ] : time 39.37253833790729 (nsec) --- local (x,y) -132.23737747471637 , 0.06598930978331816
   Layer[ 4 ] : time 41.04127084516066 (nsec) --- local (x,y) -148.76030852486087 , 0.061416145800082304
-EM Calorimeter has 57 hits. Total Edep is 1142.575416269024 (MeV)
-Hadron Calorimeter has 15 hits. Total Edep is 3942.7745812641615 (MeV)
+EM Calorimeter has 57 hits. Total Edep is 1142.575416268986 (MeV)
+Hadron Calorimeter has 15 hits. Total Edep is 3942.7745814578184 (MeV)
 ... write file : B5.root - done
 ... write file : B5ntuple.root - done
 ... close file : B5.root - done
