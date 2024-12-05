@@ -95,7 +95,7 @@ if len(sys.argv) == 2:
 
 
 parser = G4GDMLParser()
-parser.Read(sys.argv[1])
+parser.Read(sys.argv[1], False)
 
 runManager = G4RunManagerFactory.CreateRunManager(G4RunManagerType.Serial)
 
