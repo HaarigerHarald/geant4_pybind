@@ -52,8 +52,12 @@ void export_G4MultiSensitiveDetector(py::module &m)
       .def("DrawAll", &G4MultiSensitiveDetector::DrawAll)
       .def("PrintAll", &G4MultiSensitiveDetector::PrintAll)
       .def("ProcessHits", &PublicG4MultiSensitiveDetector::ProcessHits)
-      .def("GetSD", &G4MultiSensitiveDetector::GetSD)
+      .def("GetSD", &G4MultiSensitiveDetector::GetSD, py::arg("i"), py::return_value_policy::reference)
       .def("GetSize", &G4MultiSensitiveDetector::GetSize)
       .def("ClearSDs", &G4MultiSensitiveDetector::ClearSDs)
-      .def("AddSD", &G4MultiSensitiveDetector::AddSD);
+      .def("AddSD", &G4MultiSensitiveDetector::AddSD, py::arg("sd"))
+      .def("Clone", &G4MultiSensitiveDetector::Clone)
+      .def(
+         "__iter__", [](G4MultiSensitiveDetector &self) { return py::make_iterator(self.GetBegin(), self.GetEnd()); },
+         py::keep_alive<0, 1>(), py::is_operator(), py::return_value_policy::reference);
 }
