@@ -141,7 +141,7 @@ jobs:
           echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
           echo "HOME=${{ github.workspace }}" >> $GITHUB_ENV
           echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
-          echo "DCMAKE_PREFIX_PATH=${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}" >> $GITHUB_ENV
+          echo "CMAKE_PREFIX_PATH=${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}" >> $GITHUB_ENV
 
       - uses: actions/checkout@v4
         with:
