@@ -159,6 +159,11 @@ jobs:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >
             python3 -m pip install cmake &&
+
+            yum install -y libXt-devel libXmu-devel mesa-libGL-devel libxkbcommon-devel fontconfig-devel libcurl-devel ||
+            apt-get install -y libxt-dev libxmu-dev libgl1-mesa-dev libxkbcommon-dev libfontconfig1-dev libcurl-dev ||
+            apk add libxt-dev libxmu-dev libexecinfo-dev mesa-dev libxkbcommon-dev fontconfig-dev libcurl-dev &&
+
             git clone https://github.com/apache/xerces-c
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
             cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
@@ -166,16 +171,12 @@ jobs:
             mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
             cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
             cmake
-            -Dnetwork-accessor=socket
+            -Dnetwork-accessor=curl
             -Dtranscoder=iconv
             -DBUILD_SHARED_LIBS=OFF
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
             make -j8 &&
             make install &&
-
-            yum install -y libXt-devel libXmu-devel mesa-libGL-devel libxkbcommon-devel fontconfig-devel ||
-            apt-get install -y libxt-dev libxmu-dev libgl1-mesa-dev libxkbcommon-dev libfontconfig1-dev ||
-            apk add libxt-dev libxmu-dev libexecinfo-dev mesa-dev libxkbcommon-dev fontconfig-dev &&
 
             echo -e "\n\n\nThis software contains parts of Qt5
             licensed under GPL-2.0, GPL-3.0 and LGPL-3.0.
@@ -231,7 +232,7 @@ jobs:
             cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
             cmake
             -DCMAKE_OSX_ARCHITECTURES=${{ matrix.config.arch }}
-            -Dnetwork-accessor=socket
+            -Dnetwork-accessor=curl
             -Dtranscoder=iconv
             -DBUILD_SHARED_LIBS=OFF
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
