@@ -16,7 +16,11 @@ class PyG4UIcommand : public G4UIcommand {
 public:
    using G4UIcommand::G4UIcommand;
 
+#if G4VERSION_NUMBER >= 1130
+   G4int DoIt(const G4String &parameterList) override { PYBIND11_OVERRIDE(G4int, G4UIcommand, DoIt, parameterList); }
+#else
    G4int DoIt(G4String parameterList) override { PYBIND11_OVERRIDE(G4int, G4UIcommand, DoIt, parameterList); }
+#endif
 
    void List() override { PYBIND11_OVERRIDE(void, G4UIcommand, List, ); }
 };

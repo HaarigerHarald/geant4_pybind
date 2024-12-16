@@ -15,6 +15,8 @@
 #include <G4Event.hh>
 #include <G4PrimaryVertex.hh>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -51,6 +53,10 @@ void export_G4PrimaryTransformer(py::module &m)
       .def("GimmePrimaries", &G4PrimaryTransformer::GimmePrimaries, py::arg("anEvent"), py::arg("trackIDCounter") = 0,
            py::return_value_policy::reference)
 
+#if G4VERSION_NUMBER >= 1130
+      .def("SetUnknownParticleDefined", &G4PrimaryTransformer::SetUnknownParticleDefined, py::arg("vl"))
+#else
       .def("SetUnknnownParticleDefined", &G4PrimaryTransformer::SetUnknnownParticleDefined, py::arg("vl"))
+#endif
       .def("SetVerboseLevel", &G4PrimaryTransformer::SetVerboseLevel, py::arg("vl"));
 }

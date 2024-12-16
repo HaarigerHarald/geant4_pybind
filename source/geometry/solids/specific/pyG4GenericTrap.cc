@@ -10,6 +10,7 @@
 #include <G4VisExtent.hh>
 #include <G4DisplacedSolid.hh>
 #include <G4VisAttributes.hh>
+#include <G4Polyhedron.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"

@@ -4,6 +4,8 @@
 #include <G4UIcmdWithADoubleAndUnit.hh>
 #include <G4UImessenger.hh>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -13,7 +15,11 @@ class PyG4UIcmdWithADoubleAndUnit : public G4UIcmdWithADoubleAndUnit {
 public:
    using G4UIcmdWithADoubleAndUnit::G4UIcmdWithADoubleAndUnit;
 
+#if G4VERSION_NUMBER >= 1130
+   G4int DoIt(const G4String &parameterList) override
+#else
    G4int DoIt(G4String parameterList) override
+#endif
    {
       PYBIND11_OVERRIDE(G4int, G4UIcmdWithADoubleAndUnit, DoIt, parameterList);
    }

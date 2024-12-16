@@ -4,6 +4,8 @@
 #include <G4SDManager.hh>
 #include <G4MultiFunctionalDetector.hh>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -22,7 +24,11 @@ void export_G4SDManager(py::module &m)
            [](G4SDManager &self, py::disown_ptr<G4VSensitiveDetector> aSD) { self.AddNewDetector(aSD); })
 
       .def("Activate", &G4SDManager::Activate)
+#if G4VERSION_NUMBER >= 1130
+      .def("GetCollectionID", py::overload_cast<const G4String &>(&G4SDManager::GetCollectionID))
+#else
       .def("GetCollectionID", py::overload_cast<G4String>(&G4SDManager::GetCollectionID))
+#endif
       .def("GetCollectionID", py::overload_cast<G4VHitsCollection *>(&G4SDManager::GetCollectionID))
 
       .def("FindSensitiveDetector", &G4SDManager::FindSensitiveDetector, py::arg("dName"), py::arg("warning") = true,

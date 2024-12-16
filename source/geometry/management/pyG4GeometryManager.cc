@@ -6,6 +6,8 @@
 #include <G4SmartVoxelHeader.hh>
 #include <G4VPhysicalVolume.hh>
 
+#include <G4Version.hh>
+
 #include "typecast.hh"
 #include "opaques.hh"
 
@@ -21,7 +23,11 @@ void export_G4GeometryManager(py::module &m)
            py::arg("vol") = static_cast<G4VPhysicalVolume *>(nullptr))
 
       .def("OpenGeometry", &G4GeometryManager::OpenGeometry, py::arg("vol") = static_cast<G4VPhysicalVolume *>(nullptr))
+#if G4VERSION_NUMBER >= 1130
+      .def("IsGeometryClosed", &G4GeometryManager::IsGeometryClosed)
+#else
       .def_static("IsGeometryClosed", &G4GeometryManager::IsGeometryClosed)
+#endif
       .def("SetWorldMaximumExtent", &G4GeometryManager::SetWorldMaximumExtent, py::arg("worldExtent"))
       .def_static("GetInstance", &G4GeometryManager::GetInstance, py::return_value_policy::reference)
       .def_static("GetInstanceIfExist", &G4GeometryManager::GetInstanceIfExist, py::return_value_policy::reference);
