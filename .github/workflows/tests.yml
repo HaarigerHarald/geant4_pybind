@@ -26,12 +26,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
-        python-version: ["3.7", "3.13"]
+        python-version: ["3.9", "3.13"]
         exclude:
           - os: macos-latest
-            python-version: "3.7"
+            python-version: "3.9"
           - os: windows-latest
-            python-version: "3.7"
+            python-version: "3.9"
 
     steps:
       - name: Cache Geant4 install
@@ -138,9 +138,9 @@ jobs:
         shell: bash
         run: |
           echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
-          echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
           echo "HOME=${{ github.workspace }}" >> $GITHUB_ENV
           echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
+          echo "CMAKE_PREFIX_PATH=${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}" >> $GITHUB_ENV
 
       - uses: actions/checkout@v4
         with:
