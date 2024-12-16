@@ -156,7 +156,7 @@ jobs:
 
       - uses: pypa/cibuildwheel@v2.22.0
         env:
-          CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC' CMAKE_PREFIX_PATH="{package}/qt5_install"
+          CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC' QT_DIR="{package}/qt5_install"
           CIBW_BEFORE_ALL_LINUX: >
             python3 -m pip install cmake &&
 
@@ -222,7 +222,7 @@ jobs:
           CIBW_ENVIRONMENT_MACOS: >
             CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=10.15
             ${{ matrix.config.arch == 'arm64' && 'SKIP_PYBIND11_STUBGEN=1' || '' }}
-            CMAKE_PREFIX_PATH="{package}/qt5_install"
+            QT_DIR="{package}/qt5_install"
           CIBW_BEFORE_ALL_MACOS: >
             brew install cmake &&
             git clone https://github.com/apache/xerces-c
