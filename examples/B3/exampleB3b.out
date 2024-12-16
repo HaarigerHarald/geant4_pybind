@@ -1,7 +1,7 @@
 Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
- Geant4 version Name: geant4-11-02-patch-02 [MT]   (21-June-2024)
+ Geant4 version Name: geant4-11-03 [MT]   (6-December-2024)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -21,12 +21,17 @@ Registered graphics systems are:
   RayTracer (RayTracer)
   VRML2FILE (VRML2FILE)
   gMocrenFile (gMocrenFile)
-  TOOLSSG_OFFSCREEN (TSG_OFFSCREEN)
   TOOLSSG_OFFSCREEN (TSG_OFFSCREEN, TSG_FILE, TSG)
-Default graphics system is: TSG_OFFSCREEN (based on batch session).
-Default window size hint is: 600x600-0+0 (based on G4VisManager initialisation).
-Note: Parameters specified on the command line will override these defaults.
-      Use "vis/open" without parameters to get these defaults.
+You may choose a graphics system (driver) with a parameter of
+the command "/vis/open" or "/vis/sceneHandler/create",
+or you may omit the driver parameter and choose at run time:
+- by argument in the construction of G4VisExecutive;
+- by environment variable "G4VIS_DEFAULT_DRIVER";
+- by entry in "~/.g4session";
+- by build flags.
+- Note: This feature is not allowed in batch mode.
+For further information see "examples/basic/B1/exampleB1.cc"
+and "vis.mac".
 
 Registering model factories...
 
@@ -221,10 +226,13 @@ Bremsstrahlung energy threshold above which
   primary e+- is added to the list of secondary    100 TeV
 Bremsstrahlung energy threshold above which primary
   muon/hadron is added to the list of secondary    100 TeV
+Positron annihilation at rest model                SimplePositronium
+Enable 3 gamma annihilation on fly                 0
 Lowest triplet kinetic energy                      1 MeV
 Enable sampling of gamma linear polarisation       0
 5D gamma conversion model type                     0
 5D gamma conversion model on isolated ion          0
+Use Ricardo-Gerardo pair production model          0
 Livermore data directory                           epics_2017
 =======================================================================
 ======                 Ionisation Parameters                   ========
@@ -358,7 +366,7 @@ eBrem:  for e+  XStype:4  SubType=3
              eBremSB : Emin=    0 eV  Emax=    1 GeV  ModifiedTsai
             eBremLPM : Emin=    1 GeV Emax=  100 TeV  ModifiedTsai
 
-annihil:  for e+ XStype:2 SubType=5 BuildTable=0
+annihil:  for e+ XStype:2 SubType=5 AtRestModel:Simple BuildTable=0
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
             eplus2gg : Emin=    0 eV  Emax=  100 TeV
 
@@ -410,7 +418,7 @@ ionIoni:  for GenericIon  XStype:3  SubType=2
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.02
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
-            BraggIon : Emin=    0 eV  Emax=    2 MeV
+               Bragg : Emin=    0 eV  Emax=    2 MeV
           BetheBloch : Emin=    2 MeV Emax=  100 TeV
 ======================================================================
 ======          Radioactive Decay Physics Parameters           =======
@@ -434,7 +442,7 @@ Threshold for very long decay time at rest        1 y
                   HADRONIC PROCESSES SUMMARY (verbose level 1)
 -------------------------------------------------------------------------
                            Hadronic Processes for GenericIon
-  Process: Radioactivation
+  Process: RadioactiveDecay
 
 msc:  for alpha  SubType= 10
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
@@ -672,8 +680,6 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
       ThetaMin(p) < Theta(degree) < 180, pLimit(GeV^1)= 0.139531
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
   eCoulombScattering : Emin=    0 eV  Emax=  100 TeV
-G4VisManager: Using G4TrajectoryDrawByCharge as fallback trajectory model.
-See commands in /vis/modeling/trajectories/ for other options.
 ### Run 0 starts.
 ### Run 0 start.
 ... set ntuple merging row mode : row-wise - done
@@ -692,9 +698,9 @@ See commands in /vis/modeling/trajectories/ for other options.
 --> Event 8000 starts.
 --> Event 9000 starts.
 --------------------End of Global Run-----------------------
- The run was 10000 events, Nb of 'good' e+ annihilations: 1278
- Total dose in patient: 306.4447168183353 picoGy 
- Total dose in patient: 3.064447168183353e-10 [sigma: 1.734088336468103e-14 | error: 0.005658731383827688 | coeff: 0.005658731383827688 | eff: 1 | fom: 1 | r2int: 3.201803875022898e-05 | r2eff: 0 | hits: 10000 ] Gy
+ The run was 10000 events, Nb of 'good' e+ annihilations: 1306
+ Total dose in patient: 306.6580804493742 picoGy 
+ Total dose in patient: 3.066580804493742e-10 [sigma: 1.740084185827712e-14 | error: 0.005674346435866967 | coeff: 0.005674346435866966 | eff: 1 | fom: 1 | r2int: 3.219498765348872e-05 | r2eff: 0 | hits: 10000 ] Gy
 ------------------------------------------------------------
 ... write file : scoring.root - done
 ... close file : scoring.root - done

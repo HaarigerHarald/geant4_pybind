@@ -7,12 +7,12 @@ on:
       - published
 
 env:
-  GEANT4_GIT_TAG: v11.2.2
+  GEANT4_GIT_TAG: v11.3.0
   GEANT4_SOURCE_DIR: geant4_source
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
 
-  XERCES_C_GIT_REF: cd34018a9585fb74044f3773d3e3233454808b75
+  XERCES_C_GIT_REF: 53c0401812bfe5523594c1180f5ac7c758a2eaf7
   XERCES_C_SOURCE_DIR: xerces-c_source
   XERCES_C_BUILD_DIR: xerces-c_build
   XERCES_C_INSTALL_DIR: xerces-c_install

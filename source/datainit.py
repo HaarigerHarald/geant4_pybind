@@ -21,34 +21,34 @@ envs_to_set = dict()
 DATASET_URL = "https://cern.ch/geant4-data/datasets"
 DATASETS = [
     {"name": "G4NDL",
-     "version": "4.7",
+     "version": "4.7.1",
      "filename": "G4NDL",
      "envvar": "G4NEUTRONHPDATA",
-     "md5sum": "b001a2091bf9392e6833830347672ea2"},
+     "md5sum": "54f0ed3995856f02433d42ec96d70bc6"},
 
     {"name": "G4EMLOW",
-     "version": "8.5",
+     "version": "8.6.1",
      "filename": "G4EMLOW",
      "envvar": "G4LEDATA",
-     "md5sum": "146d0625d8d39f294056e1618271bc46"},
+     "md5sum": "9db67a37acc3eae9b0ffdace41a23b74"},
 
     {"name": "PhotonEvaporation",
-     "version": "5.7",
+     "version": "6.1",
      "filename": "G4PhotonEvaporation",
      "envvar": "G4LEVELGAMMADATA",
-     "md5sum": "81ff27deb23af4aa225423e6b3a06b39"},
+     "md5sum": "92d68b937cdad0fd49892a66878863de"},
 
     {"name": "RadioactiveDecay",
-     "version": "5.6",
+     "version": "6.1.2",
      "filename": "G4RadioactiveDecay",
      "envvar": "G4RADIOACTIVEDATA",
-     "md5sum": "acc1dbeb87b6b708b2874ced729a3a8f"},
+     "md5sum": "20d494f73d4bddabd7fab5c06a58895c"},
 
     {"name": "G4PARTICLEXS",
-     "version": "4.0",
+     "version": "4.1",
      "filename": "G4PARTICLEXS",
      "envvar": "G4PARTICLEXSDATA",
-     "md5sum": "d82a4d171d50f55864e28b6cd6f433c0"},
+     "md5sum": "878252a464ba6b38f085741840f053e6"},
 
     {"name": "G4PII",
      "version": "1.3",
@@ -81,10 +81,16 @@ DATASETS = [
      "md5sum": "0a76df936839bb557dae7254117eb58e"},
 
     {"name": "G4ENSDFSTATE",
-     "version": "2.3",
+     "version": "3.0",
      "filename": "G4ENSDFSTATE",
      "envvar": "G4ENSDFSTATEDATA",
-     "md5sum": "6f18fce8f217e7aaeaa3711be9b2c7bf"}
+     "md5sum": "c500728534ce3e9fb2fefa0112eb3a74"},
+
+    {"name": "G4CHANNELING",
+     "version": "1.0",
+     "filename": "G4CHANNELING",
+     "envvar": "G4CHANNELINGDATA",
+     "md5sum": "b2f692ec7109418c6354ea1ecbc62da7"}
 ]
 
 

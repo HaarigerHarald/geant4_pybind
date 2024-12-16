@@ -1,7 +1,7 @@
 Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
- Geant4 version Name: geant4-11-02-patch-02 [MT]   (21-June-2024)
+ Geant4 version Name: geant4-11-03 [MT]   (6-December-2024)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -33,12 +33,17 @@ Registered graphics systems are:
   RayTracer (RayTracer)
   VRML2FILE (VRML2FILE)
   gMocrenFile (gMocrenFile)
-  TOOLSSG_OFFSCREEN (TSG_OFFSCREEN)
   TOOLSSG_OFFSCREEN (TSG_OFFSCREEN, TSG_FILE, TSG)
-Default graphics system is: TSG_OFFSCREEN (based on batch session).
-Default window size hint is: 600x600-0+0 (based on G4VisManager initialisation).
-Note: Parameters specified on the command line will override these defaults.
-      Use "vis/open" without parameters to get these defaults.
+You may choose a graphics system (driver) with a parameter of
+the command "/vis/open" or "/vis/sceneHandler/create",
+or you may omit the driver parameter and choose at run time:
+- by argument in the construction of G4VisExecutive;
+- by environment variable "G4VIS_DEFAULT_DRIVER";
+- by entry in "~/.g4session";
+- by build flags.
+- Note: This feature is not allowed in batch mode.
+For further information see "examples/basic/B1/exampleB1.cc"
+and "vis.mac".
 
 Registering model factories...
 
@@ -88,7 +93,7 @@ G4MaterialTable[ Material:    G4_Pb    density: 11.350 g/cm3   RadL:   5.613 mm 
          --->  Isotope:  Ar38   Z = 18   N =  38   A =  37.96 g/mole   abundance:  0.063 %
          --->  Isotope:  Ar40   Z = 18   N =  40   A =  39.96 g/mole   abundance: 99.600 %
           ElmMassFraction: 100.00 %  ElmAbundance 100.00 % 
-,  Material: Galactic    density:  0.000 mg/cm3  RadL: 204310098.490 pc   Nucl.Int.Length: 113427284.261 pc 
+,  Material: Galactic    density:  0.000 mg/cm3  RadL: 204310098.490 pc   Nucl.Int.Length: 3240.779 pc 
                        Imean:  19.200 eV   temperature:   2.73 K  pressure:   0.00 atm
 
    --->  Element: H (H)   Z =  1.0   N =     1   A =  1.008 g/mole
@@ -132,10 +137,13 @@ Bremsstrahlung energy threshold above which
   primary e+- is added to the list of secondary    100 TeV
 Bremsstrahlung energy threshold above which primary
   muon/hadron is added to the list of secondary    100 TeV
+Positron annihilation at rest model                SimplePositronium
+Enable 3 gamma annihilation on fly                 0
 Lowest triplet kinetic energy                      1 MeV
 Enable sampling of gamma linear polarisation       0
 5D gamma conversion model type                     0
 5D gamma conversion model on isolated ion          0
+Use Ricardo-Gerardo pair production model          0
 Livermore data directory                           epics_2017
 =======================================================================
 ======                 Ionisation Parameters                   ========
@@ -254,7 +262,7 @@ eBrem:  for e+  XStype:4  SubType=3
              eBremSB : Emin=    0 eV  Emax=    1 GeV  ModifiedTsai
             eBremLPM : Emin=    1 GeV Emax=  100 TeV  ModifiedTsai
 
-annihil:  for e+ XStype:2 SubType=5 BuildTable=0
+annihil:  for e+ XStype:2 SubType=5 AtRestModel:Simple BuildTable=0
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
             eplus2gg : Emin=    0 eV  Emax=  100 TeV
 
@@ -306,7 +314,7 @@ ionIoni:  for GenericIon  XStype:3  SubType=2
       Lambda tables from threshold to 100 TeV, 7 bins/decade, spline: 1
       StepFunction=(0.2, 0.1 mm), integ: 3, fluct: 1, linLossLim= 0.02
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
-            BraggIon : Emin=    0 eV  Emax=    2 MeV
+               Bragg : Emin=    0 eV  Emax=    2 MeV
           BetheBloch : Emin=    2 MeV Emax=  100 TeV
 
 msc:  for alpha  SubType= 10
@@ -788,7 +796,7 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
 =======================================================================
 ======       Geant4 Native Pre-compound Model Parameters       ========
 =======================================================================
-Type of pre-compound inverse x-section              3
+Type of pre-compound inverse x-section              1
 Pre-compound model active                           1
 Pre-compound excitation low energy                  100 keV
 Pre-compound excitation high energy                 30 MeV
@@ -809,39 +817,30 @@ Min energy per nucleon for multifragmentation       200 GeV
 Limit excitation energy for Fermi BreakUp           20 MeV
 Level density (1/MeV)                               0.075
 Use simple level density model                      1
-Use discrete excitation energy of the residual      1
+Use discrete excitation energy of the residual      0
 Time limit for long lived isomeres                  1 ns 
 Isomer production flag                              1
 Internal e- conversion flag                         1
-Store e- internal conversion data                   0
+Store e- internal conversion data                   1
 Correlated gamma emission flag                      0
 Max 2J for sampling of angular correlations         10
 =======================================================================
-G4VisManager: Using G4TrajectoryDrawByCharge as fallback trajectory model.
-See commands in /vis/modeling/trajectories/ for other options.
 ### Run 0 starts.
 ... create file : B4.root - done
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 265.7812324042694 MeV       total track length: 19.32602090433879 cm 
-        Gap: total energy: 21.05605935028195 MeV       total track length: 10.64541514473329 cm 
+   Absorber: total energy: 260.4243486434756 MeV       total track length: 18.89851847625968 cm 
+        Gap: total energy: 20.15929164951593 MeV       total track length: 10.26460855677376 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 265.7812324042694 MeV rms = 0 eV 
- EGap : mean = 21.05605935028195 MeV rms = 0 eV 
- LAbs : mean =  19.32602090433879 cm  rms = 0 fm 
- LGap : mean = 10.64541514473329 cm  rms = 0 fm 
+ EAbs : mean = 260.4243486434756 MeV rms = 0 eV 
+ EGap : mean = 20.15929164951593 MeV rms = 0 eV 
+ LAbs : mean =  18.89851847625968 cm  rms = 0 fm 
+ LGap : mean = 10.26460855677376 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
-There are histograms that can be viewed with visualization:
-  4 h1 histograms(s)
-  List them with "/analysis/list".
-  View them immediately with "/vis/plot" or "/vis/reviewPlots".
-  But...there are no entries. To make your histograms available for
-  plotting in this UI session, use CloseFile(false) in your
-  EndOfRunAction and Reset() in your BeginOfRunAction.
      Transportation,   GammaGeneralProc,                msc,              eIoni
               eBrem,        CoulombScat,                msc,              eIoni
               eBrem,            annihil,        CoulombScat,                msc
@@ -901,46 +900,32 @@ hFritiofCaptureAtRest,hBertiniCaptureAtRest,muMinusCaptureAtRest,         dInela
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 273.1244430802375 MeV       total track length: 20.16456657877432 cm 
-        Gap: total energy: 16.26560432333922 MeV       total track length: 7.733724784292404 cm 
+   Absorber: total energy: 271.2988249371424 MeV       total track length: 19.43877948935212 cm 
+        Gap: total energy: 23.62383324509518 MeV       total track length: 11.15583906560287 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 273.1244430802375 MeV rms = 0 eV 
- EGap : mean = 16.26560432333922 MeV rms = 0 eV 
- LAbs : mean =  20.16456657877432 cm  rms = 0 fm 
- LGap : mean = 7.733724784292404 cm  rms = 0 fm 
+ EAbs : mean = 271.2988249371424 MeV rms = 0 eV 
+ EGap : mean = 23.62383324509518 MeV rms = 0 eV 
+ LAbs : mean =  19.43877948935212 cm  rms = 0 fm 
+ LGap : mean = 11.15583906560287 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
-There are histograms that can be viewed with visualization:
-  4 h1 histograms(s)
-  List them with "/analysis/list".
-  View them immediately with "/vis/plot" or "/vis/reviewPlots".
-  But...there are no entries. To make your histograms available for
-  plotting in this UI session, use CloseFile(false) in your
-  EndOfRunAction and Reset() in your BeginOfRunAction.
 ### Run 2 starts.
 ... create file : B4.root - done
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 465.7156402543708 MeV       total track length: 34.00472547850998 cm 
-        Gap: total energy: 15.14628164605601 MeV       total track length: 7.88173049921437 cm 
+   Absorber: total energy: 446.3042409919891 MeV       total track length: 32.65720055418966 cm 
+        Gap: total energy: 42.03731403112202 MeV       total track length: 21.6010884516796 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 465.7156402543708 MeV rms = 0 eV 
- EGap : mean = 15.14628164605601 MeV rms = 0 eV 
- LAbs : mean =  34.00472547850998 cm  rms = 0 fm 
- LGap : mean = 7.88173049921437 cm  rms = 0 fm 
+ EAbs : mean = 446.3042409919891 MeV rms = 0 eV 
+ EGap : mean = 42.03731403112202 MeV rms = 0 eV 
+ LAbs : mean =  32.65720055418966 cm  rms = 0 fm 
+ LGap : mean = 21.6010884516796 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
-There are histograms that can be viewed with visualization:
-  4 h1 histograms(s)
-  List them with "/analysis/list".
-  View them immediately with "/vis/plot" or "/vis/reviewPlots".
-  But...there are no entries. To make your histograms available for
-  plotting in this UI session, use CloseFile(false) in your
-  EndOfRunAction and Reset() in your BeginOfRunAction.
 Graphics systems deleted.
 Visualization Manager deleting...
