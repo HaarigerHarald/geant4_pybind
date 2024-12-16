@@ -221,7 +221,7 @@ jobs:
             CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=10.15
             ${{ matrix.config.arch == 'arm64' && 'SKIP_PYBIND11_STUBGEN=1' || '' }}
           CIBW_BEFORE_ALL_MACOS: >
-            python3 -m pip install cmake &&
+            brew install cmake &&
             git clone https://github.com/apache/xerces-c
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
             cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
