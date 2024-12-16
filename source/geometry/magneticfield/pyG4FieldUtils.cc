@@ -10,8 +10,7 @@ namespace py = pybind11;
 
 void export_G4FieldUtils(py::module &m)
 {
-   class Scopedfield_utils {
-   };
+   class Scopedfield_utils {};
 
    py::class_<Scopedfield_utils>(m, "field_utils")
       .def_static(

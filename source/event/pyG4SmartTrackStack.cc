@@ -25,5 +25,5 @@ void export_G4SmartTrackStack(py::module &m)
       .def("clear", &G4SmartTrackStack::clear)
       .def("clearAndDestroy", &G4SmartTrackStack::clearAndDestroy)
       .def("dumpStatistics", &G4SmartTrackStack::dumpStatistics);
-      //.def("getEnergyOfStack", &G4SmartTrackStack::getEnergyOfStack, py::arg("aTrackStack"));
+   //.def("getEnergyOfStack", &G4SmartTrackStack::getEnergyOfStack, py::arg("aTrackStack"));
 }

@@ -30,7 +30,7 @@ void export_G4PhysicsVector(py::module &m)
       .def("DumpValues", &G4PhysicsVector::DumpValues, py::arg("unitE") = 1., py::arg("unitV") = 1.)
       .def("Energy", &G4PhysicsVector::Energy, py::arg("index"))
       //.def("FillSecondDerivatives", &G4PhysicsVector::FillSecondDerivatives, py::arg("arg0") = Base, py::arg("dir1") =
-      //0., py::arg("dir2") = 0.)
+      // 0., py::arg("dir2") = 0.)
 
       .def("FindBin", &G4PhysicsVector::FindBin, py::arg("energy"), py::arg("idx"))
       .def("FindLinearEnergy", &G4PhysicsVector::FindLinearEnergy, py::arg("rand"))

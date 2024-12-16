@@ -16,8 +16,7 @@ void export_G4MergeMode(py::module &m)
       .value("kMaximum", G4MergeMode::kMaximum)
       .value("kMinimum", G4MergeMode::kMinimum);
 
-   struct ScopedG4Accumulables {
-   };
+   struct ScopedG4Accumulables {};
 
    py::class_<ScopedG4Accumulables>(m, "G4Accumulables")
       .def_static("GetMergeMode", &G4Accumulables::GetMergeMode, py::arg("mergeModeName"));

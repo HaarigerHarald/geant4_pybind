@@ -9,8 +9,7 @@
 
 namespace py = pybind11;
 
-class ScopeG4AttDefStore {
-};
+class ScopeG4AttDefStore {};
 
 void export_G4AttDefStore(py::module &m)
 {

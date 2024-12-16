@@ -26,8 +26,7 @@ void export_G4UIExecutive(py::module &m)
               if (ui->IsGUI()) {
                  G4UIsession *session = ui->GetSession();
 
-                 class DummyStdoutRedirect {
-                 };
+                 class DummyStdoutRedirect {};
                  py::class_<DummyStdoutRedirect> stdoutRedirect(g4UIExecutive, "StdoutRedirect");
                  stdoutRedirect.def(py::init<>())
                     .def("write",
@@ -38,8 +37,7 @@ void export_G4UIExecutive(py::module &m)
                     .def("flush", [](py::object self) {});
                  py::module_::import("sys").attr("stdout") = stdoutRedirect();
 
-                 class DummyStderrRedirect {
-                 };
+                 class DummyStderrRedirect {};
                  py::class_<DummyStderrRedirect> stderrRedirect(g4UIExecutive, "StderrRedirect");
                  stderrRedirect.def(py::init<>())
                     .def("write",

@@ -120,9 +120,8 @@ void export_G4Scorer(py::module &m)
               G4int nSeg[] = {z, phi, r};
               self.SetNumberOfSegments(nSeg);
            })
-      .def("SetNumberOfSegments", [](G4PSCellFluxForCylinder3D &self, std::array<G4int, 3>& nSeg) {
-         self.SetNumberOfSegments(nSeg.data());
-      });
+      .def("SetNumberOfSegments",
+           [](G4PSCellFluxForCylinder3D &self, std::array<G4int, 3> &nSeg) { self.SetNumberOfSegments(nSeg.data()); });
 
    py::class_<G4PSCylinderSurfaceCurrent, G4VPrimitivePlotter>(m, "G4PSCylinderSurfaceCurrent")
       .def(py::init<G4String, G4int, G4int>(), py::arg("name"), py::arg("direction"), py::arg("depth") = 0)

@@ -30,7 +30,7 @@ void export_G4VModularPhysicsList(py::module &m)
       .def("ConstructParticle", &G4VModularPhysicsList::ConstructParticle)
       .def("ConstructProcess", &G4VModularPhysicsList::ConstructProcess)
 
-      .def("RegisterPhysics", [](G4VModularPhysicsList &               self,
+      .def("RegisterPhysics", [](G4VModularPhysicsList                &self,
                                  py::disown_ptr<G4VPhysicsConstructor> physics) { self.RegisterPhysics(physics); })
 
       .def("GetPhysics", py::overload_cast<G4int>(&G4VModularPhysicsList::GetPhysics, py::const_),
