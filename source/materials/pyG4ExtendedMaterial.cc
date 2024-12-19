@@ -43,5 +43,5 @@ void export_G4ExtendedMaterial(py::module &m)
 
       .def(
          "__iter__", [](G4ExtendedMaterial &self) { return py::make_iterator(self.begin(), self.end()); },
-         py::keep_alive<0, 1>(), py::is_operator());
+         py::is_operator(), py::return_value_policy::reference_internal);
 }

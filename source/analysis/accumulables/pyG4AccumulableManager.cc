@@ -37,5 +37,5 @@ void export_G4AccumulableManager(py::module &m)
       .def("Reset", &G4AccumulableManager::Reset, py::call_guard<py::gil_scoped_release>())
       .def(
          "__iter__", [](G4AccumulableManager &self) { return py::make_iterator(self.Begin(), self.End()); },
-         py::is_operator());
+         py::is_operator(), py::return_value_policy::reference_internal);
 }

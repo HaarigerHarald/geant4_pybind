@@ -53,10 +53,11 @@ PyG4ParticleList::ParticleList PyG4ParticleList::particleTableCache;
 
 void export_PyG4ParticleList(py::module &m)
 {
-   py::class_<PyG4ParticleList>(m, "PyG4ParticleList", "particle list")
+   py::class_<PyG4ParticleList, py::nodelete>(m, "PyG4ParticleList", "particle list")
       .def(py::init<>())
       .def(
-         "__iter__", [](PyG4ParticleList &self) { py::make_iterator(self.p_begin(), self.p_end()); }, py::is_operator())
+         "__iter__", [](PyG4ParticleList &self) { py::make_iterator(self.p_begin(), self.p_end()); }, py::is_operator(),
+         py::return_value_policy::reference_internal)
 
       .def(
          "__getitem__",
@@ -64,13 +65,16 @@ void export_PyG4ParticleList(py::module &m)
             self.p_begin();
             return self.particleTableCache[i];
          },
-         py::is_operator())
+         py::is_operator(), py::return_value_policy::reference_internal)
 
-      .def_property_readonly("particles", [](PyG4ParticleList &self) {
-         py::list list;
-         for (auto it = self.p_begin(); it < self.p_end(); it++) {
-            list.append(it);
-         }
-         return list;
-      });
+      .def_property_readonly(
+         "particles",
+         [](PyG4ParticleList &self) {
+            py::list list;
+            for (auto it = self.p_begin(); it < self.p_end(); it++) {
+               list.append(it);
+            }
+            return list;
+         },
+         py::return_value_policy::reference_internal);
 }

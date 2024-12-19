@@ -72,7 +72,7 @@ void export_G4TransportationManager(py::module &m)
 
             return py::make_iterator(begin, end);
          },
-         py::keep_alive<0, 1>())
+         py::is_operator(), py::return_value_policy::reference_internal)
 
       .def("GetNoWorlds", &G4TransportationManager::GetNoWorlds)
       .def(
@@ -83,7 +83,7 @@ void export_G4TransportationManager(py::module &m)
 
             return py::make_iterator(begin, end);
          },
-         py::keep_alive<0, 1>())
+         py::is_operator(), py::return_value_policy::reference_internal)
 
       .def("GetSafetyHelper", &G4TransportationManager::GetSafetyHelper, py::return_value_policy::reference)
       .def("GetParallelWorld", &G4TransportationManager::GetParallelWorld, py::arg("worldName"),

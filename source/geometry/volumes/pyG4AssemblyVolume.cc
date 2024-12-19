@@ -55,7 +55,7 @@ void export_G4AssemblyVolume(py::module &m)
 
             return py::make_iterator(begin, end);
          },
-         py::keep_alive<0, 1>())
+         py::is_operator(), py::return_value_policy::reference_internal)
 
       .def("TotalImprintedVolumes", &G4AssemblyVolume::TotalImprintedVolumes)
       .def("GetImprintTransformation", &G4AssemblyVolume::GetImprintTransformation, py::arg("imprintID"))
@@ -67,7 +67,7 @@ void export_G4AssemblyVolume(py::module &m)
 
             return py::make_iterator(begin, end);
          },
-         py::keep_alive<0, 1>())
+         py::is_operator(), py::return_value_policy::reference_internal)
 
       .def("TotalTriplets", &G4AssemblyVolume::TotalTriplets)
       .def("GetImprintsCount", &G4AssemblyVolume::GetImprintsCount)
