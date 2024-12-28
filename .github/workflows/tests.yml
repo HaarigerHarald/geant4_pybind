@@ -91,7 +91,7 @@ jobs:
       - name: CMake build xerces-c
         if: steps.xerces-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release
+          cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release --parallel
           cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release --target install
 
       - name: CMake configure Geant4 Unix
@@ -131,7 +131,7 @@ jobs:
       - name: CMake build Geant4
         if: steps.g4cache.outputs.cache-hit != 'true'
         run: |
-          cmake --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}" --config Release
+          cmake --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}" --config Release --parallel
           cmake --build "${{ github.workspace }}/${{ env.GEANT4_BUILD_DIR }}" --config Release --target install
 
       - name: Setup environment variables
