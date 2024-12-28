@@ -162,7 +162,8 @@ jobs:
 
             yum install -y libXt-devel libXmu-devel mesa-libGL-devel libxkbcommon-devel fontconfig-devel libcurl-devel ||
             apt-get install -y libxt-dev libxmu-dev libgl1-mesa-dev libxkbcommon-dev libfontconfig1-dev libcurl-dev ||
-            apk add libxt-dev libxmu-dev mesa-dev libxkbcommon-dev fontconfig-dev curl-dev elfutils-dev &&
+            (apk add libxt-dev libxmu-dev mesa-dev libxkbcommon-dev fontconfig-dev curl-dev &&
+            apk add --no-cache --update --repository=https://dl-cdn.alpinelinux.org/alpine/v3.16/main/ libexecinfo-dev) &&
 
             git clone https://github.com/apache/xerces-c
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
