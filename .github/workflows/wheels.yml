@@ -203,8 +203,8 @@ jobs:
             CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=10.15
             ${{ matrix.config.arch == 'arm64' && 'SKIP_PYBIND11_STUBGEN=1' || '' }}
           CIBW_BEFORE_ALL_MACOS: >
-            brew install cmake ninja &&
-            sed -i 's/target_link_libraries.*/target_link_libraries(geant4_pybind PRIVATE ${Geant4_LIBRARIES} curl)/' 
+            brew install cmake &&
+            sed -i '' 's/target_link_libraries.*/target_link_libraries(geant4_pybind PRIVATE ${Geant4_LIBRARIES} curl)/' 
             "{package}/source/CMakeLists.txt" &&
 
             git clone https://github.com/apache/xerces-c
