@@ -216,8 +216,8 @@ jobs:
             -Dtranscoder=iconv
             -DBUILD_SHARED_LIBS=OFF
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-            cmake --build "{package}/${{ env.XERCES_C_BUILD_DIR }}" --config Release --parallel  &&
-            sudo cmake --build "{package}/${{ env.XERCES_C_BUILD_DIR }}" --config Release --target install &&
+            make -j$(sysctl -n hw.logicalcpu) &&
+            sudo make install &&
 
             git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
             https://github.com/Geant4/geant4
@@ -235,8 +235,8 @@ jobs:
             -DGEANT4_USE_GDML=ON
             -DGEANT4_BUILD_TLS_MODEL=global-dynamic
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
-            cmake --build "{package}/${{ env.GEANT4_BUILD_DIR }}" --config Release --parallel  &&
-            sudo cmake --build "{package}/${{ env.GEANT4_BUILD_DIR }}" --config Release --target install
+            make -j$(sysctl -n hw.logicalcpu) &&
+            sudo make install
           CIBW_ARCHS: ${{ matrix.config.arch }}
           CIBW_BUILD: ${{ matrix.config.build-pattern }}
           CIBW_BEFORE_BUILD: rm -rf {project}/build
