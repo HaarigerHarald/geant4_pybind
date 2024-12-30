@@ -196,6 +196,7 @@ jobs:
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
             -DGEANT4_USE_GDML=ON
             -DGEANT4_BUILD_TLS_MODEL=global-dynamic
+            -DGEANT4_USE_OPENGL_X11=ON
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
             make -j$(nproc) &&
             make install
