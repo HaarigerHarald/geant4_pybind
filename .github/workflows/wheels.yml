@@ -38,6 +38,7 @@ jobs:
     name: ${{ matrix.config.os }} ${{ matrix.config.arch }} - ${{ matrix.config.build-pattern }}
     runs-on: ${{ matrix.config.os }}
     strategy:
+      fail-fast: false
       matrix:
         config:
           [
@@ -124,9 +125,9 @@ jobs:
         shell: bash
         run: |
           echo "${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}/bin" >> $GITHUB_PATH
-          echo "${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}/bin" >> $GITHUB_PATH
           echo "HOME=${{ github.workspace }}" >> $GITHUB_ENV
           echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
+          echo "CMAKE_PREFIX_PATH=${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}" >> $GITHUB_ENV
 
       - name: Extra Licenses
         shell: bash
@@ -153,11 +154,20 @@ jobs:
           path: ${{ github.workspace }}/.geant4_pybind
           enableCrossOsArchive: true
 
-      - uses: pypa/cibuildwheel@v2.16.5
+      - uses: pypa/cibuildwheel@v2.22.0
         env:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >
             python3 -m pip install cmake &&
+
+            yum install -y libXt-devel libXmu-devel mesa-libGL-devel libxkbcommon-devel fontconfig-devel libcurl-devel ||
+            apt-get install -y libxt-dev libxmu-dev libgl1-mesa-dev libxkbcommon-dev libfontconfig1-dev libcurl-dev ||
+            (apk add libxt-dev libxmu-dev mesa-dev libxkbcommon-dev fontconfig-dev curl-dev &&
+            apk add --no-cache --update --repository=https://dl-cdn.alpinelinux.org/alpine/v3.16/main/ libexecinfo-dev) &&
+
+            sed -i 's/target_link_libraries.*/target_link_libraries(geant4_pybind PRIVATE ${Geant4_LIBRARIES} curl)/' 
+            "{package}/source/CMakeLists.txt" &&
+
             git clone https://github.com/apache/xerces-c
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
             cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
@@ -165,39 +175,12 @@ jobs:
             mkdir "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
             cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
             cmake
-            -Dnetwork-accessor=socket
+            -Dnetwork-accessor=curl
             -Dtranscoder=iconv
             -DBUILD_SHARED_LIBS=OFF
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-            make -j8 &&
+            make -j$(nproc) &&
             make install &&
-
-            yum install -y libXt-devel libXmu-devel mesa-libGL-devel libxkbcommon-devel fontconfig-devel ||
-            apt-get install -y libxt-dev libxmu-dev libgl1-mesa-dev libxkbcommon-dev libfontconfig1-dev ||
-            apk add libxt-dev libxmu-dev libexecinfo-dev mesa-dev libxkbcommon-dev fontconfig-dev &&
-
-            echo -e "\n\n\nThis software contains parts of Qt5
-            licensed under GPL-2.0, GPL-3.0 and LGPL-3.0.
-            \nLicense information and source code are available at:
-            https://github.com/qt/qt5
-            \nFor information on how Qt5 was built please see:
-            https://github.com/HaarigerHarald/geant4_pybind/blob/main/.github/workflows/wheels.yml
-            \n\n" >> "{package}/EXTRA_LICENSES" &&
-            git clone -b v5.14.2 --depth 1 https://github.com/qt/qt5 "{package}/qt5" &&
-            cd "{package}/qt5" &&
-            git submodule update --init --recursive --depth 1 qt3d qtbase &&
-            sed -i '48 i #  include <limits>' "{package}/qt5/qtbase/src/corelib/global/qglobal.h" &&
-            ${{ matrix.config.build-pattern == 'cp*-musllinux*' && 'echo "QMAKE_LIBS_EXECINFO = -lexecinfo" >> "{package}/qt5/qtbase/mkspecs/common/gcc-base.conf" &&' || '' }}
-            ./configure -opensource -confirm-license -release -qt-zlib -qt-libjpeg -qt-libpng -fontconfig -system-freetype
-            -no-harfbuzz -qt-xcb -qt-pcre -skip qtwebengine -no-feature-sqlmodel -skip qtconnectivity -skip qtdoc
-            -nomake examples -nomake tools -nomake tests -static -prefix "{package}/qt5_install" &&
-            make -j8 &&
-            make install &&
-            echo -e "\nqt5_import_plugins(geant4_pybind
-            \n    INCLUDE Qt5::QXcbIntegrationPlugin Qt5::QMinimalIntegrationPlugin Qt5::QLinuxFbIntegrationPlugin
-            \n    INCLUDE_BY_TYPE imageformats Qt5::QPngPlugin Qt5::QGifPlugin Qt5::QJpegPlugin
-            \n    EXCLUDE_BY_TYPE sqldrivers
-            \n)" >> "{package}/source/CMakeLists.txt" &&
 
             git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
             https://github.com/Geant4/geant4
@@ -213,15 +196,17 @@ jobs:
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
             -DGEANT4_USE_GDML=ON
             -DGEANT4_BUILD_TLS_MODEL=global-dynamic
-            -DGEANT4_USE_QT=ON
+            -DGEANT4_USE_OPENGL_X11=ON
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
-            make -j8 &&
+            make -j$(nproc) &&
             make install
           CIBW_ENVIRONMENT_MACOS: >
             CXXFLAGS='-fPIC' CFLAGS='-fPIC' MACOSX_DEPLOYMENT_TARGET=10.15
-            ${{ matrix.config.arch == 'arm64' && 'SKIP_PYBIND11_STUBGEN=1' || '' }}
+            ${{ matrix.config.arch == 'x86_64' && 'SKIP_PYBIND11_STUBGEN=1' || '' }}
           CIBW_BEFORE_ALL_MACOS: >
-            python3 -m pip install cmake &&
+            sed -i '' 's/target_link_libraries.*/target_link_libraries(geant4_pybind PRIVATE ${Geant4_LIBRARIES} curl)/' 
+            "{package}/source/CMakeLists.txt" &&
+
             git clone https://github.com/apache/xerces-c
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
             cd "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
@@ -230,29 +215,12 @@ jobs:
             cd "{package}/${{ env.XERCES_C_BUILD_DIR }}" &&
             cmake
             -DCMAKE_OSX_ARCHITECTURES=${{ matrix.config.arch }}
-            -Dnetwork-accessor=socket
+            -Dnetwork-accessor=curl
             -Dtranscoder=iconv
             -DBUILD_SHARED_LIBS=OFF
             "{package}/${{ env.XERCES_C_SOURCE_DIR }}" &&
-            make -j8 &&
-            make install &&
-
-            echo -e "\n\n\nThis software contains parts of Qt5
-            licensed under GPL-2.0, GPL-3.0 and LGPL-3.0.
-            \nLicense information and source code are available at:
-            https://github.com/qt/qt5
-            \nFor information on how Qt5 was built please see:
-            https://github.com/HaarigerHarald/geant4_pybind/blob/main/.github/workflows/wheels.yml
-            \n\n" >> "{package}/EXTRA_LICENSES" &&
-            git clone -b v5.15.11-lts-lgpl --depth 1 https://github.com/qt/qt5 "{package}/qt5" &&
-            cd "{package}/qt5" &&
-            git submodule update --init --recursive --depth 1 qt3d qtbase &&
-            ./configure -opensource -confirm-license -release -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype
-            -qt-harfbuzz -qt-pcre -skip qtwebengine -no-feature-sqlmodel -skip qtconnectivity -skip qtdoc
-            -nomake examples -nomake tools -nomake tests -static QMAKE_APPLE_DEVICE_ARCHS="x86_64 arm64"
-            -prefix "{package}/qt5_install" &&
-            make -j8 &&
-            make install &&
+            make -j$(sysctl -n hw.logicalcpu) &&
+            sudo make install &&
 
             git clone -b ${{ env.GEANT4_GIT_TAG }} --depth 1
             https://github.com/Geant4/geant4
@@ -269,12 +237,12 @@ jobs:
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
             -DGEANT4_USE_GDML=ON
             -DGEANT4_BUILD_TLS_MODEL=global-dynamic
-            -DGEANT4_USE_QT=ON
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
-            make -j8 &&
-            make install
+            make -j$(sysctl -n hw.logicalcpu) &&
+            sudo make install
           CIBW_ARCHS: ${{ matrix.config.arch }}
           CIBW_BUILD: ${{ matrix.config.build-pattern }}
+          CIBW_SKIP: cp38-macosx_arm64
           CIBW_BEFORE_BUILD: rm -rf {project}/build
           CIBW_TEST_COMMAND_MACOS: HOME={package} python {package}/tests/test_B1.py
           CIBW_TEST_COMMAND_WINDOWS: python {package}/tests/test_B1.py
