@@ -293,26 +293,5 @@ void export_G4VTwistSurface(py::module &m)
            py::arg("iside"))
 
       .def("GetEdgeVisibility", &G4VTwistSurface::GetEdgeVisibility, py::arg("i"), py::arg("j"), py::arg("m"),
-           py::arg("n"), py::arg("number"), py::arg("orientation"))
-
-      .def_readonly_static("sOutside", &G4VTwistSurface::sOutside)
-      .def_readonly_static("sInside", &G4VTwistSurface::sInside)
-      .def_readonly_static("sBoundary", &G4VTwistSurface::sBoundary)
-      .def_readonly_static("sCorner", &G4VTwistSurface::sCorner)
-      .def_readonly_static("sC0Min1Min", &G4VTwistSurface::sC0Min1Min)
-      .def_readonly_static("sC0Max1Min", &G4VTwistSurface::sC0Max1Min)
-      .def_readonly_static("sC0Max1Max", &G4VTwistSurface::sC0Max1Max)
-      .def_readonly_static("sC0Min1Max", &G4VTwistSurface::sC0Min1Max)
-      .def_readonly_static("sAxisMin", &G4VTwistSurface::sAxisMin)
-      .def_readonly_static("sAxisMax", &G4VTwistSurface::sAxisMax)
-      .def_readonly_static("sAxisX", &G4VTwistSurface::sAxisX)
-      .def_readonly_static("sAxisY", &G4VTwistSurface::sAxisY)
-      .def_readonly_static("sAxisZ", &G4VTwistSurface::sAxisZ)
-      .def_readonly_static("sAxisRho", &G4VTwistSurface::sAxisRho)
-      .def_readonly_static("sAxisPhi", &G4VTwistSurface::sAxisPhi)
-      .def_readonly_static("sAxis0", &G4VTwistSurface::sAxis0)
-      .def_readonly_static("sAxis1", &G4VTwistSurface::sAxis1)
-      .def_readonly_static("sSizeMask", &G4VTwistSurface::sSizeMask)
-      .def_readonly_static("sAxisMask", &G4VTwistSurface::sAxisMask)
-      .def_readonly_static("sAreaMask", &G4VTwistSurface::sAreaMask);
+           py::arg("n"), py::arg("number"), py::arg("orientation"));
 }
