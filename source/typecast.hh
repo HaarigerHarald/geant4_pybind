@@ -122,7 +122,8 @@ struct smart_holder_type_caster<disown_ptr<T>> : smart_holder_type_caster_disown
 };
 
 template <typename T>
-struct smart_holder_type_caster<disown_ptr<T const>> : smart_holder_type_caster_class_hooks {
+struct smart_holder_type_caster<disown_ptr<T const>> : smart_holder_type_caster_disown_load<T const>,
+                                                       smart_holder_type_caster_class_hooks {
 
    static constexpr auto name = const_name<T>();
 
@@ -144,12 +145,10 @@ struct smart_holder_type_caster<disown_ptr<T const>> : smart_holder_type_caster_
 
 #ifdef PYBIND11_USE_SMART_HOLDER_AS_DEFAULT
 template <typename T>
-class type_caster_for_class_<disown_ptr<T>> : public smart_holder_type_caster<disown_ptr<T>> {
-};
+class type_caster_for_class_<disown_ptr<T>> : public smart_holder_type_caster<disown_ptr<T>> {};
 
 template <typename T>
-class type_caster_for_class_<disown_ptr<T const>> : public smart_holder_type_caster<disown_ptr<T const>> {
-};
+class type_caster_for_class_<disown_ptr<T const>> : public smart_holder_type_caster<disown_ptr<T const>> {};
 #endif
 
 // Typecaster: G4String <-> python string
