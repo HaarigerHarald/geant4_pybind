@@ -1,7 +1,7 @@
 Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
- Geant4 version Name: geant4-11-03 [MT]   (6-December-2024)
+ Geant4 version Name: geant4-11-03-patch-02 [MT]   (25-April-2025)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -700,7 +700,7 @@ CoulombScat:  for pi- XStype:1 SubType=1 BuildTable=1
 --------------------End of Global Run-----------------------
  The run was 10000 events, Nb of 'good' e+ annihilations: 1306
  Total dose in patient: 306.6580804493742 picoGy 
- Total dose in patient: 3.066580804493742e-10 [sigma: 1.740084185827712e-14 | error: 0.005674346435866967 | coeff: 0.005674346435866966 | eff: 1 | fom: 1 | r2int: 3.219498765348872e-05 | r2eff: 0 | hits: 10000 ] Gy
+ Total dose in patient: 3.066580804493742e-10 [sigma: 1.740084185827712e-14 | error: 0.005674346435866967 | coeff: 0.005674346435866966 | eff: 1 | fom: 5176.271592138393 | r2int: 3.219498765348872e-05 | r2eff: 0 | hits: 10000 ] Gy
 ------------------------------------------------------------
 ... write file : scoring.root - done
 ... close file : scoring.root - done
