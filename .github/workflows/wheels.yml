@@ -246,6 +246,7 @@ jobs:
           CIBW_BEFORE_BUILD: rm -rf {project}/build
           CIBW_TEST_COMMAND_MACOS: HOME={package} python {package}/tests/test_B1.py
           CIBW_TEST_COMMAND_WINDOWS: python {package}/tests/test_B1.py
+          CIBW_ENABLE: pypy
 
       - uses: actions/upload-artifact@v4
         with:
