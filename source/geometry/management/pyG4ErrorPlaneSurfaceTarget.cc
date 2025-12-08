@@ -13,11 +13,6 @@ class PyG4ErrorPlaneSurfaceTarget : public G4ErrorPlaneSurfaceTarget, public py:
 public:
    using G4ErrorPlaneSurfaceTarget::G4ErrorPlaneSurfaceTarget;
 
-   G4ThreeVector Intersect(const G4ThreeVector &point, const G4ThreeVector &direc) const override
-   {
-      PYBIND11_OVERRIDE(G4ThreeVector, G4ErrorPlaneSurfaceTarget, Intersect, point, direc);
-   }
-
    G4double GetDistanceFromPoint(const G4ThreeVector &point, const G4ThreeVector &direc) const override
    {
       PYBIND11_OVERRIDE(G4double, G4ErrorPlaneSurfaceTarget, GetDistanceFromPoint, point, direc);

@@ -8,7 +8,7 @@ on:
       - main
 
 env:
-  GEANT4_GIT_TAG: v11.3.2
+  GEANT4_GIT_TAG: v11.4.0
   GEANT4_SOURCE_DIR: geant4_source
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
@@ -48,14 +48,14 @@ jobs:
           path: ${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}
           key: ${{ env.XERCES_C_GIT_REF }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: steps.g4cache.outputs.cache-hit != 'true'
         with:
           repository: Geant4/geant4
           ref: ${{ env.GEANT4_GIT_TAG }}
           path: ${{ env.GEANT4_SOURCE_DIR }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: steps.xerces-cache.outputs.cache-hit != 'true'
         with:
           repository: apache/xerces-c
@@ -142,7 +142,7 @@ jobs:
           echo "CMAKE_ARGS=-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded" >> $GITHUB_ENV
           echo "CMAKE_PREFIX_PATH=${{ github.workspace }}/${{ env.XERCES_C_INSTALL_DIR }}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
           path: ${{ github.event.repository.name }}

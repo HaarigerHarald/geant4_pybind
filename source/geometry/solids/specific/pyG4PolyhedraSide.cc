@@ -57,8 +57,6 @@ public:
    G4VCSGface *Clone() override { PYBIND11_OVERRIDE(G4VCSGface *, G4PolyhedraSide, Clone, ); }
 
    G4double SurfaceArea() override { PYBIND11_OVERRIDE(G4double, G4PolyhedraSide, SurfaceArea, ); }
-
-   G4ThreeVector GetPointOnFace() override { PYBIND11_OVERRIDE(G4ThreeVector, G4PolyhedraSide, GetPointOnFace, ); }
 };
 
 void export_G4PolyhedraSide(py::module &m)
@@ -104,14 +102,8 @@ void export_G4PolyhedraSide(py::module &m)
            py::arg("tranform"), py::arg("extentList"))
 
       .def("Clone", &G4PolyhedraSide::Clone, py::return_value_policy::reference)
-      .def("SurfaceTriangle", &G4PolyhedraSide::SurfaceTriangle, py::arg("p1"), py::arg("p2"), py::arg("p3"),
-           py::arg("p4"))
-
-      .def("GetPointOnPlane", &G4PolyhedraSide::GetPointOnPlane, py::arg("p0"), py::arg("p1"), py::arg("p2"),
-           py::arg("p3"), py::arg("Area"))
 
       .def("SurfaceArea", &G4PolyhedraSide::SurfaceArea)
-      .def("GetPointOnFace", &G4PolyhedraSide::GetPointOnFace)
       .def("GetInstanceID", &G4PolyhedraSide::GetInstanceID)
       .def_static("GetSubInstanceManager", &G4PolyhedraSide::GetSubInstanceManager);
 }

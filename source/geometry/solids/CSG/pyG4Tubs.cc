@@ -88,11 +88,6 @@ public:
 
    G4Polyhedron *CreatePolyhedron() const override { PYBIND11_OVERRIDE(G4Polyhedron *, G4Tubs, CreatePolyhedron, ); }
 
-   G4ThreeVector ApproxSurfaceNormal(const G4ThreeVector &p) const override
-   {
-      PYBIND11_OVERRIDE(G4ThreeVector, G4Tubs, ApproxSurfaceNormal, p);
-   }
-
    G4Polyhedron *GetPolyhedron() const override { PYBIND11_OVERRIDE(G4Polyhedron *, G4Tubs, GetPolyhedron, ); }
 
    G4VisExtent GetExtent() const override { PYBIND11_OVERRIDE(G4VisExtent, G4Tubs, GetExtent, ); }

@@ -10,71 +10,13 @@
 
 namespace py = pybind11;
 
-class PyG4ClippablePolygon : public G4ClippablePolygon, public py::trampoline_self_life_support {
-public:
-   using G4ClippablePolygon::G4ClippablePolygon;
-
-   void AddVertexInOrder(const G4ThreeVector vertex) override
-   {
-      PYBIND11_OVERRIDE(void, G4ClippablePolygon, AddVertexInOrder, vertex);
-   }
-
-   void ClearAllVertices() override { PYBIND11_OVERRIDE(void, G4ClippablePolygon, ClearAllVertices, ); }
-
-   G4bool Clip(const G4VoxelLimits &voxelLimit) override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4ClippablePolygon, Clip, voxelLimit);
-   }
-
-   G4bool PartialClip(const G4VoxelLimits &voxelLimit, const EAxis IgnoreMe) override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4ClippablePolygon, PartialClip, voxelLimit, IgnoreMe);
-   }
-
-   void ClipAlongOneAxis(const G4VoxelLimits &voxelLimit, const EAxis axis) override
-   {
-      PYBIND11_OVERRIDE(void, G4ClippablePolygon, ClipAlongOneAxis, voxelLimit, axis);
-   }
-
-   G4bool GetExtent(const EAxis axis, G4double &min, G4double &max) const override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4ClippablePolygon, GetExtent, axis, min, max);
-   }
-
-   const G4ThreeVector *GetMinPoint(const EAxis axis) const override
-   {
-      PYBIND11_OVERRIDE(const G4ThreeVector *, G4ClippablePolygon, GetMinPoint, axis);
-   }
-
-   const G4ThreeVector *GetMaxPoint(const EAxis axis) const override
-   {
-      PYBIND11_OVERRIDE(const G4ThreeVector *, G4ClippablePolygon, GetMaxPoint, axis);
-   }
-
-   G4bool InFrontOf(const G4ClippablePolygon &other, EAxis axis) const override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4ClippablePolygon, InFrontOf, other, axis);
-   }
-
-   G4bool BehindOf(const G4ClippablePolygon &other, EAxis axis) const override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4ClippablePolygon, BehindOf, other, axis);
-   }
-
-   G4bool GetPlanerExtent(const G4ThreeVector &pointOnPlane, const G4ThreeVector &planeNormal, G4double &min,
-                          G4double &max) const override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4ClippablePolygon, GetPlanerExtent, pointOnPlane, planeNormal, min, max);
-   }
-};
-
 void export_G4ClippablePolygon(py::module &m)
 {
-   py::class_<G4ClippablePolygon, PyG4ClippablePolygon>(m, "G4ClippablePolygon")
+   py::class_<G4ClippablePolygon>(m, "G4ClippablePolygon")
 
       .def(py::init<>())
-      .def("__copy__", [](const PyG4ClippablePolygon &self) { return PyG4ClippablePolygon(self); })
-      .def("__deepcopy__", [](const PyG4ClippablePolygon &self, py::dict) { return PyG4ClippablePolygon(self); })
+      .def("__copy__", [](const G4ClippablePolygon &self) { return G4ClippablePolygon(self); })
+      .def("__deepcopy__", [](const G4ClippablePolygon &self, py::dict) { return G4ClippablePolygon(self); })
       .def("AddVertexInOrder", &G4ClippablePolygon::AddVertexInOrder, py::arg("vertex"))
       .def("ClearAllVertices", &G4ClippablePolygon::ClearAllVertices)
       .def("SetNormal", &G4ClippablePolygon::SetNormal, py::arg("newNormal"))

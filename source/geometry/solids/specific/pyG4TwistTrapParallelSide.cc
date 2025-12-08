@@ -88,8 +88,6 @@ public:
       return G4TwistTrapParallelSide::DistanceTo(gp, gxx);
    }
 
-   G4String GetName() const override { PYBIND11_OVERRIDE(G4String, G4TwistTrapParallelSide, GetName, ); }
-
    void GetBoundaryParameters(const G4int &areacode, G4ThreeVector &d, G4ThreeVector &x0,
                               G4int &boundarytype) const override
    {

@@ -11,6 +11,7 @@
 #include <G4VisExtent.hh>
 #include <G4DisplacedSolid.hh>
 #include <G4VisAttributes.hh>
+#include <G4Version.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -108,7 +109,11 @@ void export_G4Voxelizer(py::module &m)
       .def("GetVoxelBox", &G4Voxelizer::GetVoxelBox, py::arg("i"))
       .def("GetVoxelBoxCandidates", &G4Voxelizer::GetVoxelBoxCandidates, py::arg("i"))
       .def("GetTotalCandidates", &G4Voxelizer::GetTotalCandidates)
-      .def_static("MinDistanceToBox", &G4Voxelizer::MinDistanceToBox, py::arg("aPoint"), py::arg("f"))
+#if G4VERSION_NUMBER >= 1140
+      .def("MinDistanceToBox", &G4Voxelizer::MinDistanceToBox, py::arg("aPoint"), py::arg("f"))
+#else
+     .def_static("MinDistanceToBox", &G4Voxelizer::MinDistanceToBox, py::arg("aPoint"), py::arg("f"))
+#endif
       .def_static("SetDefaultVoxelsCount", &G4Voxelizer::SetDefaultVoxelsCount, py::arg("count"))
       .def_static("GetDefaultVoxelsCount", &G4Voxelizer::GetDefaultVoxelsCount);
 }

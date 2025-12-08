@@ -7,7 +7,7 @@ on:
       - published
 
 env:
-  GEANT4_GIT_TAG: v11.3.2
+  GEANT4_GIT_TAG: v11.4.0
   GEANT4_SOURCE_DIR: geant4_source
   GEANT4_BUILD_DIR: geant4_build
   GEANT4_INSTALL_DIR: geant4_install
@@ -22,7 +22,7 @@ jobs:
     name: Build SDist
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
 
@@ -53,7 +53,7 @@ jobs:
           ]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
 
@@ -73,7 +73,7 @@ jobs:
           path: ${{ github.workspace }}/${{ env.GEANT4_INSTALL_DIR }}
           key: ${{ env.GEANT4_GIT_TAG }}-${{ env.XERCES_C_GIT_REF }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: runner.os == 'Windows' && steps.xerces-cache.outputs.cache-hit != 'true'
         with:
           repository: apache/xerces-c
@@ -95,7 +95,7 @@ jobs:
           cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release &&
           cmake --build "${{ github.workspace }}/${{ env.XERCES_C_BUILD_DIR }}" --config Release --target install
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: runner.os == 'Windows' && steps.g4cache.outputs.cache-hit != 'true'
         with:
           repository: Geant4/geant4
@@ -154,7 +154,7 @@ jobs:
           path: ${{ github.workspace }}/.geant4_pybind
           enableCrossOsArchive: true
 
-      - uses: pypa/cibuildwheel@v2.22.0
+      - uses: pypa/cibuildwheel@v3.3.0
         env:
           CIBW_ENVIRONMENT_LINUX: CXXFLAGS='-fPIC' CFLAGS='-fPIC'
           CIBW_BEFORE_ALL_LINUX: >

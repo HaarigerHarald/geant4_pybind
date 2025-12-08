@@ -58,7 +58,6 @@ void export_modG4geometry(py::module &m)
    EXPORT_G4HEADER(G4LineCurrentMagField, m);
    EXPORT_G4HEADER(G4QuadrupoleMagField, m);
    EXPORT_G4HEADER(G4SextupoleMagField, m);
-   EXPORT_G4HEADER(G4TQuadrupoleMagField, m);
    EXPORT_G4HEADER(G4UniformElectricField, m);
    EXPORT_G4HEADER(G4UniformGravityField, m);
    EXPORT_G4HEADER(G4UniformMagField, m);
@@ -267,7 +266,6 @@ void export_modG4geometry(py::module &m)
 
    EXPORT_G4HEADER(G4AssemblyVolume, m);
    EXPORT_G4HEADER(G4AssemblyTriplet, m);
-   EXPORT_G4HEADER(G4AssemblyStore, m);
    EXPORT_G4HEADER(G4GeometryWorkspace, m);
    EXPORT_G4HEADER(G4LogicalBorderSurface, m);
    EXPORT_G4HEADER(G4LogicalSkinSurface, m);
