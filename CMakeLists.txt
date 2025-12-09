@@ -19,6 +19,7 @@ find_package(Geant4 11.0 REQUIRED)
 find_package(Geant4 OPTIONAL_COMPONENTS gdml ui_tcsh motif vis_raytracer_x11 vis_opengl_x11 vis_opengl_win32 qt)
 
 set(PYBIND11_PYTHON_VERSION 3.5)
+set(PYBIND11_FINDPYTHON ON)
 add_subdirectory(pybind11)
 
 add_subdirectory(source)
