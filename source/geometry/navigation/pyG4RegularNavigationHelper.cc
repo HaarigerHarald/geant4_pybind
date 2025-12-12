@@ -21,6 +21,5 @@ void export_G4RegularNavigationHelper(py::module &m)
       .def_static("Instance", &G4RegularNavigationHelper::Instance, py::return_value_policy::reference)
       .def("ClearStepLengths", &G4RegularNavigationHelper::ClearStepLengths)
       .def("AddStepLength", &G4RegularNavigationHelper::AddStepLength, py::arg("copyNo"), py::arg("slen"))
-      .def("GetStepLengths", &G4RegularNavigationHelper::GetStepLengths)
-      .def_readwrite("theStepLengths", &G4RegularNavigationHelper::theStepLengths);
+      .def("GetStepLengths", &G4RegularNavigationHelper::GetStepLengths);
 }

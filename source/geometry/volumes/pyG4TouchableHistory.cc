@@ -24,64 +24,17 @@
 
 namespace py = pybind11;
 
-class PyG4TouchableHistory : public G4TouchableHistory, public py::trampoline_self_life_support {
-public:
-   using G4TouchableHistory::G4TouchableHistory;
-
-   G4VPhysicalVolume *GetVolume(G4int depth) const override
-   {
-      PYBIND11_OVERRIDE(G4VPhysicalVolume *, G4TouchableHistory, GetVolume, depth);
-   }
-
-   G4VSolid *GetSolid(G4int depth) const override
-   {
-      PYBIND11_OVERRIDE(G4VSolid *, G4TouchableHistory, GetSolid, depth);
-   }
-
-   const G4ThreeVector &GetTranslation(G4int depth) const override
-   {
-      PYBIND11_OVERRIDE(const G4ThreeVector &, G4TouchableHistory, GetTranslation, depth);
-   }
-
-   const G4RotationMatrix *GetRotation(G4int depth) const override
-   {
-      PYBIND11_OVERRIDE(const G4RotationMatrix *, G4TouchableHistory, GetRotation, depth);
-   }
-
-   G4int GetReplicaNumber(G4int depth) const override
-   {
-      PYBIND11_OVERRIDE(G4int, G4TouchableHistory, GetReplicaNumber, depth);
-   }
-
-   G4int GetHistoryDepth() const override { PYBIND11_OVERRIDE(G4int, G4TouchableHistory, GetHistoryDepth, ); }
-
-   G4int MoveUpHistory(G4int num_levels) override
-   {
-      PYBIND11_OVERRIDE(G4int, G4TouchableHistory, MoveUpHistory, num_levels);
-   }
-
-   void UpdateYourself(G4VPhysicalVolume *pPhysVol, const G4NavigationHistory *history) override
-   {
-      PYBIND11_OVERRIDE(void, G4TouchableHistory, UpdateYourself, pPhysVol, history);
-   }
-
-   const G4NavigationHistory *GetHistory() const override
-   {
-      PYBIND11_OVERRIDE(const G4NavigationHistory *, G4TouchableHistory, GetHistory, );
-   }
-};
-
 void export_G4TouchableHistory(py::module &m)
 {
 #if G4VERSION_NUMBER >= 1120
-   py::class_<G4TouchableHistory, PyG4TouchableHistory>(m, "G4TouchableHistory")
+   py::class_<G4TouchableHistory>(m, "G4TouchableHistory")
 #else
-   py::class_<G4TouchableHistory, PyG4TouchableHistory, G4VTouchable>(m, "G4TouchableHistory")
+   py::class_<G4TouchableHistory, G4VTouchable>(m, "G4TouchableHistory")
 #endif
       .def(py::init<>())
       .def(py::init<const G4NavigationHistory &>(), py::arg("history"))
-      .def("__copy__", [](const PyG4TouchableHistory &self) { return PyG4TouchableHistory(self); })
-      .def("__deepcopy__", [](const PyG4TouchableHistory &self, py::dict) { return PyG4TouchableHistory(self); })
+      .def("__copy__", [](const G4TouchableHistory &self) { return G4TouchableHistory(self); })
+      .def("__deepcopy__", [](const G4TouchableHistory &self, py::dict) { return G4TouchableHistory(self); })
       .def("GetVolume", &G4TouchableHistory::GetVolume, py::arg("depth") = 0, py::return_value_policy::reference)
       .def("GetSolid", &G4TouchableHistory::GetSolid, py::arg("depth") = 0, py::return_value_policy::reference)
       .def("GetTranslation", &G4TouchableHistory::GetTranslation, py::arg("depth") = 0)

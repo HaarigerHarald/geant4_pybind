@@ -21,11 +21,6 @@
 
 namespace py = pybind11;
 
-class PyG4Region : public G4Region, public py::trampoline_self_life_support {
-public:
-   using G4Region::G4Region;
-};
-
 void export_G4Region(py::module &m)
 {
    py::class_<G4RegionData>(m, "G4RegionData")
@@ -37,9 +32,9 @@ void export_G4Region(py::module &m)
       .def_readwrite("fFastSimulationManager", &G4RegionData::fFastSimulationManager)
       .def_readwrite("fRegionalSteppingAction", &G4RegionData::fRegionalSteppingAction);
 
-   py::class_<G4Region, PyG4Region, py::nodelete>(m, "G4Region")
+   py::class_<G4Region, py::nodelete>(m, "G4Region")
 
-      .def(py::init_alias<const G4String &>(), py::arg("name"))
+      .def(py::init<const G4String &>(), py::arg("name"))
       .def(py::self == py::self)
       .def("AddRootLogicalVolume", &G4Region::AddRootLogicalVolume, py::arg("lv"), py::arg("search") = true)
       .def("RemoveRootLogicalVolume", &G4Region::RemoveRootLogicalVolume, py::arg("lv"), py::arg("scan") = true)

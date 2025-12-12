@@ -55,8 +55,6 @@ public:
    G4VCSGface *Clone() override { PYBIND11_OVERRIDE(G4VCSGface *, G4PolyPhiFace, Clone, ); }
 
    G4double SurfaceArea() override { PYBIND11_OVERRIDE(G4double, G4PolyPhiFace, SurfaceArea, ); }
-
-   G4ThreeVector GetPointOnFace() override { PYBIND11_OVERRIDE(G4ThreeVector, G4PolyPhiFace, GetPointOnFace, ); }
 };
 
 void export_G4PolyPhiFace(py::module &m)
@@ -111,9 +109,5 @@ void export_G4PolyPhiFace(py::module &m)
 
       .def("Clone", &G4PolyPhiFace::Clone, py::return_value_policy::reference)
       .def("SurfaceArea", &G4PolyPhiFace::SurfaceArea)
-      .def("SurfaceTriangle", &G4PolyPhiFace::SurfaceTriangle, py::arg("p1"), py::arg("p2"), py::arg("p3"),
-           py::arg("p4"))
-
-      .def("GetPointOnFace", &G4PolyPhiFace::GetPointOnFace)
       .def("Diagnose", &G4PolyPhiFace::Diagnose, py::arg("solid"));
 }

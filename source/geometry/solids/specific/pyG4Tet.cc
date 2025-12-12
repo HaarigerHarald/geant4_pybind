@@ -127,7 +127,6 @@ void export_G4Tet(py::module &m)
            py::arg("anchor"), py::arg("p1"), py::arg("p2"), py::arg("p3"))
 
       .def("GetVertices", py::overload_cast<>(&G4Tet::GetVertices, py::const_))
-      .def("PrintWarnings", &G4Tet::PrintWarnings)
       .def("CheckDegeneracy", &G4Tet::CheckDegeneracy, py::arg("p0"), py::arg("p1"), py::arg("p2"), py::arg("p3"))
       .def("ComputeDimensions", &G4Tet::ComputeDimensions, py::arg("p"), py::arg("n"), py::arg("pRep"))
       .def("BoundingLimits", &G4Tet::BoundingLimits, py::arg("pMin"), py::arg("pMax"))

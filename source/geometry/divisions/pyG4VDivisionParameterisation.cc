@@ -19,6 +19,7 @@
 #include <G4Polycone.hh>
 #include <G4Polyhedra.hh>
 #include <G4Hype.hh>
+#include <G4Version.hh>
 
 #include "typecast.hh"
 #include "opaques.hh"
@@ -176,5 +177,8 @@ void export_G4VDivisionParameterisation(py::module &m)
       .def("GetWidth", &G4VDivisionParameterisation::GetWidth)
       .def("SetHalfGap", &G4VDivisionParameterisation::SetHalfGap, py::arg("hg"))
       .def("SetType", &G4VDivisionParameterisation::SetType, py::arg("type"))
-      .def("VolumeFirstCopyNo", &G4VDivisionParameterisation::VolumeFirstCopyNo);
+#if G4VERSION_NUMBER < 1140
+      .def("VolumeFirstCopyNo", &G4VDivisionParameterisation::VolumeFirstCopyNo)
+#endif
+      ;
 }

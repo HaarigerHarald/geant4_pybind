@@ -44,34 +44,10 @@
 
 namespace py = pybind11;
 
-class PyG4IStore : public G4IStore, public py::trampoline_self_life_support {
-public:
-   using G4IStore::G4IStore;
-
-   G4double GetImportance(const G4GeometryCell &gCell) const override
-   {
-      PYBIND11_OVERRIDE(G4double, G4IStore, GetImportance, gCell);
-   }
-
-   G4bool IsKnown(const G4GeometryCell &gCell) const override { PYBIND11_OVERRIDE(G4bool, G4IStore, IsKnown, gCell); }
-
-   const G4VPhysicalVolume &GetWorldVolume() const override
-   {
-      PYBIND11_OVERRIDE(const G4VPhysicalVolume &, G4IStore, GetWorldVolume, );
-   }
-
-   const G4VPhysicalVolume *GetParallelWorldVolumePointer() const override
-   {
-      PYBIND11_OVERRIDE(const G4VPhysicalVolume *, G4IStore, GetParallelWorldVolumePointer, );
-   }
-};
-
 void export_G4IStore(py::module &m)
 {
-   py::class_<G4IStore, PyG4IStore, G4VIStore, py::nodelete>(m, "G4IStore")
+   py::class_<G4IStore, G4VIStore, py::nodelete>(m, "G4IStore")
 
-      .def("__copy__", [](const PyG4IStore &self) { return PyG4IStore(self); })
-      .def("__deepcopy__", [](const PyG4IStore &self, py::dict) { return PyG4IStore(self); })
       .def_static("GetInstance", py::overload_cast<>(&G4IStore::GetInstance), py::return_value_policy::reference)
       .def_static("GetInstance", py::overload_cast<G4String const &>(&G4IStore::GetInstance),
                   py::arg("ParallelWorldName"), py::return_value_policy::reference)

@@ -27,16 +27,16 @@ DATASETS = [
      "md5sum": "54f0ed3995856f02433d42ec96d70bc6"},
 
     {"name": "G4EMLOW",
-     "version": "8.6.1",
+     "version": "8.8",
      "filename": "G4EMLOW",
      "envvar": "G4LEDATA",
-     "md5sum": "9db67a37acc3eae9b0ffdace41a23b74"},
+     "md5sum": "328330009df633f7e9b3a9f445745298"},
 
     {"name": "PhotonEvaporation",
-     "version": "6.1",
+     "version": "6.1.2",
      "filename": "G4PhotonEvaporation",
      "envvar": "G4LEVELGAMMADATA",
-     "md5sum": "92d68b937cdad0fd49892a66878863de"},
+     "md5sum": "d80ba9bdefcf9e23487a26adfa273304"},
 
     {"name": "RadioactiveDecay",
      "version": "6.1.2",
@@ -45,10 +45,10 @@ DATASETS = [
      "md5sum": "20d494f73d4bddabd7fab5c06a58895c"},
 
     {"name": "G4PARTICLEXS",
-     "version": "4.1",
+     "version": "4.2",
      "filename": "G4PARTICLEXS",
      "envvar": "G4PARTICLEXSDATA",
-     "md5sum": "878252a464ba6b38f085741840f053e6"},
+     "md5sum": "b63341cc97a472b04ff607b094493174"},
 
     {"name": "G4PII",
      "version": "1.3",
@@ -75,10 +75,10 @@ DATASETS = [
      "md5sum": "b25d093339e1e4532e31038653580ca6"},
 
     {"name": "G4INCL",
-     "version": "1.2",
+     "version": "1.3",
      "filename": "G4INCL",
      "envvar": "G4INCLDATA",
-     "md5sum": "0a76df936839bb557dae7254117eb58e"},
+     "md5sum": "72c3ff5f7f1e6f727f2ebf3b11ce784f"},
 
     {"name": "G4ENSDFSTATE",
      "version": "3.0",
@@ -87,10 +87,10 @@ DATASETS = [
      "md5sum": "c500728534ce3e9fb2fefa0112eb3a74"},
 
     {"name": "G4CHANNELING",
-     "version": "1.0",
+     "version": "2.0",
      "filename": "G4CHANNELING",
      "envvar": "G4CHANNELINGDATA",
-     "md5sum": "b2f692ec7109418c6354ea1ecbc62da7"}
+     "md5sum": "e853fbcba1e8640f7c3a437253955482"}
 ]
 
 

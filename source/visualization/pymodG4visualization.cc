@@ -12,8 +12,6 @@ void export_G4VGraphicsSystem(py::module &);
 void export_G4VRML1File(py::module &);
 void export_G4VRML2File(py::module &);
 void export_G4DAWNFILE(py::module &);
-void export_G4HepRep(py::module &);
-void export_G4HepRepFile(py::module &);
 void export_G4ASCIITree(py::module &);
 void export_G4RayTracer(py::module &);
 
@@ -46,7 +44,6 @@ void export_modG4visualization(py::module &m)
    export_G4VGraphicsSystem(m);
    export_G4VRML2File(m);
    export_G4DAWNFILE(m);
-   export_G4HepRepFile(m);
    export_G4ASCIITree(m);
    export_G4RayTracer(m);
 

@@ -33,7 +33,6 @@ void export_G4DoLoMcPriRK34(py::module &m)
            py::arg("yerr"))
 
       .def("SetupInterpolation", &G4DoLoMcPriRK34::SetupInterpolation)
-      .def("SetupInterpolate", &G4DoLoMcPriRK34::SetupInterpolate, py::arg("yInput"), py::arg("dydx"), py::arg("Step"))
       .def("Interpolate",
            py::overload_cast<const G4double *, const G4double *, const G4double, G4double *, G4double>(
               &G4DoLoMcPriRK34::Interpolate),

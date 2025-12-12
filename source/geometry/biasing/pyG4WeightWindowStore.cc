@@ -9,37 +9,10 @@
 
 namespace py = pybind11;
 
-class PyG4WeightWindowStore : public G4WeightWindowStore, public py::trampoline_self_life_support {
-public:
-   using G4WeightWindowStore::G4WeightWindowStore;
-
-   G4double GetLowerWeight(const G4GeometryCell &gCell, G4double partEnergy) const override
-   {
-      PYBIND11_OVERRIDE(G4double, G4WeightWindowStore, GetLowerWeight, gCell, partEnergy);
-   }
-
-   G4bool IsKnown(const G4GeometryCell &gCell) const override
-   {
-      PYBIND11_OVERRIDE(G4bool, G4WeightWindowStore, IsKnown, gCell);
-   }
-
-   const G4VPhysicalVolume &GetWorldVolume() const override
-   {
-      PYBIND11_OVERRIDE(const G4VPhysicalVolume &, G4WeightWindowStore, GetWorldVolume, );
-   }
-
-   const G4VPhysicalVolume *GetParallelWorldVolumePointer() const override
-   {
-      PYBIND11_OVERRIDE(const G4VPhysicalVolume *, G4WeightWindowStore, GetParallelWorldVolumePointer, );
-   }
-};
-
 void export_G4WeightWindowStore(py::module &m)
 {
-   py::class_<G4WeightWindowStore, PyG4WeightWindowStore, G4VWeightWindowStore, py::nodelete>(m, "G4WeightWindowStore")
+   py::class_<G4WeightWindowStore, G4VWeightWindowStore, py::nodelete>(m, "G4WeightWindowStore")
 
-      .def("__copy__", [](const PyG4WeightWindowStore &self) { return PyG4WeightWindowStore(self); })
-      .def("__deepcopy__", [](const PyG4WeightWindowStore &self, py::dict) { return PyG4WeightWindowStore(self); })
       .def_static("GetInstance", py::overload_cast<>(&G4WeightWindowStore::GetInstance),
                   py::return_value_policy::reference)
 

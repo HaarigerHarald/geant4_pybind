@@ -37,28 +37,6 @@ public:
       PYBIND11_OVERRIDE(G4int, G4TwistTubsFlatSide, DistanceToSurface, gp, gxx, distance, areacode);
    }
 
-   G4ThreeVector SurfacePoint(G4double arg0, G4double arg1, G4bool isGlobal) override
-   {
-      PYBIND11_OVERRIDE(G4ThreeVector, G4TwistTubsFlatSide, SurfacePoint, arg0, arg1, isGlobal);
-   }
-
-   G4double GetBoundaryMin(G4double phi) override
-   {
-      PYBIND11_OVERRIDE(G4double, G4TwistTubsFlatSide, GetBoundaryMin, phi);
-   }
-
-   G4double GetBoundaryMax(G4double phi) override
-   {
-      PYBIND11_OVERRIDE(G4double, G4TwistTubsFlatSide, GetBoundaryMax, phi);
-   }
-
-   G4double GetSurfaceArea() override { PYBIND11_OVERRIDE(G4double, G4TwistTubsFlatSide, GetSurfaceArea, ); }
-
-   G4int GetAreaCode(const G4ThreeVector &xx, G4bool withTol) override
-   {
-      PYBIND11_OVERRIDE(G4int, G4TwistTubsFlatSide, GetAreaCode, xx, withTol);
-   }
-
    G4int AmIOnLeftSide(const G4ThreeVector &me, const G4ThreeVector &vec, G4bool withTol) override
    {
       PYBIND11_OVERRIDE(G4int, G4TwistTubsFlatSide, AmIOnLeftSide, me, vec, withTol);
@@ -87,8 +65,6 @@ public:
       PYBIND11_OVERRIDE_IMPL(G4double, G4TwistTubsFlatSide, "DistanceTo", gp, std::addressof(gxx));
       return G4TwistTubsFlatSide::DistanceTo(gp, gxx);
    }
-
-   G4String GetName() const override { PYBIND11_OVERRIDE(G4String, G4TwistTubsFlatSide, GetName, ); }
 
    void GetBoundaryParameters(const G4int &areacode, G4ThreeVector &d, G4ThreeVector &x0,
                               G4int &boundarytype) const override
@@ -134,38 +110,5 @@ void export_G4TwistTubsFlatSide(py::module &m)
       .def("DistanceToSurface",
            py::overload_cast<const G4ThreeVector &, G4ThreeVector *, G4double *, G4int *>(
               &G4TwistTubsFlatSide::DistanceToSurface),
-           py::arg("gp"), py::arg("gxx"), py::arg("distance"), py::arg("areacode"))
-
-      .def("SurfacePoint", &G4TwistTubsFlatSide::SurfacePoint, py::arg("arg0"), py::arg("arg1"),
-           py::arg("isGlobal") = false)
-
-      .def("GetBoundaryMin", &G4TwistTubsFlatSide::GetBoundaryMin, py::arg("phi"))
-      .def("GetBoundaryMax", &G4TwistTubsFlatSide::GetBoundaryMax, py::arg("phi"))
-      .def("GetSurfaceArea", &G4TwistTubsFlatSide::GetSurfaceArea)
-      .def(
-         "GetFacets",
-         [](G4TwistTubsFlatSide &self, G4int m, G4int n, py::list pyXyz, py::list pyFaces, G4int iside) {
-            G4double(*xyz)[3] = new G4double[pyXyz.size()][3];
-            G4int(*faces)[4]  = new G4int[pyFaces.size()][4];
-
-            for (size_t i = 0; i < pyXyz.size(); i++) {
-               py::list innerList = pyXyz[i];
-               for (size_t j = 0; j < 3; j++) {
-                  xyz[i][j] = innerList[j].cast<G4double>();
-               }
-            }
-
-            for (size_t i = 0; i < pyFaces.size(); i++) {
-               py::list innerList = pyFaces[i];
-               for (size_t j = 0; j < 4; j++) {
-                  xyz[i][j] = innerList[j].cast<G4int>();
-               }
-            }
-
-            self.GetFacets(m, n, xyz, faces, iside);
-
-            delete[] xyz;
-            delete[] faces;
-         },
-         py::arg("m"), py::arg("n"), py::arg("xyz"), py::arg("faces"), py::arg("iside"));
+           py::arg("gp"), py::arg("gxx"), py::arg("distance"), py::arg("areacode"));
 }

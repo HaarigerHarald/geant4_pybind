@@ -13,11 +13,6 @@ class PyG4ErrorCylSurfaceTarget : public G4ErrorCylSurfaceTarget, public py::tra
 public:
    using G4ErrorCylSurfaceTarget::G4ErrorCylSurfaceTarget;
 
-   G4ThreeVector IntersectLocal(const G4ThreeVector &point, const G4ThreeVector &direc) const override
-   {
-      PYBIND11_OVERRIDE(G4ThreeVector, G4ErrorCylSurfaceTarget, IntersectLocal, point, direc);
-   }
-
    G4double GetDistanceFromPoint(const G4ThreeVector &point, const G4ThreeVector &direc) const override
    {
       PYBIND11_OVERRIDE(G4double, G4ErrorCylSurfaceTarget, GetDistanceFromPoint, point, direc);
