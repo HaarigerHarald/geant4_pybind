@@ -47,9 +47,9 @@ jobs:
             { os: macos-latest, arch: x86_64, build-pattern: cp* },
             { os: macos-latest, arch: x86_64, build-pattern: pp* },
             { os: macos-latest, arch: arm64, build-pattern: cp* },
-            { os: ubuntu-latest, arch: x86_64, build-pattern: cp*-manylinux* },
-            { os: ubuntu-latest, arch: x86_64, build-pattern: pp*-manylinux* },
-            { os: ubuntu-latest, arch: x86_64, build-pattern: cp*-musllinux* },
+            { os: ubuntu-latest, arch: x86_64, build-pattern: cp*-manylinux*, opengl: ON },
+            { os: ubuntu-latest, arch: x86_64, build-pattern: pp*-manylinux*, opengl: ON },
+            { os: ubuntu-latest, arch: x86_64, build-pattern: cp*-musllinux*, opengl: OFF }
           ]
 
     steps:
@@ -188,7 +188,6 @@ jobs:
             mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
             cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
             cmake
-            -DCMAKE_PREFIX_PATH="{package}/qt5_install"
             -DCMAKE_BUILD_TYPE=Release
             -DBUILD_STATIC_LIBS=ON
             -DBUILD_SHARED_LIBS=OFF
@@ -196,7 +195,7 @@ jobs:
             -DGEANT4_USE_SYSTEM_EXPAT=OFF
             -DGEANT4_USE_GDML=ON
             -DGEANT4_BUILD_TLS_MODEL=global-dynamic
-            -DGEANT4_USE_OPENGL_X11=ON
+            -DGEANT4_USE_OPENGL_X11=${{ matrix.config.opengl }}
             "{package}/${{ env.GEANT4_SOURCE_DIR }}" &&
             make -j$(nproc) &&
             make install
@@ -228,7 +227,6 @@ jobs:
             mkdir "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
             cd "{package}/${{ env.GEANT4_BUILD_DIR }}" &&
             cmake
-            -DCMAKE_PREFIX_PATH="{package}/qt5_install"
             -DCMAKE_OSX_ARCHITECTURES=${{ matrix.config.arch }}
             -DCMAKE_BUILD_TYPE=Release
             -DBUILD_STATIC_LIBS=ON
