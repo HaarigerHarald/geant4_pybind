@@ -185,7 +185,7 @@ def init_datasets():
             data_directory = os.path.join(os.path.realpath(os.environ["HOME"]), ".geant4_pybind")
 
     for dataset in DATASETS:
-        if not dataset["envvar"] in os.environ:
+        if dataset["envvar"] not in os.environ:
             dirname = dataset["name"] + dataset["version"]
             if not os.path.exists(data_directory) or not directory_contains(data_directory, dirname):
                 if download_allowed or ask_for_download(data_directory):
@@ -205,7 +205,7 @@ def init_datasets():
                         os.chmod(path, stat.S_IWUSR)
                         func(path)
                     shutil.rmtree(os.path.join(data_directory, data), onerror=onerror)
-                except:
+                except Exception:
                     pass
 
 

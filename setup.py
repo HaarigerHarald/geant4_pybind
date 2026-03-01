@@ -79,7 +79,7 @@ class CMakeBuild(build_ext):
         if "PYTHONPATH" in os.environ:
             python_path += os.pathsep + os.environ["PYTHONPATH"]
 
-        if not "SKIP_PYBIND11_STUBGEN" in os.environ:
+        if "SKIP_PYBIND11_STUBGEN" not in os.environ:
             # Automatically generate stubs
             subprocess.check_call(
                 ["pybind11-stubgen", "-o", extdir, "--ignore-all-errors", "geant4_pybind"],
