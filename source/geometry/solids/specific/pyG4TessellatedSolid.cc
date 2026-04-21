@@ -167,7 +167,9 @@ void export_G4TessellatedSolid(py::module &m)
       .def("__deepcopy__", [](const PyG4TessellatedSolid &self, py::dict) { return PyG4TessellatedSolid(self); })
 
       .def(py::self += py::self)
-      .def("AddFacet", &G4TessellatedSolid::AddFacet, py::arg("aFacet"))
+      .def(
+         "AddFacet", [](G4TessellatedSolid &self, py::disown_ptr<G4VFacet> facet) { self.AddFacet(facet); },
+         py::arg("aFacet"))
       .def("GetFacet", &G4TessellatedSolid::GetFacet, py::arg("i"), py::return_value_policy::reference)
       .def("GetNumberOfFacets", &G4TessellatedSolid::GetNumberOfFacets)
       .def("Inside", &G4TessellatedSolid::Inside, py::arg("p"))
