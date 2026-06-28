@@ -1,7 +1,7 @@
 Environment variable "G4FORCE_RUN_MANAGER_TYPE" enabled with value == Serial. Forcing G4RunManager type...
 
 **************************************************************
- Geant4 version Name: geant4-11-04-patch-01 [MT]   (13-March-2026)
+ Geant4 version Name: geant4-11-04-patch-02 [MT]   (12-June-2026)
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -830,15 +830,15 @@ Max 2J for sampling of angular correlations         10
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 272.0015150998546 MeV       total track length: 19.86839911026563 cm 
-        Gap: total energy: 18.80928940875862 MeV       total track length: 10.15074014320024 cm 
+   Absorber: total energy: 277.5476010442962 MeV       total track length: 19.91906775448311 cm 
+        Gap: total energy: 10.33957588346442 MeV       total track length: 4.763840359569491 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 272.0015150998546 MeV rms = 0 eV 
- EGap : mean = 18.80928940875862 MeV rms = 0 eV 
- LAbs : mean =  19.86839911026563 cm  rms = 0 fm 
- LGap : mean = 10.15074014320024 cm  rms = 0 fm 
+ EAbs : mean = 277.5476010442962 MeV rms = 0 eV 
+ EGap : mean = 10.33957588346442 MeV rms = 0 eV 
+ LAbs : mean =  19.91906775448311 cm  rms = 0 fm 
+ LGap : mean = 4.763840359569491 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
      Transportation,   GammaGeneralProc,                msc,              eIoni
@@ -900,15 +900,15 @@ hFritiofCaptureAtRest,hBertiniCaptureAtRest,muMinusCaptureAtRest,         dInela
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 279.2183569992316 MeV       total track length: 19.96890272185644 cm 
-        Gap: total energy: 15.6062569344302 MeV       total track length: 8.055534899226469 cm 
+   Absorber: total energy: 280.4050954079796 MeV       total track length: 19.86529089186865 cm 
+        Gap: total energy: 15.82040773797347 MeV       total track length: 7.845311790870838 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 279.2183569992316 MeV rms = 0 eV 
- EGap : mean = 15.6062569344302 MeV rms = 0 eV 
- LAbs : mean =  19.96890272185644 cm  rms = 0 fm 
- LGap : mean = 8.055534899226469 cm  rms = 0 fm 
+ EAbs : mean = 280.4050954079796 MeV rms = 0 eV 
+ EGap : mean = 15.82040773797347 MeV rms = 0 eV 
+ LAbs : mean =  19.86529089186865 cm  rms = 0 fm 
+ LGap : mean = 7.845311790870838 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
 ### Run 2 starts.
@@ -916,15 +916,15 @@ hFritiofCaptureAtRest,hBertiniCaptureAtRest,muMinusCaptureAtRest,         dInela
 ... open analysis file : B4.root - done
 --> Event 0 starts.
 ---> End of event: 0
-   Absorber: total energy: 461.2522011221276 MeV       total track length: 32.71666917047411 cm 
-        Gap: total energy: 20.89262486049731 MeV       total track length: 10.58819302921571 cm 
+   Absorber: total energy: 450.1425404471904 MeV       total track length: 32.54867058572 cm 
+        Gap: total energy: 36.18785374793309 MeV       total track length: 17.87791902859949 cm 
 
  ----> print histograms statistic for the entire run 
 
- EAbs : mean = 461.2522011221276 MeV rms = 0 eV 
- EGap : mean = 20.89262486049731 MeV rms = 0 eV 
- LAbs : mean =  32.71666917047411 cm  rms = 0 fm 
- LGap : mean = 10.58819302921571 cm  rms = 0 fm 
+ EAbs : mean = 450.1425404471904 MeV rms = 0 eV 
+ EGap : mean = 36.18785374793309 MeV rms = 0 eV 
+ LAbs : mean =  32.54867058572 cm  rms = 0 fm 
+ LGap : mean = 17.87791902859949 cm  rms = 0 fm 
 ... write file : B4.root - done
 ... close file : B4.root - done
 Graphics systems deleted.
